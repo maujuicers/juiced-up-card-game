@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://biqyni0po3e7b"]
 
-[ext_resource type="Script" uid="uid://of7n0f3psiju" path="res://scenes/MauMauGameManager.gd" id="1_svsd2"]
+[ext_resource type="Script" uid="uid://of7n0f3psiju" path="res://scripts/maumau-engine/MauMauGameManager.gd" id="1_svsd2"]
 
 [node name="MaumauEngine" type="Node3D" unique_id=1722475892 node_paths=PackedStringArray("npcs")]
 script = ExtResource("1_svsd2")

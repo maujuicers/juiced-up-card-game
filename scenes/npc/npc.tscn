@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dugrco4ylfn5t"]
 
-[ext_resource type="Script" uid="uid://dxwbl0u1jrf06" path="res://scenes/npc/npc.gd" id="1_sspvn"]
+[ext_resource type="Script" uid="uid://dxwbl0u1jrf06" path="res://scripts/npc/npc.gd" id="1_sspvn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_04g65"]
 
