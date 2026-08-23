@@ -16,25 +16,28 @@ var draw_pile: Array[Card] = []
 var discard_pile: Array[Card] = []
 var turn_order: Array = []
 var hands: Array = []
-var current_player: int = 0
+var current_player: int
 var wished_suit: Card.Suit
 
 func _ready() -> void:
 	start_game()
-	print("\n--- PLAYER HANDS INITIALIZED ---")
-	for i in range(turn_order.size()):
-		var participant = turn_order[i]
-		print("Seat %d [%s]:" % [i, participant.name])
-		
-		# Safely check if 'player_script' exists on this participant
-		if "maumau_player" in participant and participant.maumau_player != null:
-			for card in participant.maumau_player.hand:
-				var rank_str = Card.Rank.keys()[card.rank]
-				var suit_str = Card.Suit.keys()[card.suit]
-				print("  - %s of %s" % [rank_str, suit_str])
-		else:
-			print("  ERROR: maumau_player is missing or null on %s!" % participant.name)
-	print("--------------------------------\n")
+	#print("\n--- PLAYER HANDS INITIALIZED ---")
+	#for i in range(turn_order.size()):
+		#var participant = turn_order[i]
+		#print("Seat %d [%s]:" % [i, participant.name])
+		#
+		## Safely check if 'player_script' exists on this participant
+		#if "maumau_player" in participant and participant.maumau_player != null:
+			#for card in participant.maumau_player.hand:
+				#var rank_str = Card.Rank.keys()[card.rank]
+				#var suit_str = Card.Suit.keys()[card.suit]
+				#print("  - %s of %s" % [rank_str, suit_str])
+		#else:
+			#print("  ERROR: maumau_player is missing or null on %s!" % participant.name)
+	#print("--------------------------------\n")
+	
+	current_player = 0
+	start_turn()
 
 func start_game() -> void:
 	reset_game()
@@ -46,6 +49,21 @@ func start_game() -> void:
 	#draw first card
 	var first_card: Card = draw_pile.pop_back()
 	discard_pile.append(first_card)
+	
+func start_turn() -> void:
+	var active_player = turn_order[current_player]
+	emit_signal("turn_changed", current_player)
+	print("turn started for ", active_player.name)
+	var player_node: MauMauPlayer = active_player.maumau_player
+	player_node.on_turn_started()
+
+func check_turn(card: Card, player_index: int) -> void:
+	pass
+
+func advance_turn() -> void:
+	current_player = (current_player + 1) % turn_order.size()
+	start_turn()
+	#TODO: implement skip effect
 
 func play_card(player_index: int, card: Card) -> void:
 	pass # TODO: check MauMauRules.is_valid_move, move the card, trigger effects
@@ -53,9 +71,6 @@ func play_card(player_index: int, card: Card) -> void:
 func draw_card(player_index: int) -> void:
 	pass # TODO: move the top of draw_pile into that player's hand
 
-func advance_turn() -> void:
-	pass # TODO: move current_player forward, respecting skip effects
-	
 func reset_game() -> void:
 	draw_pile.clear()
 	discard_pile.clear()
@@ -96,8 +111,7 @@ func init_player_positions() -> void:
 	
 	for i in range(turn_order.size()):
 		var p = turn_order[i]
-		var p_name = p.name if p else "Player " + str(i)
-		print("Seat ", i, ": ", p_name)
+		p.maumau_player.init_pos(i)
 	
 	
 	
