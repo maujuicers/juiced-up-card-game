@@ -8,4 +8,3 @@ offset_bottom = 27.0
 script = ExtResource("1_mtdn5")
 
 [node name="Timer" type="Timer" parent="." unique_id=1232499315]
-wait_time = 2.0
