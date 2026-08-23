@@ -23,19 +23,17 @@ func clear_hand() -> void:
 	_rebuild_hand()
 
 func _rebuild_hand() -> void:
-	# Remove old card nodes
 	for child in get_children():
 		child.queue_free()
 
 	if not card_scene or cards.is_empty():
 		return
 
-	# Center-align cards along the local X-axis
 	var total_cards := cards.size()
 	var start_offset := -((total_cards - 1) * card_spacing) / 2.0
 
 	for i in total_cards:
-		var card_instance := card_scene.instantiate() as CardVisual
+		var card_instance := card_scene.instantiate() as PlayingCardVisual
 		add_child(card_instance)
 		
 		card_instance.setup(cards[i])
