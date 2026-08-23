@@ -5,6 +5,7 @@ class_name PlayerController
 @export var player_camera: Camera3D
 @export var player_head: Node3D
 @export var max_juice: int = 100
+@export var player_script: MauMauPlayer
 
 @onready var current_juice: int = max_juice
 

@@ -67,6 +67,7 @@ func init_player_hands(num_players: int) -> void:
 			player_hand.append(draw_pile.pop_back())
 		hands.append(player_hand)
 		
+		
 func init_player_positions() -> void:
 	turn_order.clear()
 	turn_order.append(player)
