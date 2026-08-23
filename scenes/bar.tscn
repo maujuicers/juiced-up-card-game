@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://cldy26buiv6t8"]
+
+[ext_resource type="PackedScene" uid="uid://b5jxhp3ppt6c2" path="res://3D assets/Floor.glb" id="1_bwlfd"]
+[ext_resource type="PackedScene" uid="uid://dqvldq5ocyh35" path="res://3D assets/Table.glb" id="2_qdsxc"]
+[ext_resource type="PackedScene" uid="uid://dfg6idqgcy30t" path="res://3D assets/Chair.glb" id="2_x848m"]
+
+[node name="Bar" type="Node3D" unique_id=1303346349]
+
+[node name="Floor" parent="." unique_id=2074607792 instance=ExtResource("1_bwlfd")]
+
+[node name="Gathering" type="Node3D" parent="." unique_id=1472809557]
+
+[node name="Table" parent="Gathering" unique_id=1662445682 instance=ExtResource("2_qdsxc")]
+
+[node name="Chair1" parent="Gathering" unique_id=2047824859 instance=ExtResource("2_x848m")]
+
+[node name="Chair2" parent="Gathering" unique_id=1765154555 instance=ExtResource("2_x848m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="Gathering" unique_id=207146100 instance=ExtResource("2_x848m")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="Gathering" unique_id=437812636 instance=ExtResource("2_x848m")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="Gathering2" type="Node3D" parent="." unique_id=1405353681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
+
+[node name="Table" parent="Gathering2" unique_id=1546821829 instance=ExtResource("2_qdsxc")]
+
+[node name="Chair1" parent="Gathering2" unique_id=439709067 instance=ExtResource("2_x848m")]
+
+[node name="Chair2" parent="Gathering2" unique_id=1101639931 instance=ExtResource("2_x848m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="Gathering2" unique_id=1232190085 instance=ExtResource("2_x848m")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="Gathering2" unique_id=1001281363 instance=ExtResource("2_x848m")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="Gathering3" type="Node3D" parent="." unique_id=455027951]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
+
+[node name="Table" parent="Gathering3" unique_id=1297237537 instance=ExtResource("2_qdsxc")]
+
+[node name="Chair1" parent="Gathering3" unique_id=1342134946 instance=ExtResource("2_x848m")]
+
+[node name="Chair2" parent="Gathering3" unique_id=843730394 instance=ExtResource("2_x848m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="Gathering3" unique_id=445448263 instance=ExtResource("2_x848m")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="Gathering3" unique_id=691951852 instance=ExtResource("2_x848m")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="Gathering4" type="Node3D" parent="." unique_id=1594497949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="Table" parent="Gathering4" unique_id=1724026802 instance=ExtResource("2_qdsxc")]
+
+[node name="Chair1" parent="Gathering4" unique_id=1689494544 instance=ExtResource("2_x848m")]
+
+[node name="Chair2" parent="Gathering4" unique_id=1503306585 instance=ExtResource("2_x848m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="Gathering4" unique_id=523614381 instance=ExtResource("2_x848m")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="Gathering4" unique_id=1208602604 instance=ExtResource("2_x848m")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="Gathering5" type="Node3D" parent="." unique_id=118417921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
+
+[node name="Table" parent="Gathering5" unique_id=1569388066 instance=ExtResource("2_qdsxc")]
+
+[node name="Chair1" parent="Gathering5" unique_id=1180452257 instance=ExtResource("2_x848m")]
+
+[node name="Chair2" parent="Gathering5" unique_id=642177301 instance=ExtResource("2_x848m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="Gathering5" unique_id=1258782993 instance=ExtResource("2_x848m")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="Gathering5" unique_id=1596887115 instance=ExtResource("2_x848m")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
