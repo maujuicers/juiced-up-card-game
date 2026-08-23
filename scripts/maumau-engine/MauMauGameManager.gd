@@ -6,6 +6,9 @@ signal turn_changed(new_player_index: int)
 signal effect_triggered(effect: String)
 signal game_over(winner_index: int)
 
+@export var npcs: Array[Npc]
+@export var player: PlayerController
+
 #Game state
 var cards_per_player :=5
 var draw_pile: Array[Card] = []
@@ -15,17 +18,17 @@ var current_player: int = 0
 var wished_suit: Card.Suit
 
 func _ready() -> void:
-	start_game(4)
+	start_game()
 	for i in range(hands.size()):
 		print("Player ", i, " hand")
 		for card in hands[i]:
 			print(Card.Rank.keys()[card.rank] , " " , Card.Suit.keys()[card.suit])
 
-func start_game(num_players: int) -> void:
+func start_game() -> void:
 	reset_game()
 	build_draw_pile()
 	draw_pile.shuffle()
-	init_player_hands(num_players)
+	init_player_hands(npcs.size() + 1)
 	
 	
 	pass # TODO: build + shuffle the deck, deal hands, flip first discard
