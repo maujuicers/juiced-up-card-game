@@ -8,6 +8,7 @@ signal game_over(winner_index: int)
 
 @export var npcs: Array[Npc]
 @export var player: PlayerController
+var maumau_players: Array[MauMauPlayer]
 
 #Game state
 var cards_per_player :=5
@@ -20,17 +21,27 @@ var wished_suit: Card.Suit
 
 func _ready() -> void:
 	start_game()
-	for i in range(hands.size()):
-		print("Player ", i, " hand")
-		for card in hands[i]:
-			print(Card.Rank.keys()[card.rank] , " " , Card.Suit.keys()[card.suit])
+	print("\n--- PLAYER HANDS INITIALIZED ---")
+	for i in range(turn_order.size()):
+		var participant = turn_order[i]
+		print("Seat %d [%s]:" % [i, participant.name])
+		
+		# Safely check if 'player_script' exists on this participant
+		if "maumau_player" in participant and participant.maumau_player != null:
+			for card in participant.maumau_player.hand:
+				var rank_str = Card.Rank.keys()[card.rank]
+				var suit_str = Card.Suit.keys()[card.suit]
+				print("  - %s of %s" % [rank_str, suit_str])
+		else:
+			print("  ERROR: maumau_player is missing or null on %s!" % participant.name)
+	print("--------------------------------\n")
 
 func start_game() -> void:
 	reset_game()
 	init_player_positions()
 	build_draw_pile()
 	draw_pile.shuffle()
-	init_player_hands(npcs.size() + 1)
+	init_player_hands()
 	
 	#draw first card
 	var first_card: Card = draw_pile.pop_back()
@@ -60,12 +71,21 @@ func build_draw_pile() -> void:
 			new_card.rank = rank
 			draw_pile.append(new_card)
 			
-func init_player_hands(num_players: int) -> void:
-	for p in range(num_players):
+func init_player_hands() -> void:
+	for p in range(turn_order.size()):
 		var player_hand: Array[Card] = []
 		for i in range(cards_per_player):
 			player_hand.append(draw_pile.pop_back())
+			
+		var participant = turn_order[p]
+		
+		if "maumau_player" in participant and participant.maumau_player != null:
+			participant.maumau_player.init_hand(player_hand)
+		else:
+			push_error("Participant at seat%d (%s) missing valid player_script" % [p, participant.name])
+		
 		hands.append(player_hand)
+		
 		
 		
 func init_player_positions() -> void:

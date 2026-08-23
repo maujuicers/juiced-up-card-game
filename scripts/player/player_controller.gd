@@ -6,6 +6,7 @@ class_name PlayerController
 @export var player_head: Node3D
 @export var max_juice: int = 100
 @export var juice_meter: JuiceMeter
+@export var maumau_player: MauMauPlayer
 
 @onready var current_juice: int = max_juice
 
