@@ -5,6 +5,7 @@ class_name PlayerController
 @export var player_camera: Camera3D
 @export var player_head: Node3D
 @export var max_juice: int = 100
+@export var juice_meter: JuiceMeter
 
 @onready var current_juice: int = max_juice
 
@@ -13,6 +14,9 @@ signal juice_changed
 const SPEED = 5.0
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+func _ready() -> void:
+	juice_meter._init_juice_meter()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:

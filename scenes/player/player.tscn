@@ -7,11 +7,11 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kewkp"]
 
-[node name="Player" type="CharacterBody3D" unique_id=50830596 node_paths=PackedStringArray("player_camera", "player_head")]
+[node name="Player" type="CharacterBody3D" unique_id=50830596 node_paths=PackedStringArray("player_camera", "player_head", "juice_meter")]
 script = ExtResource("1_4flbx")
 player_camera = NodePath("Head/Camera3D")
 player_head = NodePath("Head")
-max_juice = null
+juice_meter = NodePath("UI/JuiceMeter")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1088188901]
 mesh = SubResource("CapsuleMesh_4flbx")
