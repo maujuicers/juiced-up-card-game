@@ -6,8 +6,8 @@ signal turn_changed(new_player_index: int)
 signal effect_triggered(effect: String)
 signal game_over(winner_index: int)
 
-@export var npcs: Array[Node]
-@export var player: Node
+@export var npcs: Array[Npc]
+@export var player: PlayerController
 
 #Game state
 var cards_per_player :=5
