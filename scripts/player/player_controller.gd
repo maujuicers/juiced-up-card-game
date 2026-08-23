@@ -1,7 +1,14 @@
 extends CharacterBody3D
 
+class_name PlayerController
+
 @export var player_camera: Camera3D
 @export var player_head: Node3D
+@export var max_juice: int = 100
+
+@onready var current_juice: int = max_juice
+
+signal juice_changed
 
 const SPEED = 5.0
 
@@ -36,3 +43,4 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+	
