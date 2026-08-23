@@ -13,6 +13,7 @@ signal game_over(winner_index: int)
 var cards_per_player :=5
 var draw_pile: Array[Card] = []
 var discard_pile: Array[Card] = []
+var turn_order: Array = []
 var hands: Array = []
 var current_player: int = 0
 var wished_suit: Card.Suit
@@ -26,12 +27,14 @@ func _ready() -> void:
 
 func start_game() -> void:
 	reset_game()
+	init_player_positions()
 	build_draw_pile()
 	draw_pile.shuffle()
 	init_player_hands(npcs.size() + 1)
 	
-	
-	pass # TODO: build + shuffle the deck, deal hands, flip first discard
+	#draw first card
+	var first_card: Card = draw_pile.pop_back()
+	discard_pile.append(first_card)
 
 func play_card(player_index: int, card: Card) -> void:
 	pass # TODO: check MauMauRules.is_valid_move, move the card, trigger effects
@@ -46,6 +49,7 @@ func reset_game() -> void:
 	draw_pile.clear()
 	discard_pile.clear()
 	hands.clear()
+	turn_order.clear()
 	current_player = 0
 	
 func build_draw_pile() -> void:
@@ -62,4 +66,19 @@ func init_player_hands(num_players: int) -> void:
 		for i in range(cards_per_player):
 			player_hand.append(draw_pile.pop_back())
 		hands.append(player_hand)
+		
+func init_player_positions() -> void:
+	turn_order.clear()
+	turn_order.append(player)
+	turn_order.append_array(npcs)
+	turn_order.shuffle()
+	
+	for i in range(turn_order.size()):
+		var p = turn_order[i]
+		var p_name = p.name if p else "Player " + str(i)
+		print("Seat ", i, ": ", p_name)
+	
+	
+	
+	
 	
