@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://be4pqwq2ycfn3"]
+
+[ext_resource type="PackedScene" uid="uid://blr1s2kqdv5ii" path="res://player.tscn" id="1_0f027"]
+
+[sub_resource type="Environment" id="Environment_04g65"]
+
+[node name="Node3D" type="Node3D" unique_id=1676986623]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=188661894]
+use_collision = true
+size = Vector3(20, 1, 20)
+
+[node name="Player" parent="." unique_id=50830596 instance=ExtResource("1_0f027")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5131826, 0)
+motion_mode = 1
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=470046891]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=294795548]
+environment = SubResource("Environment_04g65")
