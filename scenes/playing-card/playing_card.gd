@@ -1,5 +1,5 @@
 extends Node3D
-class_name CardVisual
+class_name PlayingCardVisual
 
 @export var card_sprite: Sprite3D
 
