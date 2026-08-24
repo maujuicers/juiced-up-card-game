@@ -23,6 +23,11 @@ func try_play_card(selected_card_pos:int) -> void:
 		return
 		
 	var selected_card: Card = hand[selected_card_pos]
-		
-	#turn_active = false
 	card_selected.emit(selected_card)	
+
+func play_card(player_index: int, played_card: Card) -> void:
+	if player_index == turn_position:
+		print("card was played")
+		turn_active = false
+		if played_card in hand:
+			hand.erase(played_card)
