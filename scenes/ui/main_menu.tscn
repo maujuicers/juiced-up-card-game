@@ -130,8 +130,8 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 150.0
-offset_top = -600.0
-offset_right = 465.0
+offset_top = -499.0
+offset_right = 450.0
 grow_vertical = 0
 theme_override_constants/separation = 40
 
@@ -147,7 +147,7 @@ theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_x2yvf")
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 60
 theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
@@ -156,8 +156,8 @@ text = "Start Game"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Buttons" unique_id=828183506]
 layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_right = 20
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
 
 [node name="TutorialButton" type="Button" parent="Buttons/MarginContainer2" unique_id=2044979883]
 layout_mode = 2
@@ -168,7 +168,7 @@ theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_x2yvf")
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 60
 theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
@@ -177,8 +177,8 @@ text = "Tutorial"
 
 [node name="MarginContainer3" type="MarginContainer" parent="Buttons" unique_id=73530766]
 layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_right = 20
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
 
 [node name="SettingsButton" type="Button" parent="Buttons/MarginContainer3" unique_id=1901676870]
 layout_mode = 2
@@ -189,7 +189,7 @@ theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_x2yvf")
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 60
 theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
@@ -211,10 +211,15 @@ theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_x2yvf")
-theme_override_font_sizes/font_size = 70
+theme_override_font_sizes/font_size = 60
 theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
 text = "Quit
 "
+
+[connection signal="pressed" from="Buttons/MarginContainer/StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="pressed" from="Buttons/MarginContainer2/TutorialButton" to="." method="_on_tutorial_button_pressed"]
+[connection signal="pressed" from="Buttons/MarginContainer3/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Buttons/MarginContainer4/QuitButton" to="." method="_on_quit_button_pressed"]
