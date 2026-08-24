@@ -45,9 +45,12 @@ func start_turn() -> void:
 	
 	print("turn started for ", active_player.name)
 	
+	current_player_node.on_turn_started()
+	current_player_node.card_selected.connect(play_card)
+	current_player_node.card_drawn.connect(draw_card)
+	
 	match current_effect:
 		"draw_two": 
-			print("Player %d must draw 2 cards!" % current_player_index)
 			current_effect = "none"
 			current_player_node.draw_card(2)
 			#skip turn after drawing???
@@ -58,10 +61,6 @@ func start_turn() -> void:
 			return 
 		"wish_suit": 
 			current_effect = "none"
-	
-	current_player_node.on_turn_started()
-	current_player_node.card_selected.connect(play_card)
-	current_player_node.card_drawn.connect(draw_card)
 	
 func advance_turn() -> void:
 	current_player_index = (current_player_index + 1) % turn_order.size()
@@ -101,7 +100,6 @@ func play_card(card: Card) -> void:
 
 func draw_card(draw_amount: int) -> void:
 	for i in range(draw_amount):
-		
 		if draw_pile.is_empty():
 			var top_card = discard_pile.pop_back()
 			draw_pile = discard_pile.duplicate()
