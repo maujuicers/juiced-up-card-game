@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="JuicedUpCardGame"
-run/main_scene="uid://be4pqwq2ycfn3"
+run/main_scene="uid://balrrf21sxhil"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

@@ -5,7 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://dqvldq5ocyh35" path="res://assets/3D assets/Table.glb" id="2_wu84c"]
 [ext_resource type="PackedScene" uid="uid://dfg6idqgcy30t" path="res://assets/3D assets/Chair.glb" id="3_8ln24"]
 [ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="5_x2yvf"]
-[ext_resource type="ArrayMesh" uid="uid://cx5m2imhxu5qa" path="res://assets/3D assets/playing cards/Sketchfab_Scene_clubs01_playingCards_Mat_0.res" id="6_uhagc"]
+[ext_resource type="ArrayMesh" uid="uid://bs1lr42xusocu" path="res://assets/3D assets/playing cards/Sketchfab_Scene_clubs01_playingCards_Mat_0.res" id="6_uhagc"]
+[ext_resource type="PackedScene" uid="uid://c5ek0fsypmit6" path="res://scenes/ui/settings_menu.tscn" id="7_btxxm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1g8jr"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -30,8 +31,9 @@ bg_color = Color(0, 0, 0, 0.49803922)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8g5eo"]
 bg_color = Color(0, 0, 0, 0.49803922)
 
-[node name="MainMenu" type="Node3D" unique_id=1303346349]
+[node name="MainMenu" type="Node3D" unique_id=1303346349 node_paths=PackedStringArray("settings_menu")]
 script = ExtResource("1_m1kxf")
+settings_menu = NodePath("SettingsMenu")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146967929]
 environment = SubResource("Environment_x2yvf")
@@ -222,6 +224,9 @@ text = "Quit
 [node name="ClubsAce" type="MeshInstance3D" parent="." unique_id=1944724972]
 transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0.975, 0.75)
 mesh = ExtResource("6_uhagc")
+
+[node name="SettingsMenu" parent="." unique_id=1175825677 instance=ExtResource("7_btxxm")]
+visible = false
 
 [connection signal="pressed" from="Buttons/MarginContainer/StartGameButton" to="." method="_on_start_game_button_pressed"]
 [connection signal="pressed" from="Buttons/MarginContainer2/TutorialButton" to="." method="_on_tutorial_button_pressed"]
