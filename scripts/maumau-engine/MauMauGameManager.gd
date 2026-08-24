@@ -35,6 +35,12 @@ func _ready() -> void:
 				print("  - %s of %s" % [rank_str, suit_str])
 		else:
 			print("  ERROR: maumau_player is missing or null on %s!" % participant.name)
+	# Print the starting card on the discard pile
+	if not discard_pile.is_empty():
+		var top_card: Card = discard_pile.back()
+		var top_rank = Card.Rank.keys()[top_card.rank]
+		var top_suit = Card.Suit.keys()[top_card.suit]
+		print("\nStarting Discard Card: %s of %s" % [top_rank, top_suit])
 	print("--------------------------------\n")
 	
 	current_player = 0
@@ -80,10 +86,11 @@ func start_turn() -> void:
 	current_player_node.card_selected.connect(check_turn)
 
 func check_turn(card: Card) -> void:
-	print("player %d tried to play %s of %s" % 
+	print("player %d tried to play %s of %s — The move is %s." % 
 	[current_player, 
 	Card.Rank.keys()[card.rank], 
-	Card.Suit.keys()[card.suit]
+	Card.Suit.keys()[card.suit],
+	MauMauRules.is_valid_move(card, discard_pile.back())
 	])
 	
 	#current_player_node.card_selected.disconnect(check_turn)
