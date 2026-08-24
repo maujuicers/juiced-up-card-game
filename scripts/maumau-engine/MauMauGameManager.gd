@@ -17,27 +17,46 @@ var discard_pile: Array[Card] = []
 var turn_order: Array = []
 var hands: Array = []
 var current_player: int
+var current_player_node: MauMauPlayer
 var wished_suit: Card.Suit
 
 func _ready() -> void:
 	start_game()
-	#print("\n--- PLAYER HANDS INITIALIZED ---")
-	#for i in range(turn_order.size()):
-		#var participant = turn_order[i]
-		#print("Seat %d [%s]:" % [i, participant.name])
-		#
-		## Safely check if 'player_script' exists on this participant
-		#if "maumau_player" in participant and participant.maumau_player != null:
-			#for card in participant.maumau_player.hand:
-				#var rank_str = Card.Rank.keys()[card.rank]
-				#var suit_str = Card.Suit.keys()[card.suit]
-				#print("  - %s of %s" % [rank_str, suit_str])
-		#else:
-			#print("  ERROR: maumau_player is missing or null on %s!" % participant.name)
-	#print("--------------------------------\n")
+	print("\n--- PLAYER HANDS INITIALIZED ---")
+	for i in range(turn_order.size()):
+		var participant = turn_order[i]
+		print("Seat %d [%s]:" % [i, participant.name])
+		
+		# Safely check if 'player_script' exists on this participant
+		if "maumau_player" in participant and participant.maumau_player != null:
+			for card in participant.maumau_player.hand:
+				var rank_str = Card.Rank.keys()[card.rank]
+				var suit_str = Card.Suit.keys()[card.suit]
+				print("  - %s of %s" % [rank_str, suit_str])
+		else:
+			print("  ERROR: maumau_player is missing or null on %s!" % participant.name)
+	print("--------------------------------\n")
 	
 	current_player = 0
 	start_turn()
+	
+#function for DEBUGGING
+func _unhandled_input(event: InputEvent) -> void:
+	if not event is InputEventKey or not event.is_pressed() or event.is_echo():
+		return
+		
+	var key_index: int = -1
+	
+	# Map Key 1-5 (or Numpad 1-5) to 0-based array index (0-4)
+	match event.keycode:
+		KEY_1, KEY_KP_1: key_index = 0
+		KEY_2, KEY_KP_2: key_index = 1
+		KEY_3, KEY_KP_3: key_index = 2
+		KEY_4, KEY_KP_4: key_index = 3
+		KEY_5, KEY_KP_5: key_index = 4
+		
+	if key_index != -1:
+		current_player_node.try_play_card(key_index)
 
 func start_game() -> void:
 	reset_game()
@@ -52,13 +71,23 @@ func start_game() -> void:
 	
 func start_turn() -> void:
 	var active_player = turn_order[current_player]
+	current_player_node = active_player.maumau_player
 	emit_signal("turn_changed", current_player)
+	
 	print("turn started for ", active_player.name)
-	var player_node: MauMauPlayer = active_player.maumau_player
-	player_node.on_turn_started()
+	
+	current_player_node.on_turn_started()
+	current_player_node.card_selected.connect(check_turn)
 
-func check_turn(card: Card, player_index: int) -> void:
-	pass
+func check_turn(card: Card) -> void:
+	print("player %d tried to play %s of %s" % 
+	[current_player, 
+	Card.Rank.keys()[card.rank], 
+	Card.Suit.keys()[card.suit]
+	])
+	
+	#current_player_node.card_selected.disconnect(check_turn)
+	
 
 func advance_turn() -> void:
 	current_player = (current_player + 1) % turn_order.size()

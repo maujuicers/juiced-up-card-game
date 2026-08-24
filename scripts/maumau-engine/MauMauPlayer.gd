@@ -2,7 +2,7 @@ extends Node
 
 class_name MauMauPlayer
 
-signal played_card
+signal card_selected(selected_card:Card)
 
 var hand:Array = []
 var turn_position:int
@@ -18,11 +18,11 @@ func on_turn_started() -> void:
 	turn_active = true;
 	print("MauMauPlayer at seat %d is thinking..." % turn_position)
 	
-func play_card(played_card:Card) -> void:
+func try_play_card(selected_card_pos:int) -> void:
 	if not turn_active:
 		return
 		
-	if played_card in hand:
-		hand.erase(played_card)
-		turn_active = false
-		played_card.emit(played_card)	
+	var selected_card: Card = hand[selected_card_pos]
+		
+	#turn_active = false
+	card_selected.emit(selected_card)	
