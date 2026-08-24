@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dqvldq5ocyh35" path="res://assets/3D assets/Table.glb" id="2_wu84c"]
 [ext_resource type="PackedScene" uid="uid://dfg6idqgcy30t" path="res://assets/3D assets/Chair.glb" id="3_8ln24"]
 [ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="5_x2yvf"]
+[ext_resource type="ArrayMesh" uid="uid://cx5m2imhxu5qa" path="res://assets/3D assets/playing cards/Sketchfab_Scene_clubs01_playingCards_Mat_0.res" id="6_uhagc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1g8jr"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -42,7 +43,6 @@ light_specular = 0.0
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1197251836]
 transform = Transform3D(0.7071068, -0.46390378, 0.5336603, 0, 0.7547096, 0.656059, -0.7071068, -0.46390378, 0.5336603, 0.449, 2.251, 1.483)
-fov = 70.0
 
 [node name="Floor" parent="." unique_id=2074607792 instance=ExtResource("1_bqqt6")]
 
@@ -218,6 +218,10 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
 text = "Quit
 "
+
+[node name="ClubsAce" type="MeshInstance3D" parent="." unique_id=1944724972]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0.975, 0.75)
+mesh = ExtResource("6_uhagc")
 
 [connection signal="pressed" from="Buttons/MarginContainer/StartGameButton" to="." method="_on_start_game_button_pressed"]
 [connection signal="pressed" from="Buttons/MarginContainer2/TutorialButton" to="." method="_on_tutorial_button_pressed"]
