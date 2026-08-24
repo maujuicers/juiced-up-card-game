@@ -3,6 +3,7 @@ extends Node
 class_name MauMauPlayer
 
 signal card_selected(selected_card:Card)
+signal card_drawn()
 
 var hand:Array = []
 var turn_position:int
@@ -24,6 +25,10 @@ func try_play_card(selected_card_pos:int) -> void:
 		
 	var selected_card: Card = hand[selected_card_pos]
 	card_selected.emit(selected_card)	
+	
+func draw_card() -> void:
+	card_drawn.emit()
+	
 
 func play_card(player_index: int, played_card: Card) -> void:
 	if player_index == turn_position:

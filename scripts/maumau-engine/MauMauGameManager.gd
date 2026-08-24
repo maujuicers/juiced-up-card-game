@@ -45,9 +45,16 @@ func start_turn() -> void:
 	print("turn started for ", active_player.name)
 	
 	current_player_node.on_turn_started()
-	current_player_node.card_selected.connect(check_turn)
+	current_player_node.card_selected.connect(play_card)
+	current_player_node.card_drawn.connect(draw_card)
+	
+func advance_turn() -> void:
+	current_player_index = (current_player_index + 1) % turn_order.size()
+	log_gamestate()
+	start_turn()
+	#TODO: implement skip effect
 
-func check_turn(card: Card) -> void:
+func play_card(card: Card) -> void:
 	card_played.connect(current_player_node.play_card)
 	print("player %d tried to play %s of %s — The move is %s." % 
 	[current_player_index, 
@@ -57,25 +64,27 @@ func check_turn(card: Card) -> void:
 	])
 
 	if MauMauRules.is_valid_move(card, discard_pile.back()):
-		current_player_node.card_selected.disconnect(check_turn)
+		current_player_node.card_selected.disconnect(play_card)
+		current_player_node.card_drawn.disconnect(draw_card)
 		discard_pile.append(card)
 		card_played.emit(current_player_index, card)
 		card_played.disconnect(current_player_node.play_card)
 		advance_turn()
+		
+	#TODO: trigger card effects
+
+func draw_card(draw_amount: int) -> void:
+	current_player_node.card_selected.disconnect(play_card)
+	current_player_node.card_drawn.disconnect(draw_card)
+		
+	for range in draw_amount:
+		var drawn_card: Card = draw_pile.pop_back()
+		current_player_node.hand.append(drawn_card)
 	
-	
-
-func advance_turn() -> void:
-	current_player_index = (current_player_index + 1) % turn_order.size()
-	log_gamestate()
-	start_turn()
-	#TODO: implement skip effect
-
-func play_card(player_index: int, card: Card) -> void:
-	pass # TODO: check MauMauRules.is_valid_move, move the card, trigger effects
-
-func draw_card(player_index: int) -> void:
-	pass # TODO: move the top of draw_pile into that player's hand
+		var rank_str = Card.Rank.keys()[drawn_card.rank]
+		var suit_str = Card.Suit.keys()[drawn_card.suit]
+		print("Player %d drew %s of %s" % [current_player_node.turn_position, rank_str, suit_str])
+	advance_turn()
 
 func reset_game() -> void:
 	draw_pile.clear()
@@ -123,6 +132,10 @@ func init_player_positions() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.is_pressed() or event.is_echo():
+		return
+		
+	if event.keycode == KEY_SPACE:
+		draw_card(1)
 		return
 		
 	var key_index: int = -1
