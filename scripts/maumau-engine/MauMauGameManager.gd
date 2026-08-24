@@ -78,6 +78,14 @@ func draw_card(draw_amount: int) -> void:
 	current_player_node.card_drawn.disconnect(draw_card)
 		
 	for range in draw_amount:
+		
+		if draw_pile.is_empty():
+			var top_card = discard_pile.pop_back()
+			draw_pile = discard_pile.duplicate()
+			discard_pile.clear()
+			discard_pile.append(top_card)
+			draw_pile.shuffle()
+		
 		var drawn_card: Card = draw_pile.pop_back()
 		current_player_node.hand.append(drawn_card)
 	
