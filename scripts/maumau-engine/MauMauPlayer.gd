@@ -4,6 +4,7 @@ class_name MauMauPlayer
 
 signal card_selected(selected_card:Card)
 signal card_drawn()
+signal suit_wished(suit: Card.Suit)
 
 var hand:Array = []
 var turn_position:int
@@ -26,9 +27,12 @@ func try_play_card(selected_card_pos:int) -> void:
 	var selected_card: Card = hand[selected_card_pos]
 	card_selected.emit(selected_card)	
 	
-func draw_card() -> void:
-	card_drawn.emit()
+func draw_card(draw_amount: int) -> void:
+	card_drawn.emit(draw_amount)
 	
+func select_suit(suit: Card.Suit) -> void:
+	print("%d was wished" % suit)
+	suit_wished.emit(suit)
 
 func play_card(player_index: int, played_card: Card) -> void:
 	if player_index == turn_position:
@@ -36,3 +40,4 @@ func play_card(player_index: int, played_card: Card) -> void:
 		turn_active = false
 		if played_card in hand:
 			hand.erase(played_card)
+			

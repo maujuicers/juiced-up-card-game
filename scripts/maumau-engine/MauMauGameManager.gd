@@ -18,7 +18,8 @@ var turn_order: Array = []
 var hands: Array = []
 var current_player_index: int
 var current_player_node: MauMauPlayer
-var wished_suit: Card.Suit
+var wished_suit: Card.Suit = -1
+var current_effect: String = "none"
 
 func _ready() -> void:
 	start_game()
@@ -44,6 +45,20 @@ func start_turn() -> void:
 	
 	print("turn started for ", active_player.name)
 	
+	match current_effect:
+		"draw_two": 
+			print("Player %d must draw 2 cards!" % current_player_index)
+			current_effect = "none"
+			current_player_node.draw_card(2)
+			#skip turn after drawing???
+		"skip_next": 
+			print("Player %d was skipped!" % current_player_index)
+			current_effect = "none"
+			advance_turn()
+			return 
+		"wish_suit": 
+			current_effect = "none"
+	
 	current_player_node.on_turn_started()
 	current_player_node.card_selected.connect(play_card)
 	current_player_node.card_drawn.connect(draw_card)
@@ -52,7 +67,6 @@ func advance_turn() -> void:
 	current_player_index = (current_player_index + 1) % turn_order.size()
 	log_gamestate()
 	start_turn()
-	#TODO: implement skip effect
 
 func play_card(card: Card) -> void:
 	card_played.connect(current_player_node.play_card)
@@ -60,24 +74,33 @@ func play_card(card: Card) -> void:
 	[current_player_index, 
 	Card.Rank.keys()[card.rank], 
 	Card.Suit.keys()[card.suit],
-	MauMauRules.is_valid_move(card, discard_pile.back())
+	MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit)
 	])
 
-	if MauMauRules.is_valid_move(card, discard_pile.back()):
+	if MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit):
 		current_player_node.card_selected.disconnect(play_card)
 		current_player_node.card_drawn.disconnect(draw_card)
+		
 		discard_pile.append(card)
 		card_played.emit(current_player_index, card)
 		card_played.disconnect(current_player_node.play_card)
-		advance_turn()
 		
-	#TODO: trigger card effects
+		current_effect = MauMauRules.get_effect(card)
+		if current_effect == "none" && wished_suit != -1:
+			wished_suit = -1
+		effect_triggered.emit(current_effect)
+		if current_effect == "wish_suit":
+			print("player %d played %s of %s — He can now choose a suit" % 
+			[current_player_index, 
+			Card.Rank.keys()[card.rank], 
+			Card.Suit.keys()[card.suit]])
+			current_player_node.suit_wished.connect(set_wished_suit)
+			return
+		
+		advance_turn()
 
 func draw_card(draw_amount: int) -> void:
-	current_player_node.card_selected.disconnect(play_card)
-	current_player_node.card_drawn.disconnect(draw_card)
-		
-	for range in draw_amount:
+	for i in range(draw_amount):
 		
 		if draw_pile.is_empty():
 			var top_card = discard_pile.pop_back()
@@ -92,7 +115,14 @@ func draw_card(draw_amount: int) -> void:
 		var rank_str = Card.Rank.keys()[drawn_card.rank]
 		var suit_str = Card.Suit.keys()[drawn_card.suit]
 		print("Player %d drew %s of %s" % [current_player_node.turn_position, rank_str, suit_str])
+
+func set_wished_suit(suit: Card.Suit) -> void:
+	current_player_node.suit_wished.disconnect(set_wished_suit)
+	print(wished_suit)
+	wished_suit = suit
+	print(wished_suit)
 	advance_turn()
+#################GAME INITIALIZATION########################
 
 func reset_game() -> void:
 	draw_pile.clear()
@@ -145,6 +175,20 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.keycode == KEY_SPACE:
 		draw_card(1)
 		return
+		
+	match event.keycode:
+		KEY_W:
+			current_player_node.select_suit(Card.Suit.HEARTS)
+			return
+		KEY_A:
+			current_player_node.select_suit(Card.Suit.DIAMONDS)
+			return
+		KEY_S:
+			current_player_node.select_suit(Card.Suit.SPADES)
+			return
+		KEY_D:
+			current_player_node.select_suit(Card.Suit.CLUBS)
+			return
 		
 	var key_index: int = -1
 	
