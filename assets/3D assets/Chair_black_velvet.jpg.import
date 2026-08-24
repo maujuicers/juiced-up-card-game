@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://uc2x0ttexw01"
-path.s3tc="res://.godot/imported/Floor_floor.jpg-538d781c0708995a907b5eac7b197977.s3tc.ctex"
+uid="uid://coryxxnhhkubo"
+path.s3tc="res://.godot/imported/Chair_black_velvet.jpg-8fff8aaad27db7009bb36fa67f3d51e2.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "74fac2ae9b919b6b451768a1eafd6d90"
+"md5": "225b879c42c3f1592010add05682c2b4"
 }
 
 [deps]
 
-source_file="res://3D assets/Floor_floor.jpg"
-dest_files=["res://.godot/imported/Floor_floor.jpg-538d781c0708995a907b5eac7b197977.s3tc.ctex"]
+source_file="res://assets/3D assets/Chair_black_velvet.jpg"
+dest_files=["res://.godot/imported/Chair_black_velvet.jpg-8fff8aaad27db7009bb36fa67f3d51e2.s3tc.ctex"]
 
 [params]
 

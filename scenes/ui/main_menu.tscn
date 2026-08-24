@@ -1,0 +1,220 @@
+[gd_scene format=3 uid="uid://balrrf21sxhil"]
+
+[ext_resource type="PackedScene" uid="uid://b5jxhp3ppt6c2" path="res://assets/3D assets/Floor.glb" id="1_bqqt6"]
+[ext_resource type="Script" uid="uid://cxhis2h3lyw27" path="res://scripts/ui/main_menu.gd" id="1_m1kxf"]
+[ext_resource type="PackedScene" uid="uid://dqvldq5ocyh35" path="res://assets/3D assets/Table.glb" id="2_wu84c"]
+[ext_resource type="PackedScene" uid="uid://dfg6idqgcy30t" path="res://assets/3D assets/Chair.glb" id="3_8ln24"]
+[ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="5_x2yvf"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1g8jr"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_m1kxf"]
+sky_material = SubResource("ProceduralSkyMaterial_1g8jr")
+
+[sub_resource type="Environment" id="Environment_x2yvf"]
+background_mode = 2
+sky = SubResource("Sky_m1kxf")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhagc"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btxxm"]
+bg_color = Color(0, 0, 0, 0.49803922)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wb0q5"]
+bg_color = Color(0, 0, 0, 0.49803922)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8g5eo"]
+bg_color = Color(0, 0, 0, 0.49803922)
+
+[node name="MainMenu" type="Node3D" unique_id=1303346349]
+script = ExtResource("1_m1kxf")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146967929]
+environment = SubResource("Environment_x2yvf")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1599945363]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.8206816, 0)
+light_energy = 4.0
+light_specular = 0.0
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1197251836]
+transform = Transform3D(0.7071068, -0.46390378, 0.5336603, 0, 0.7547096, 0.656059, -0.7071068, -0.46390378, 0.5336603, 0.449, 2.251, 1.483)
+fov = 70.0
+
+[node name="Floor" parent="." unique_id=2074607792 instance=ExtResource("1_bqqt6")]
+
+[node name="Gathering" type="Node3D" parent="." unique_id=1472809557]
+
+[node name="Table" parent="Gathering" unique_id=1662445682 instance=ExtResource("2_wu84c")]
+
+[node name="Chair1" parent="Gathering" unique_id=2047824859 instance=ExtResource("3_8ln24")]
+
+[node name="Chair2" parent="Gathering" unique_id=1765154555 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="Gathering" unique_id=207146100 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="Gathering" unique_id=437812636 instance=ExtResource("3_8ln24")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="Gathering2" type="Node3D" parent="." unique_id=1405353681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
+
+[node name="Table" parent="Gathering2" unique_id=1546821829 instance=ExtResource("2_wu84c")]
+
+[node name="Chair1" parent="Gathering2" unique_id=439709067 instance=ExtResource("3_8ln24")]
+
+[node name="Chair2" parent="Gathering2" unique_id=1101639931 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="Gathering2" unique_id=1232190085 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="Gathering2" unique_id=1001281363 instance=ExtResource("3_8ln24")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="Gathering3" type="Node3D" parent="." unique_id=455027951]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
+
+[node name="Table" parent="Gathering3" unique_id=1297237537 instance=ExtResource("2_wu84c")]
+
+[node name="Chair1" parent="Gathering3" unique_id=1342134946 instance=ExtResource("3_8ln24")]
+
+[node name="Chair2" parent="Gathering3" unique_id=843730394 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="Gathering3" unique_id=445448263 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="Gathering3" unique_id=691951852 instance=ExtResource("3_8ln24")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="Gathering4" type="Node3D" parent="." unique_id=1594497949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="Table" parent="Gathering4" unique_id=1724026802 instance=ExtResource("2_wu84c")]
+
+[node name="Chair1" parent="Gathering4" unique_id=1689494544 instance=ExtResource("3_8ln24")]
+
+[node name="Chair2" parent="Gathering4" unique_id=1503306585 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="Gathering4" unique_id=523614381 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="Gathering4" unique_id=1208602604 instance=ExtResource("3_8ln24")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="Gathering5" type="Node3D" parent="." unique_id=118417921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
+
+[node name="Table" parent="Gathering5" unique_id=1569388066 instance=ExtResource("2_wu84c")]
+
+[node name="Chair1" parent="Gathering5" unique_id=1180452257 instance=ExtResource("3_8ln24")]
+
+[node name="Chair2" parent="Gathering5" unique_id=642177301 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="Gathering5" unique_id=1258782993 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="Gathering5" unique_id=1596887115 instance=ExtResource("3_8ln24")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="Buttons" type="VBoxContainer" parent="." unique_id=1977321848]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 150.0
+offset_top = -600.0
+offset_right = 465.0
+grow_vertical = 0
+theme_override_constants/separation = 40
+
+[node name="MarginContainer" type="MarginContainer" parent="Buttons" unique_id=532858029]
+layout_mode = 2
+
+[node name="StartGameButton" type="Button" parent="Buttons/MarginContainer" unique_id=1463848762]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Start Game"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Buttons" unique_id=828183506]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="TutorialButton" type="Button" parent="Buttons/MarginContainer2" unique_id=2044979883]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Tutorial"
+
+[node name="MarginContainer3" type="MarginContainer" parent="Buttons" unique_id=73530766]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="SettingsButton" type="Button" parent="Buttons/MarginContainer3" unique_id=1901676870]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Settings
+"
+
+[node name="MarginContainer4" type="MarginContainer" parent="Buttons" unique_id=1960512078]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_right = 80
+
+[node name="QuitButton" type="Button" parent="Buttons/MarginContainer4" unique_id=415352046]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 70
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Quit
+"

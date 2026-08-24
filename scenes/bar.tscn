@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cldy26buiv6t8"]
 
-[ext_resource type="PackedScene" uid="uid://b5jxhp3ppt6c2" path="res://3D assets/Floor.glb" id="1_bwlfd"]
-[ext_resource type="PackedScene" uid="uid://dqvldq5ocyh35" path="res://3D assets/Table.glb" id="2_qdsxc"]
-[ext_resource type="PackedScene" uid="uid://dfg6idqgcy30t" path="res://3D assets/Chair.glb" id="2_x848m"]
+[ext_resource type="PackedScene" uid="uid://b5jxhp3ppt6c2" path="res://assets/3D assets/Floor.glb" id="1_bwlfd"]
+[ext_resource type="PackedScene" uid="uid://dqvldq5ocyh35" path="res://assets/3D assets/Table.glb" id="2_qdsxc"]
+[ext_resource type="PackedScene" uid="uid://dfg6idqgcy30t" path="res://assets/3D assets/Chair.glb" id="2_x848m"]
 
 [node name="Bar" type="Node3D" unique_id=1303346349]
 

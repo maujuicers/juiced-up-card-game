@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvn51au18moag"
-path.s3tc="res://.godot/imported/Chair_metal.jpg-b9c81a12064c066421f8b2b770fe647c.s3tc.ctex"
+uid="uid://j5cbgfpfwfjl"
+path.s3tc="res://.godot/imported/Table_metal.jpg-41153e5b02fdd5b52e038a9df83c9f64.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://3D assets/Chair_metal.jpg"
-dest_files=["res://.godot/imported/Chair_metal.jpg-b9c81a12064c066421f8b2b770fe647c.s3tc.ctex"]
+source_file="res://assets/3D assets/Table_metal.jpg"
+dest_files=["res://.godot/imported/Table_metal.jpg-41153e5b02fdd5b52e038a9df83c9f64.s3tc.ctex"]
 
 [params]
 
