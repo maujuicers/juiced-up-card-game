@@ -3,22 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dfg6idqgcy30t"
-<<<<<<<< HEAD:assets/3D assets/Bar/Chair.glb.import
+uid="uid://bi4g6yddn2mn3"
 path="res://.godot/imported/Chair.glb-597481839192fd10d3699d94b5bd0ba2.scn"
 
 [deps]
 
 source_file="res://assets/3D assets/Bar/Chair.glb"
 dest_files=["res://.godot/imported/Chair.glb-597481839192fd10d3699d94b5bd0ba2.scn"]
-========
-path="res://.godot/imported/Chair.glb-db0ad134cb876916dc4e37c9d34ff688.scn"
-
-[deps]
-
-source_file="res://assets/3D assets/Chair.glb"
-dest_files=["res://.godot/imported/Chair.glb-db0ad134cb876916dc4e37c9d34ff688.scn"]
->>>>>>>> c6efab7c0fe0044a57af20da6ad9140d7439c58a:assets/3D assets/Chair.glb.import
 
 [params]
 
@@ -51,4 +42,4 @@ materials/extract_path=""
 _subresources={}
 gltf/naming_version=2
 gltf/embedded_image_handling=1
-gltf/texture_map_mode=1
+gltf/texture_map_mode=0

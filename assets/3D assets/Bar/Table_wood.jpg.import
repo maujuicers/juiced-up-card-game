@@ -2,29 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxoscnm0s6qd5"
-<<<<<<<< HEAD:assets/3D assets/Bar/Table_wood.jpg.import
+uid="uid://ghcfjpbny15o"
 path.s3tc="res://.godot/imported/Table_wood.jpg-cab38badd2a1ea64053393870660d965.s3tc.ctex"
-========
-path.s3tc="res://.godot/imported/Table_wood.jpg-da41e6cfa66da5544ce052d3e492f6a6.s3tc.ctex"
->>>>>>>> c6efab7c0fe0044a57af20da6ad9140d7439c58a:assets/3D assets/Table_wood.jpg.import
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "2da6eab69bbdb3c3e9a1c85d2a8ac1be"
-}
 
 [deps]
 
-<<<<<<<< HEAD:assets/3D assets/Bar/Table_wood.jpg.import
 source_file="res://assets/3D assets/Bar/Table_wood.jpg"
 dest_files=["res://.godot/imported/Table_wood.jpg-cab38badd2a1ea64053393870660d965.s3tc.ctex"]
-========
-source_file="res://assets/3D assets/Table_wood.jpg"
-dest_files=["res://.godot/imported/Table_wood.jpg-da41e6cfa66da5544ce052d3e492f6a6.s3tc.ctex"]
->>>>>>>> c6efab7c0fe0044a57af20da6ad9140d7439c58a:assets/3D assets/Table_wood.jpg.import
 
 [params]
 

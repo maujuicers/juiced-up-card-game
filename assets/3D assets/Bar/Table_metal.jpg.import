@@ -2,29 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://j5cbgfpfwfjl"
-<<<<<<<< HEAD:assets/3D assets/Bar/Table_metal.jpg.import
+uid="uid://wo1n5scmqk5g"
 path.s3tc="res://.godot/imported/Table_metal.jpg-84e73529a358dca628ccec9ce9cd4775.s3tc.ctex"
-========
-path.s3tc="res://.godot/imported/Table_metal.jpg-41153e5b02fdd5b52e038a9df83c9f64.s3tc.ctex"
->>>>>>>> c6efab7c0fe0044a57af20da6ad9140d7439c58a:assets/3D assets/Table_metal.jpg.import
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "d4195df76b16a675b931c2cf4d26bd0f"
-}
 
 [deps]
 
-<<<<<<<< HEAD:assets/3D assets/Bar/Table_metal.jpg.import
 source_file="res://assets/3D assets/Bar/Table_metal.jpg"
 dest_files=["res://.godot/imported/Table_metal.jpg-84e73529a358dca628ccec9ce9cd4775.s3tc.ctex"]
-========
-source_file="res://assets/3D assets/Table_metal.jpg"
-dest_files=["res://.godot/imported/Table_metal.jpg-41153e5b02fdd5b52e038a9df83c9f64.s3tc.ctex"]
->>>>>>>> c6efab7c0fe0044a57af20da6ad9140d7439c58a:assets/3D assets/Table_metal.jpg.import
 
 [params]
 

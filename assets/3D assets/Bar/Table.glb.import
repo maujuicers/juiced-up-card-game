@@ -3,22 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dqvldq5ocyh35"
-<<<<<<<< HEAD:assets/3D assets/Bar/Table.glb.import
+uid="uid://c10euy7a04m6x"
 path="res://.godot/imported/Table.glb-d65497c6c2665b682b6dbf45c63297af.scn"
 
 [deps]
 
 source_file="res://assets/3D assets/Bar/Table.glb"
 dest_files=["res://.godot/imported/Table.glb-d65497c6c2665b682b6dbf45c63297af.scn"]
-========
-path="res://.godot/imported/Table.glb-6bb1deed1501e072836b143bdc488521.scn"
-
-[deps]
-
-source_file="res://assets/3D assets/Table.glb"
-dest_files=["res://.godot/imported/Table.glb-6bb1deed1501e072836b143bdc488521.scn"]
->>>>>>>> c6efab7c0fe0044a57af20da6ad9140d7439c58a:assets/3D assets/Table.glb.import
 
 [params]
 
@@ -51,4 +42,4 @@ materials/extract_path=""
 _subresources={}
 gltf/naming_version=2
 gltf/embedded_image_handling=1
-gltf/texture_map_mode=1
+gltf/texture_map_mode=0

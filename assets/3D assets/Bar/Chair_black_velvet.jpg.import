@@ -2,29 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://coryxxnhhkubo"
-<<<<<<<< HEAD:assets/3D assets/Bar/Chair_black_velvet.jpg.import
+uid="uid://dcld5bomiujug"
 path.s3tc="res://.godot/imported/Chair_black_velvet.jpg-2d1e67b482d144159b715eb56e4ade13.s3tc.ctex"
-========
-path.s3tc="res://.godot/imported/Chair_black_velvet.jpg-8fff8aaad27db7009bb36fa67f3d51e2.s3tc.ctex"
->>>>>>>> c6efab7c0fe0044a57af20da6ad9140d7439c58a:assets/3D assets/Chair_black_velvet.jpg.import
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "225b879c42c3f1592010add05682c2b4"
-}
 
 [deps]
 
-<<<<<<<< HEAD:assets/3D assets/Bar/Chair_black_velvet.jpg.import
 source_file="res://assets/3D assets/Bar/Chair_black_velvet.jpg"
 dest_files=["res://.godot/imported/Chair_black_velvet.jpg-2d1e67b482d144159b715eb56e4ade13.s3tc.ctex"]
-========
-source_file="res://assets/3D assets/Chair_black_velvet.jpg"
-dest_files=["res://.godot/imported/Chair_black_velvet.jpg-8fff8aaad27db7009bb36fa67f3d51e2.s3tc.ctex"]
->>>>>>>> c6efab7c0fe0044a57af20da6ad9140d7439c58a:assets/3D assets/Chair_black_velvet.jpg.import
 
 [params]
 

@@ -2,29 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://uc2x0ttexw01"
-<<<<<<<< HEAD:assets/3D assets/Bar/Floor_floor.jpg.import
+uid="uid://dj0dgtrfu4nns"
 path.s3tc="res://.godot/imported/Floor_floor.jpg-b37fb3cb182931e57e2a64d32a72bc14.s3tc.ctex"
-========
-path.s3tc="res://.godot/imported/Floor_floor.jpg-6161f87b14b2703081bbaec3361dd4e7.s3tc.ctex"
->>>>>>>> c6efab7c0fe0044a57af20da6ad9140d7439c58a:assets/3D assets/Floor_floor.jpg.import
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "74fac2ae9b919b6b451768a1eafd6d90"
-}
 
 [deps]
 
-<<<<<<<< HEAD:assets/3D assets/Bar/Floor_floor.jpg.import
 source_file="res://assets/3D assets/Bar/Floor_floor.jpg"
 dest_files=["res://.godot/imported/Floor_floor.jpg-b37fb3cb182931e57e2a64d32a72bc14.s3tc.ctex"]
-========
-source_file="res://assets/3D assets/Floor_floor.jpg"
-dest_files=["res://.godot/imported/Floor_floor.jpg-6161f87b14b2703081bbaec3361dd4e7.s3tc.ctex"]
->>>>>>>> c6efab7c0fe0044a57af20da6ad9140d7439c58a:assets/3D assets/Floor_floor.jpg.import
 
 [params]
 
