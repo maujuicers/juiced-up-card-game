@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvn51au18moag"
-path.s3tc="res://.godot/imported/Chair_metal.jpg-d6a4202a8792684a303969f5f7ced2c6.s3tc.ctex"
+uid="uid://solpw773otfw"
+path.s3tc="res://.godot/imported/Wall_brick.jpg-f40a96f6961e201090ae6e22bb496c90.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "d4195df76b16a675b931c2cf4d26bd0f"
+"md5": "8ed1024849b12a048d60aefe4d8a22ee"
 }
 
 [deps]
 
-source_file="res://assets/3D assets/Chair_metal.jpg"
-dest_files=["res://.godot/imported/Chair_metal.jpg-d6a4202a8792684a303969f5f7ced2c6.s3tc.ctex"]
+source_file="res://assets/3D assets/Bar/Wall_brick.jpg"
+dest_files=["res://.godot/imported/Wall_brick.jpg-f40a96f6961e201090ae6e22bb496c90.s3tc.ctex"]
 
 [params]
 

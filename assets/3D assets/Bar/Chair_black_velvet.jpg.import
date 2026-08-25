@@ -2,20 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxoscnm0s6qd5"
-path.s3tc="res://.godot/imported/Table_wood.jpg-da41e6cfa66da5544ce052d3e492f6a6.s3tc.ctex"
+uid="uid://dcld5bomiujug"
+path.s3tc="res://.godot/imported/Chair_black_velvet.jpg-2d1e67b482d144159b715eb56e4ade13.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "2da6eab69bbdb3c3e9a1c85d2a8ac1be"
-}
 
 [deps]
 
-source_file="res://assets/3D assets/Table_wood.jpg"
-dest_files=["res://.godot/imported/Table_wood.jpg-da41e6cfa66da5544ce052d3e492f6a6.s3tc.ctex"]
+source_file="res://assets/3D assets/Bar/Chair_black_velvet.jpg"
+dest_files=["res://.godot/imported/Chair_black_velvet.jpg-2d1e67b482d144159b715eb56e4ade13.s3tc.ctex"]
 
 [params]
 

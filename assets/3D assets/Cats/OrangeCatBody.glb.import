@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://ba1rvwmx5rh5x"
-path="res://.godot/imported/YellowCatHead.glb-a1618f87da169e9158cd8f82d564a45d.scn"
+uid="uid://br8klgmdi1eoc"
+path="res://.godot/imported/OrangeCatBody.glb-737e08635355293458f37e76b2ba3272.scn"
 
 [deps]
 
-source_file="res://3D assets/YellowCatHead.glb"
-dest_files=["res://.godot/imported/YellowCatHead.glb-a1618f87da169e9158cd8f82d564a45d.scn"]
+source_file="res://assets/3D assets/Cats/OrangeCatBody.glb"
+dest_files=["res://.godot/imported/OrangeCatBody.glb-737e08635355293458f37e76b2ba3272.scn"]
 
 [params]
 

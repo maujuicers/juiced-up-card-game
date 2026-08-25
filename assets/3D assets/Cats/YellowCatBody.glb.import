@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dqvldq5ocyh35"
-path="res://.godot/imported/Table.glb-6bb1deed1501e072836b143bdc488521.scn"
+uid="uid://cmf537x3grl40"
+path="res://.godot/imported/YellowCatBody.glb-86d8df185b818618851a65effb852c17.scn"
 
 [deps]
 
-source_file="res://assets/3D assets/Table.glb"
-dest_files=["res://.godot/imported/Table.glb-6bb1deed1501e072836b143bdc488521.scn"]
+source_file="res://assets/3D assets/Cats/YellowCatBody.glb"
+dest_files=["res://.godot/imported/YellowCatBody.glb-86d8df185b818618851a65effb852c17.scn"]
 
 [params]
 

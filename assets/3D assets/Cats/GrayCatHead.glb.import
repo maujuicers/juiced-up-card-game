@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b5jxhp3ppt6c2"
-path="res://.godot/imported/Floor.glb-1f38e4f2e8988dc5071c15f8fac2e7fc.scn"
+uid="uid://ld0qo184attr"
+path="res://.godot/imported/GrayCatHead.glb-d7257a4752fe596b3abd183819d51faa.scn"
 
 [deps]
 
-source_file="res://assets/3D assets/Floor.glb"
-dest_files=["res://.godot/imported/Floor.glb-1f38e4f2e8988dc5071c15f8fac2e7fc.scn"]
+source_file="res://assets/3D assets/Cats/GrayCatHead.glb"
+dest_files=["res://.godot/imported/GrayCatHead.glb-d7257a4752fe596b3abd183819d51faa.scn"]
 
 [params]
 
