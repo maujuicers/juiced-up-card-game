@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bbu748peiij0q"]
+
+[ext_resource type="Script" uid="uid://vqhl2ea4fnpy" path="res://scripts/playing-card/playing_card.gd" id="1_7b08b"]
+
+[node name="PlayingCard" type="Node3D" unique_id=1183247548]
+script = ExtResource("1_7b08b")

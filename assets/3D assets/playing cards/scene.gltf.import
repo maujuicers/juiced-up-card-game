@@ -1,0 +1,516 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://twdpb8cikulp"
+path="res://.godot/imported/scene.gltf-748496081093ba6f95158973d5dec035.scn"
+
+[deps]
+
+source_file="res://assets/3D assets/playing cards/scene.gltf"
+dest_files=["res://.godot/imported/scene.gltf-748496081093ba6f95158973d5dec035.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/root_script=null
+mesh_library/use_node_names_as_mesh_names=false
+array_mesh/deduplicate_surfaces=true
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_name_suffixes=true
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+materials/extract=0
+materials/extract_format=0
+materials/extract_path=""
+_subresources={
+"meshes": {
+"Sketchfab_Scene_clubs01_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs01_playingCards_Mat_0.res",
+"save_to_file/path": "uid://bs1lr42xusocu"
+},
+"Sketchfab_Scene_clubs02_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs02_playingCards_Mat_0.res",
+"save_to_file/path": "uid://cackk2xyd0cm0"
+},
+"Sketchfab_Scene_clubs03_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs03_playingCards_Mat_0.res",
+"save_to_file/path": "uid://bveglhbd4c6bo"
+},
+"Sketchfab_Scene_clubs04_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs04_playingCards_Mat_0.res",
+"save_to_file/path": "uid://cdqkn6b3avig5"
+},
+"Sketchfab_Scene_clubs05_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs05_playingCards_Mat_0.res",
+"save_to_file/path": "uid://c855wmtox1pgj"
+},
+"Sketchfab_Scene_clubs06_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs06_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dud787kicx42q"
+},
+"Sketchfab_Scene_clubs07_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs07_playingCards_Mat_0.res",
+"save_to_file/path": "uid://cn7kn4d7v2vmv"
+},
+"Sketchfab_Scene_clubs08_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs08_playingCards_Mat_0.res",
+"save_to_file/path": "uid://ev77j0kr631o"
+},
+"Sketchfab_Scene_clubs09_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs09_playingCards_Mat_0.res",
+"save_to_file/path": "uid://0bepgphlbxpe"
+},
+"Sketchfab_Scene_clubs10_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs10_playingCards_Mat_0.res",
+"save_to_file/path": "uid://bt5asa2nnga0e"
+},
+"Sketchfab_Scene_clubs11_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs11_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dsqk0q3pw1cxx"
+},
+"Sketchfab_Scene_clubs12_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs12_playingCards_Mat_0.res",
+"save_to_file/path": "uid://b7q0wgr3uuqw5"
+},
+"Sketchfab_Scene_clubs13_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_clubs13_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dilfn7xmqxy6m"
+},
+"Sketchfab_Scene_diamonds01_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds01_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dx7in1e75hq0l"
+},
+"Sketchfab_Scene_diamonds02_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds02_playingCards_Mat_0.res",
+"save_to_file/path": "uid://c0ri6qasudbc4"
+},
+"Sketchfab_Scene_diamonds03_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds03_playingCards_Mat_0.res",
+"save_to_file/path": "uid://qm7o3ydryeqb"
+},
+"Sketchfab_Scene_diamonds04_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds04_playingCards_Mat_0.res",
+"save_to_file/path": "uid://c2kj5tllag7x6"
+},
+"Sketchfab_Scene_diamonds05_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds05_playingCards_Mat_0.res",
+"save_to_file/path": "uid://cp6tfqinn6xg2"
+},
+"Sketchfab_Scene_diamonds06_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds06_playingCards_Mat_0.res",
+"save_to_file/path": "uid://d2fwitq8wedky"
+},
+"Sketchfab_Scene_diamonds07_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds07_playingCards_Mat_0.res",
+"save_to_file/path": "uid://crbs7x68uaayd"
+},
+"Sketchfab_Scene_diamonds08_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds08_playingCards_Mat_0.res",
+"save_to_file/path": "uid://vdxiaqkku3yu"
+},
+"Sketchfab_Scene_diamonds09_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds09_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dn1ix0p1htgbc"
+},
+"Sketchfab_Scene_diamonds10_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds10_playingCards_Mat_0.res",
+"save_to_file/path": "uid://pfbo2hw601d8"
+},
+"Sketchfab_Scene_diamonds11_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds11_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dh14ya8p5f41e"
+},
+"Sketchfab_Scene_diamonds12_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds12_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dg5by1ltwdv2l"
+},
+"Sketchfab_Scene_diamonds13_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds13_playingCards_Mat_0.res",
+"save_to_file/path": "uid://drs8an1cnyqen"
+},
+"Sketchfab_Scene_hearts01_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts01_playingCards_Mat_0.res",
+"save_to_file/path": "uid://cfhc2xttbe01b"
+},
+"Sketchfab_Scene_hearts02_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts02_playingCards_Mat_0.res",
+"save_to_file/path": "uid://cbtl7syywax0m"
+},
+"Sketchfab_Scene_hearts03_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts03_playingCards_Mat_0.res",
+"save_to_file/path": "uid://bpdvcs6e4ufp4"
+},
+"Sketchfab_Scene_hearts04_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts04_playingCards_Mat_0.res",
+"save_to_file/path": "uid://2qo6wokn880t"
+},
+"Sketchfab_Scene_hearts05_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts05_playingCards_Mat_0.res",
+"save_to_file/path": "uid://bqwvpfjotpqkj"
+},
+"Sketchfab_Scene_hearts06_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts06_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dy231n7n2knxd"
+},
+"Sketchfab_Scene_hearts07_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts07_playingCards_Mat_0.res",
+"save_to_file/path": "uid://ymkq4pe8v5rc"
+},
+"Sketchfab_Scene_hearts08_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts08_playingCards_Mat_0.res",
+"save_to_file/path": "uid://5iosqpblrcqw"
+},
+"Sketchfab_Scene_hearts09_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts09_playingCards_Mat_0.res",
+"save_to_file/path": "uid://bmutl5t0g4nuk"
+},
+"Sketchfab_Scene_hearts10_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts10_playingCards_Mat_0.res",
+"save_to_file/path": "uid://d1tm7ggar8n3n"
+},
+"Sketchfab_Scene_hearts11_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts11_playingCards_Mat_0.res",
+"save_to_file/path": "uid://brl2qycfvc8me"
+},
+"Sketchfab_Scene_hearts12_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts12_playingCards_Mat_0.res",
+"save_to_file/path": "uid://cgysuin882bx5"
+},
+"Sketchfab_Scene_hearts13_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_hearts13_playingCards_Mat_0.res",
+"save_to_file/path": "uid://cuqxj7ywhnprb"
+},
+"Sketchfab_Scene_spades01_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades01_playingCards_Mat_0.res",
+"save_to_file/path": "uid://b1a5rxphlkepn"
+},
+"Sketchfab_Scene_spades02_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades02_playingCards_Mat_0.res",
+"save_to_file/path": "uid://ih3ty1nbw8ei"
+},
+"Sketchfab_Scene_spades03_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades03_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dfwtwm3hjtdlp"
+},
+"Sketchfab_Scene_spades04_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades04_playingCards_Mat_0.res",
+"save_to_file/path": "uid://c3osygio1cnvv"
+},
+"Sketchfab_Scene_spades05_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades05_playingCards_Mat_0.res",
+"save_to_file/path": "uid://d4dnvljcgrerg"
+},
+"Sketchfab_Scene_spades06_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades06_playingCards_Mat_0.res",
+"save_to_file/path": "uid://cfwxynax651uw"
+},
+"Sketchfab_Scene_spades07_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades07_playingCards_Mat_0.res",
+"save_to_file/path": "uid://drtwwdrm0cpbq"
+},
+"Sketchfab_Scene_spades08_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades08_playingCards_Mat_0.res",
+"save_to_file/path": "uid://bwu4y2050vqii"
+},
+"Sketchfab_Scene_spades09_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades09_playingCards_Mat_0.res",
+"save_to_file/path": "uid://48kjwdtw4e4i"
+},
+"Sketchfab_Scene_spades10_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades10_playingCards_Mat_0.res",
+"save_to_file/path": "uid://cu18dn4gwydii"
+},
+"Sketchfab_Scene_spades11_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades11_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dkvdsyjoxxcte"
+},
+"Sketchfab_Scene_spades12_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades12_playingCards_Mat_0.res",
+"save_to_file/path": "uid://dvenou8uy6qx4"
+},
+"Sketchfab_Scene_spades13_playingCards_Mat_0": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 20.0,
+"save_to_file/enabled": true,
+"save_to_file/fallback_path": "res://assets/3D assets/playing cards/Sketchfab_Scene_spades13_playingCards_Mat_0.res",
+"save_to_file/path": "uid://ba8eklt2joq85"
+}
+}
+}
+gltf/naming_version=2
+gltf/embedded_image_handling=1
+gltf/texture_map_mode=1
