@@ -2,10 +2,15 @@
 
 [ext_resource type="Script" uid="uid://b3i1t231b1ky4" path="res://scripts/ui/settings_menu.gd" id="1_0b1cv"]
 [ext_resource type="Shader" uid="uid://c0a6612cwmsjp" path="res://scripts/ui/settings_menu_background.gdshader" id="1_qwcqe"]
-[ext_resource type="Texture2D" uid="uid://cg8twui6w4nkt" path="res://assets/2D assets/paw-icon.png" id="2_mhswj"]
+[ext_resource type="Texture2D" uid="uid://clrkughhlu81h" path="res://assets/2D assets/cat_icon.png" id="3_0b1cv"]
 [ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="3_x3vyp"]
+[ext_resource type="Texture2D" uid="uid://c46ulvrnaf031" path="res://assets/2D assets/cat_icon2.png" id="4_yu862"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kewkp"]
+shader = ExtResource("1_qwcqe")
+shader_parameter/scrolling_speed = 0.05
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ywggk"]
 shader = ExtResource("1_qwcqe")
 shader_parameter/scrolling_speed = 0.05
 
@@ -25,7 +30,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.3, 0.20400001, 0.12, 1)
+color = Color(0.90588236, 0.7294118, 0.3647059, 1)
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=664834924]
 texture_repeat = 2
@@ -36,8 +41,21 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_mhswj")
+texture = ExtResource("3_0b1cv")
 stretch_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=780691037]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_ywggk")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_yu862")
+stretch_mode = 1
+flip_h = true
 
 [node name="BottomButtons" type="HBoxContainer" parent="." unique_id=1173922866]
 layout_mode = 1

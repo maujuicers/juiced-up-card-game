@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cg8twui6w4nkt"
-path="res://.godot/imported/paw-icon.png-3016c69b22c171915c78a132bf6349b5.ctex"
+uid="uid://c46ulvrnaf031"
+path="res://.godot/imported/cat_icon2.png-7f25caee1e07c6d95147d8e8d956993c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/2D assets/paw-icon.png"
-dest_files=["res://.godot/imported/paw-icon.png-3016c69b22c171915c78a132bf6349b5.ctex"]
+source_file="res://assets/2D assets/cat_icon2.png"
+dest_files=["res://.godot/imported/cat_icon2.png-7f25caee1e07c6d95147d8e8d956993c.ctex"]
 
 [params]
 
