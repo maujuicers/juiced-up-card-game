@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://c5ek0fsypmit6"]
+
+[ext_resource type="Script" uid="uid://b3i1t231b1ky4" path="res://scripts/ui/settings_menu.gd" id="1_0b1cv"]
+[ext_resource type="Shader" uid="uid://c0a6612cwmsjp" path="res://scripts/ui/settings_menu_background.gdshader" id="1_qwcqe"]
+[ext_resource type="Texture2D" uid="uid://cg8twui6w4nkt" path="res://assets/2D assets/paw-icon.png" id="2_mhswj"]
+[ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="3_x3vyp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kewkp"]
+shader = ExtResource("1_qwcqe")
+shader_parameter/scrolling_speed = 0.05
+
+[node name="SettingsMenu" type="Control" unique_id=1175825677]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0b1cv")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1275824452]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3, 0.20400001, 0.12, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=664834924]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_kewkp")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_mhswj")
+stretch_mode = 1
+
+[node name="BottomButtons" type="HBoxContainer" parent="." unique_id=1173922866]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -178.0
+offset_top = -150.0
+offset_right = 178.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="ApplyButton" type="Button" parent="BottomButtons" unique_id=238686385]
+custom_minimum_size = Vector2(140, 0)
+custom_maximum_size = Vector2(-1, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 50
+text = "Apply"
+
+[node name="CloseButton" type="Button" parent="BottomButtons" unique_id=932017126]
+custom_minimum_size = Vector2(140, 0)
+custom_maximum_size = Vector2(-1, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 50
+text = "Close"
+
+[connection signal="pressed" from="BottomButtons/ApplyButton" to="." method="_on_apply_button_pressed"]
+[connection signal="pressed" from="BottomButtons/CloseButton" to="." method="_on_close_button_pressed"]

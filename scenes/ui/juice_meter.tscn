@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bmqw2yeu6jwuj"]
+
+[ext_resource type="Script" uid="uid://b026b0ujf5bsa" path="res://scripts/ui/juice_meter.gd" id="1_mtdn5"]
+
+[node name="JuiceMeter" type="ProgressBar" unique_id=626850414]
+offset_right = 200.0
+offset_bottom = 27.0
+script = ExtResource("1_mtdn5")
+
+[node name="Timer" type="Timer" parent="." unique_id=1232499315]
