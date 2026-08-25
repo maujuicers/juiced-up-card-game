@@ -1,12 +1,31 @@
 [gd_scene format=3 uid="uid://cldy26buiv6t8"]
 
-[ext_resource type="PackedScene" uid="uid://b5jxhp3ppt6c2" path="res://assets/3D assets/Floor.glb" id="1_bwlfd"]
-[ext_resource type="PackedScene" uid="uid://dqvldq5ocyh35" path="res://assets/3D assets/Table.glb" id="2_qdsxc"]
-[ext_resource type="PackedScene" uid="uid://dfg6idqgcy30t" path="res://assets/3D assets/Chair.glb" id="2_x848m"]
+[ext_resource type="PackedScene" uid="uid://b5jxhp3ppt6c2" path="res://3D assets/Floor.glb" id="1_bwlfd"]
+[ext_resource type="PackedScene" uid="uid://btdb0a0csat1v" path="res://3D assets/Wall.glb" id="2_efgdo"]
+[ext_resource type="PackedScene" uid="uid://dqvldq5ocyh35" path="res://3D assets/Table.glb" id="2_qdsxc"]
+[ext_resource type="PackedScene" uid="uid://dfg6idqgcy30t" path="res://3D assets/Chair.glb" id="2_x848m"]
+[ext_resource type="PackedScene" uid="uid://bpl5ygav30ypi" path="res://3D assets/YellowCatBody.glb" id="5_2j1ym"]
+[ext_resource type="PackedScene" uid="uid://ba1rvwmx5rh5x" path="res://3D assets/YellowCatHead.glb" id="6_7r073"]
 
 [node name="Bar" type="Node3D" unique_id=1303346349]
 
 [node name="Floor" parent="." unique_id=2074607792 instance=ExtResource("1_bwlfd")]
+transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 0, 0)
+
+[node name="Ceiling" parent="." unique_id=973510017 instance=ExtResource("1_bwlfd")]
+transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 4.164683, 0)
+
+[node name="Wall" parent="." unique_id=984812684 instance=ExtResource("2_efgdo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20847344, 0, 0.01211071)
+
+[node name="Wall2" parent="." unique_id=1227274620 instance=ExtResource("2_efgdo")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.20847344, 0, 0.01211071)
+
+[node name="Wall3" parent="." unique_id=356409017 instance=ExtResource("2_efgdo")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.20847344, 0, 0.01211071)
+
+[node name="Wall4" parent="." unique_id=267799203 instance=ExtResource("2_efgdo")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0.20847344, 0, 0.01211071)
 
 [node name="Gathering" type="Node3D" parent="." unique_id=1472809557]
 
@@ -22,6 +41,33 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 
 [node name="Chair4" parent="Gathering" unique_id=437812636 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="YellowCat1" type="Node3D" parent="Gathering" unique_id=39755458]
+
+[node name="YellowCatBody" parent="Gathering/YellowCat1" unique_id=1768282539 instance=ExtResource("5_2j1ym")]
+
+[node name="YellowCatHead" parent="Gathering/YellowCat1" unique_id=2090890626 instance=ExtResource("6_7r073")]
+
+[node name="YellowCat2" type="Node3D" parent="Gathering" unique_id=1098136494]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="YellowCatBody" parent="Gathering/YellowCat2" unique_id=1531577900 instance=ExtResource("5_2j1ym")]
+
+[node name="YellowCatHead" parent="Gathering/YellowCat2" unique_id=50537535 instance=ExtResource("6_7r073")]
+
+[node name="YellowCat3" type="Node3D" parent="Gathering" unique_id=1023188421]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="YellowCatBody" parent="Gathering/YellowCat3" unique_id=2024832057 instance=ExtResource("5_2j1ym")]
+
+[node name="YellowCatHead" parent="Gathering/YellowCat3" unique_id=903075548 instance=ExtResource("6_7r073")]
+
+[node name="YellowCat4" type="Node3D" parent="Gathering" unique_id=1667633537]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
+
+[node name="YellowCatBody" parent="Gathering/YellowCat4" unique_id=1833203839 instance=ExtResource("5_2j1ym")]
+
+[node name="YellowCatHead" parent="Gathering/YellowCat4" unique_id=1974442248 instance=ExtResource("6_7r073")]
 
 [node name="Gathering2" type="Node3D" parent="." unique_id=1405353681]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
