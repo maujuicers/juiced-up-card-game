@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dfg6idqgcy30t"
-path="res://.godot/imported/Chair.glb-685204d96b8577e13104266bbae127ee.scn"
+uid="uid://00kietukhj2r"
+path="res://.godot/imported/GrayCatBody.glb-ef752f642d0dd066f4435afd36f43634.scn"
 
 [deps]
 
-source_file="res://3D assets/Chair.glb"
-dest_files=["res://.godot/imported/Chair.glb-685204d96b8577e13104266bbae127ee.scn"]
+source_file="res://assets/3D assets/Cats/GrayCatBody.glb"
+dest_files=["res://.godot/imported/GrayCatBody.glb-ef752f642d0dd066f4435afd36f43634.scn"]
 
 [params]
 
