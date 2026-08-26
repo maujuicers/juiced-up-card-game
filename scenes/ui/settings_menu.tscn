@@ -57,16 +57,140 @@ texture = ExtResource("4_yu862")
 stretch_mode = 1
 flip_h = true
 
+[node name="SettingsButtons" type="VBoxContainer" parent="." unique_id=1968374462]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 350.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
+
+[node name="AudioSettingsButtons" type="HBoxContainer" parent="SettingsButtons" unique_id=1314888087]
+layout_mode = 2
+theme_override_constants/separation = 70
+
+[node name="LabelContainer" type="VBoxContainer" parent="SettingsButtons/AudioSettingsButtons" unique_id=374739016]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="MasterVolumeLabel" type="Label" parent="SettingsButtons/AudioSettingsButtons/LabelContainer" unique_id=997085351]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 50
+text = "Master Volume"
+
+[node name="MusicLabel" type="Label" parent="SettingsButtons/AudioSettingsButtons/LabelContainer" unique_id=1765308770]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 50
+text = "Music"
+
+[node name="SFXLabel" type="Label" parent="SettingsButtons/AudioSettingsButtons/LabelContainer" unique_id=138846703]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 50
+text = "Sound Effects"
+
+[node name="SliderContainer" type="VBoxContainer" parent="SettingsButtons/AudioSettingsButtons" unique_id=2095318513]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="MasterVolumeSlider" type="HSlider" parent="SettingsButtons/AudioSettingsButtons/SliderContainer" unique_id=1856211268]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="MusicSlider" type="HSlider" parent="SettingsButtons/AudioSettingsButtons/SliderContainer" unique_id=624301497]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="SFXSlider" type="HSlider" parent="SettingsButtons/AudioSettingsButtons/SliderContainer" unique_id=1826826882]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="ValueContainer" type="VBoxContainer" parent="SettingsButtons/AudioSettingsButtons" unique_id=2061848374]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="MasterVolumeValue" type="Label" parent="SettingsButtons/AudioSettingsButtons/ValueContainer" unique_id=1293374042]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 50
+text = "100"
+
+[node name="MusicValue" type="Label" parent="SettingsButtons/AudioSettingsButtons/ValueContainer" unique_id=1670525578]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 50
+text = "100"
+
+[node name="SFXValue" type="Label" parent="SettingsButtons/AudioSettingsButtons/ValueContainer" unique_id=107594084]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 50
+text = "100"
+
+[node name="VideoSettingsContainer" type="HBoxContainer" parent="SettingsButtons" unique_id=1094376377]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 70
+
+[node name="FullscreenButton" type="CheckButton" parent="SettingsButtons/VideoSettingsContainer" unique_id=2473724]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_constants/h_separation = 70
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 50
+text = "Fullscreen"
+
+[node name="ResolutionContainer" type="HBoxContainer" parent="SettingsButtons/VideoSettingsContainer" unique_id=300412967]
+layout_mode = 2
+theme_override_constants/separation = 70
+
+[node name="ResolutionLabel" type="Label" parent="SettingsButtons/VideoSettingsContainer/ResolutionContainer" unique_id=346385603]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 50
+text = "Resolution"
+
+[node name="ResolutionDropdown" type="OptionButton" parent="SettingsButtons/VideoSettingsContainer/ResolutionContainer" unique_id=1761830126]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+selected = 1
+item_count = 3
+popup/item_0/text = "1280x720"
+popup/item_0/id = 0
+popup/item_1/text = "1920x1080"
+popup/item_1/id = 1
+popup/item_2/text = "2560x1440"
+popup/item_2/id = 2
+
 [node name="BottomButtons" type="HBoxContainer" parent="." unique_id=1173922866]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -178.0
-offset_top = -150.0
+offset_top = -68.0
 offset_right = 178.0
+offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 30
