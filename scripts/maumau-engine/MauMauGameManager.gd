@@ -4,7 +4,7 @@ extends Node
 signal card_played(player_index: int, card: Card)
 signal turn_changed(new_player_index: int)
 signal effect_triggered(effect: String)
-signal game_over(winner_index: int)
+signal game_over_signal(winner_index: int)
 
 @export var npcs: Array[Npc]
 @export var player: PlayerController
@@ -20,6 +20,7 @@ var current_player_node: MauMauPlayer
 var wished_suit: Card.Suit = -1
 var current_draw_penalty = 0
 var current_effect: String = "none"
+var is_game_over: bool = false
 
 var winners: Array[MauMauPlayer]
 
@@ -43,6 +44,10 @@ func start_game() -> void:
 	discard_pile.append(first_card)
 	
 func start_turn() -> void:
+	
+	if is_game_over:
+		return
+	
 	var active_player = turn_order[current_player_index]
 	current_player_node = active_player.maumau_player
 	
@@ -95,9 +100,12 @@ func play_card(card: Card) -> void:
 		discard_pile.append(card)
 		current_player_node.play_card(current_player_index, card)
 		
+		#check if player won
 		if current_player_node.get_hand_size() == 0:
 			winners.append(current_player_node)
 			current_player_node.placement = winners.size()
+			if winners.size() == maumau_players.size() -1:
+				game_over()
 			print( "%d won the game and is placed in %d place" % [current_player_index, winners.size()])
 		
 		current_effect = MauMauRules.get_effect(card)
@@ -156,6 +164,12 @@ func set_wished_suit(suit: Card.Suit) -> void:
 	wished_suit = suit
 	print(wished_suit)
 	advance_turn()
+	
+func game_over() -> void:
+	is_game_over = true
+	game_over_signal.emit(winners[0].turn_position)
+	print("Game over! Winner is player: ", winners[0].name)
+	
 #################GAME INITIALIZATION########################
 
 func reset_game() -> void:
