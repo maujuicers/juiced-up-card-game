@@ -50,5 +50,10 @@ static func rank_name(a_rank: Rank) -> String:
 	return Rank.find_key(a_rank)
 
 
+## "SEVEN of HEARTS" for a card id, without needing the [Card] instance.
+static func id_to_string(a_id: int) -> String:
+	return "%s of %s" % [rank_name(rank_of(a_id)), suit_name(suit_of(a_id))]
+
+
 func _to_string() -> String:
-	return "%s of %s" % [rank_name(rank), suit_name(suit)]
+	return id_to_string(id)

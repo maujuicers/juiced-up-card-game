@@ -95,8 +95,7 @@ func validate() -> bool:
 		seen[c.id] = true
 	for a_id in expected:
 		if not seen.has(a_id):
-			push_error("CardDeck: missing %s of %s"
-					% [Card.rank_name(Card.rank_of(a_id)), Card.suit_name(Card.suit_of(a_id))])
+			push_error("CardDeck: missing %s" % Card.id_to_string(a_id))
 			ok = false
 	return ok
 
