@@ -8,6 +8,7 @@ signal game_over_signal(winner_index: int)
 
 @export var npcs: Array[Npc]
 @export var player: PlayerController
+@export var music: AudioStream
 var maumau_players: Array[MauMauPlayer]
 
 #Game state
@@ -30,6 +31,7 @@ func _ready() -> void:
 	log_gamestate()
 	current_player_index = 0
 	start_turn()
+	AudioManager.play_music(music)
 
 func start_game() -> void:
 	#set up Game 
