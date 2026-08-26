@@ -7,6 +7,8 @@ class_name MauMauPlayer
 signal card_selected(card_id: int)
 signal card_drawn()
 signal suit_wished(suit: Card.Suit)
+## Emitted whenever [member hand] gains or loses cards, for the visual layer.
+signal hand_changed(hand: Array[Card])
 
 var hand: Array[Card] = []
 var turn_position: int
@@ -16,6 +18,7 @@ var placement: int = -1
 
 func init_hand(first_hand: Array[Card]) -> void:
 	self.hand = first_hand
+	hand_changed.emit(hand)
 
 
 func init_pos(turn: int) -> void:
@@ -36,6 +39,18 @@ func try_play_card(selected_card_pos: int) -> void:
 	card_selected.emit(hand[selected_card_pos].id)
 
 
+## Same as [method try_play_card], but addresses the card by its stable
+## [member Card.id] instead of its slot — used by the click/pick input path,
+## which knows the card it hit but not where it sits in the hand.
+func try_play_card_by_id(card_id: int) -> void:
+	if not turn_active:
+		return
+	if not has_card(card_id):
+		return
+
+	card_selected.emit(card_id)
+
+
 # draw function if player doesnt have fitting cards
 func draw_card(draw_amount: int = 1) -> void:
 	card_drawn.emit(draw_amount)
@@ -54,6 +69,7 @@ func select_suit(suit: Card.Suit) -> void:
 
 func add_card(card: Card) -> void:
 	hand.append(card)
+	hand_changed.emit(hand)
 
 
 func has_card(card_id: int) -> bool:
@@ -82,6 +98,7 @@ func play_card(player_index: int, card_id: int) -> Card:
 	hand.remove_at(index)
 	turn_active = false
 	print("%s was played" % played_card)
+	hand_changed.emit(hand)
 	return played_card
 
 

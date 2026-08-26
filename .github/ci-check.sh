@@ -31,11 +31,22 @@ echo "==> Smoke test: booting main_scene for 120 frames"
 timeout 300 godot --path . --headless --quit-after 120 res://main_scene.tscn 2>&1 | tee "$log_dir/smoke.log"
 smoke_exit=$?
 # Exit code is unreliable -> grep for runtime script errors.
-# Headless runs use the dummy audio driver, whose mixer never gets to free
-# playbacks that are still active at quit; Godot then reports
-# "N resources still in use at exit" (and leaked AudioStreamPlayback warnings).
-# A windowed run with a real driver exits clean, so that one line is noise.
-if [ "$smoke_exit" -ne 0 ] || grep -vE "resources still in use at exit" "$log_dir/smoke.log" | grep -qE "SCRIPT ERROR|^ERROR"; then
+# Headless runs use Godot's dummy audio and rendering backends, which raise a
+# few errors a real build never does:
+#  - the dummy audio mixer never frees playbacks still active at quit, so
+#    Godot reports "N resources still in use at exit";
+#  - the dummy renderer has no materials, so setting up a ShaderMaterial logs
+#    'Parameter "material" is null' from servers/rendering/dummy/.
+# A windowed run exits clean, so drop exactly those: the audio line, and any
+# ERROR whose "at:" line points into the dummy renderer.
+strip_headless_noise() {
+	grep -vE "resources still in use at exit" | awk '
+		held != "" { if ($0 ~ /servers\/rendering\/dummy\//) { held = ""; next } print held; held = "" }
+		/^ERROR/ { held = $0; next }
+		{ print }
+		END { if (held != "") print held }'
+}
+if [ "$smoke_exit" -ne 0 ] || strip_headless_noise < "$log_dir/smoke.log" | grep -qE "SCRIPT ERROR|^ERROR"; then
 	echo "FAIL: smoke test reported errors (exit $smoke_exit)"
 	exit 1
 fi

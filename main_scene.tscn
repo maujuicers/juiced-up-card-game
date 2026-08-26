@@ -18,8 +18,14 @@ settings_menu = NodePath("SettingsMenu")
 
 [node name="Bar" parent="." unique_id=1497321058 instance=ExtResource("4_bar01")]
 
+[node name="Ceiling" parent="Bar" index="1" unique_id=973510017]
+transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 4.164683, 0)
+
 [node name="YellowCatHead" parent="Bar/Gathering/YellowCat" parent_id_path=PackedInt32Array(1497321058, 39755458) index="0" unique_id=1115419289]
 visible = false
+
+[node name="BlackCatBody" parent="Bar/Gathering/BlackCat" parent_id_path=PackedInt32Array(1497321058, 1833370294) index="0" unique_id=1846484419]
+transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 0, 0, 0)
 
 [node name="Player" parent="." unique_id=50830596 instance=ExtResource("1_0f027")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.14, 0.63, 0)
@@ -51,3 +57,4 @@ settings_menu = NodePath("../SettingsMenu")
 visible = false
 
 [editable path="Bar"]
+[editable path="Bar/Gathering/BlackCat/BlackCatBody"]

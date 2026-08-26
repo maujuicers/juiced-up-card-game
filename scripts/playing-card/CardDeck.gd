@@ -4,7 +4,8 @@
 ## received from another peer back to the local instance.
 ##
 ## The default deck lives in [code]scenes/playing-card/deck.tres[/code]; that
-## file is the single place where textures are assigned to cards.
+## file is the single place where textures are assigned to cards. Cards without
+## a texture get one cut from [member atlas] by [method rebuild].
 ##
 ## To change the size of the deck (e.g. include sixes) set
 ## [member lowest_rank] and either press "Rebuild cards" in the inspector or run
@@ -15,12 +16,31 @@ class_name CardDeck extends Resource
 
 const DEFAULT_UID := "uid://cmfvknwcvgqj5"
 
+## Layout of the playing-card atlas (assets/3D assets/playing cards/textures/
+## playingCards_Mat_baseColor.png, 4096²). Faces sit on a grid, one row per suit
+## and one column per rank from Ace to King; the top half holds card backs.
+## The faces are stored mirrored, so whatever displays them flips horizontally.
+const ATLAS_CELL := Vector2i(255, 383)
+const ATLAS_FIRST_COLUMN_X := 65
+const ATLAS_COLUMN_STEP := 309
+const ATLAS_ROW_Y := {
+	Card.Suit.SPADES: 2372,
+	Card.Suit.CLUBS: 2808,
+	Card.Suit.DIAMONDS: 3237,
+	Card.Suit.HEARTS: 3662,
+}
+const ATLAS_BACK := Rect2i(85, 72, 255, 383)
+
 ## The lowest rank dealt. SEVEN is the classic 32-card German deck; SIX makes 36.
 @export var lowest_rank: Card.Rank = Card.Rank.SEVEN
 ## One entry per (suit, rank) from [member lowest_rank] up to Ace, sorted by id.
 ## Edit textures here; regenerate the list with [method rebuild] instead of by hand.
 @export var cards: Array[Card] = []
 @export_tool_button("Rebuild cards") var _rebuild_button := rebuild
+## Source image for card faces and the back; see the ATLAS_* constants.
+@export var atlas: Texture2D
+## Shown for every face-down card. Cut from [member atlas] when left empty.
+@export var back_texture: Texture2D
 
 var _by_id: Dictionary[int, Card] = {}
 
@@ -102,7 +122,8 @@ func validate() -> bool:
 
 ## Makes [member cards] match [member lowest_rank]: adds missing cards, drops
 ## cards that are no longer in play, keeps existing instances (and their
-## textures), and sorts by id.
+## textures), sorts by id, and cuts a texture from [member atlas] for every
+## card (and the back) that has none.
 func rebuild() -> void:
 	var keep: Dictionary[int, Card] = {}
 	for c in cards:
@@ -116,10 +137,29 @@ func rebuild() -> void:
 			c.suit = Card.suit_of(a_id)
 			c.rank = Card.rank_of(a_id)
 		c.resource_name = str(c)
+		if c.texture == null and atlas != null:
+			c.texture = _cut(atlas_face_region(c.suit, c.rank), str(c))
 		rebuilt.append(c)
+	if back_texture == null and atlas != null:
+		back_texture = _cut(ATLAS_BACK, "card back")
 	cards = rebuilt
 	_by_id.clear()
 	emit_changed()
+
+
+## Pixel rectangle of a card face in [member atlas].
+static func atlas_face_region(a_suit: Card.Suit, a_rank: Card.Rank) -> Rect2i:
+	var column := 0 if a_rank == Card.Rank.ACE else a_rank - 1
+	var x := ATLAS_FIRST_COLUMN_X + column * ATLAS_COLUMN_STEP
+	return Rect2i(Vector2i(x, ATLAS_ROW_Y[a_suit]), ATLAS_CELL)
+
+
+func _cut(region: Rect2i, name: String) -> AtlasTexture:
+	var tex := AtlasTexture.new()
+	tex.atlas = atlas
+	tex.region = region
+	tex.resource_name = name
+	return tex
 
 
 func _ensure_index() -> void:

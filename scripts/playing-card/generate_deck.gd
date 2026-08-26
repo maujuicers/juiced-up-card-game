@@ -2,15 +2,20 @@
 ## [code]godot --path . --headless --script scripts/playing-card/generate_deck.gd[/code]
 ##
 ## Loads [code]deck.tres[/code] if it exists (keeping its [member CardDeck.lowest_rank]
-## and any textures already assigned), rebuilds the card list, and saves it back
+## and any textures already assigned), rebuilds the card list — cutting atlas
+## textures for cards that have none — and saves it back
 ## under the stable [constant CardDeck.DEFAULT_UID].
 extends SceneTree
 
 const DECK_PATH := "res://scenes/playing-card/deck.tres"
+## assets/3D assets/playing cards/textures/playingCards_Mat_baseColor.png
+const ATLAS_UID := "uid://dtxgsqj0vahbc"
 
 
 func _initialize() -> void:
 	var deck: CardDeck = load(DECK_PATH) if ResourceLoader.exists(DECK_PATH) else CardDeck.new()
+	if deck.atlas == null:
+		deck.atlas = load(ATLAS_UID)
 	deck.rebuild()
 	if not deck.validate():
 		push_error("generate_deck: rebuilt deck is invalid, not saving")

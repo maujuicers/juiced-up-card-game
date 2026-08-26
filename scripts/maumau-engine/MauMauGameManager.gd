@@ -15,15 +15,18 @@ signal game_over_signal(winner_index: int)
 var maumau_players: Array[MauMauPlayer]
 
 #Game state
-var cards_per_player :=1
+@export_range(1, 8) var cards_per_player := 5
 var draw_pile: Array[Card] = []
 var discard_pile: Array[Card] = []
 var turn_order: Array = []
 var current_player_index: int
 var current_player_node: MauMauPlayer
 var wished_suit: Card.Suit = Card.Suit.NONE
-var current_draw_penalty = 0
+var current_draw_penalty: int = 0
 var current_effect: String = "none"
+## Set once the seat on turn has taken its regular draw; it may then play the
+## drawn card or draw again to pass.
+var has_drawn_this_turn: bool = false
 var is_game_over: bool = false
 
 var winners: Array[MauMauPlayer]
@@ -64,6 +67,7 @@ func start_turn() -> void:
 		return
 		
 	emit_signal("turn_changed", current_player_index)
+	has_drawn_this_turn = false
 	
 	print("turn started for ", active_player.name)
 	
@@ -124,9 +128,9 @@ func play_card(card_id: int) -> void:
 				game_over()
 				return
 		
+		# Any played card satisfies (or replaces) a wish; a Jack sets a new one below.
+		wished_suit = Card.Suit.NONE
 		current_effect = MauMauRules.get_effect(card)
-		if current_effect == "none" && wished_suit != Card.Suit.NONE:
-			wished_suit = Card.Suit.NONE
 		effect_triggered.emit(current_effect)
 		if current_effect == "wish_suit":
 			print("player %d played %s — He can now choose a suit" % [current_player_index, card])
@@ -136,37 +140,64 @@ func play_card(card_id: int) -> void:
 		advance_turn()
 
 func draw_card(draw_amount: int) -> void:
-	var draw_cards: int
-	if current_draw_penalty == 0:
-		draw_cards = 1
-	else :
-		draw_cards = current_draw_penalty
-		#reset the draw counter
-		current_draw_penalty = 0
-		
-	#draw certain amount of cards
+	# Second draw request in one turn: the seat keeps the card it drew and passes.
+	if has_drawn_this_turn:
+		print("Player %d passes" % current_player_index)
+		_end_turn()
+		return
+
+	# Drawing is only allowed when nothing in hand can be played. A pending
+	# draw penalty is the exception: the player may always take it instead of
+	# countering with a seven.
+	if current_draw_penalty == 0 and MauMauRules.has_valid_move(
+			current_player_node.hand, discard_pile.back(), wished_suit, current_draw_penalty):
+		print("Player %d may not draw: a card in hand can be played" % current_player_index)
+		return
+
+	var taking_penalty := current_draw_penalty > 0
+	var draw_cards := current_draw_penalty if taking_penalty else 1
+	# Taking the penalty completes it; the next seat starts clean.
+	current_draw_penalty = 0
+
+	var drawn_card: Card
 	for i in range(draw_cards):
-		
-		#shuffle new drawpile from discardpile if its empty
-		if draw_pile.is_empty():
-			var top_card = discard_pile.pop_back()
-			draw_pile = discard_pile.duplicate()
-			discard_pile.clear()
-			discard_pile.append(top_card)
-			draw_pile.shuffle()
-		
-		#give new card to player
-		var drawn_card: Card = draw_pile.pop_back()
+		drawn_card = _draw_from_pile()
+		if drawn_card == null:
+			break
 		current_player_node.add_card(drawn_card)
-	
-		#Debugging
 		print("Player %d drew %s" % [current_player_node.turn_position, drawn_card])
-		###########
-		
+
+	if taking_penalty:
+		_end_turn()
+		return
+
+	# A regular draw: if the drawn card fits, the seat may play it now (or draw
+	# again to pass); otherwise the turn is over.
+	has_drawn_this_turn = true
+	if drawn_card != null and MauMauRules.is_valid_move(drawn_card, discard_pile.back(), wished_suit, current_draw_penalty):
+		print("Player %d may play the drawn %s" % [current_player_index, drawn_card])
+		return
+	_end_turn()
+
+
+## Top card of the draw pile, refilling it from the discard pile when empty.
+## Returns null only when both piles are exhausted.
+func _draw_from_pile() -> Card:
+	if draw_pile.is_empty():
+		if discard_pile.size() <= 1:
+			push_warning("No cards left to draw")
+			return null
+		var top_card: Card = discard_pile.pop_back()
+		draw_pile = discard_pile.duplicate()
+		discard_pile.clear()
+		discard_pile.append(top_card)
+		draw_pile.shuffle()
+	return draw_pile.pop_back()
+
+
+func _end_turn() -> void:
 	current_player_node.card_selected.disconnect(play_card)
 	current_player_node.card_drawn.disconnect(draw_card)
-	
-	# next turn after drawing cards
 	advance_turn()
 
 func set_wished_suit(suit: Card.Suit) -> void:
