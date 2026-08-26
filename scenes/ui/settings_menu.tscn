@@ -14,7 +14,7 @@ shader_parameter/scrolling_speed = 0.05
 shader = ExtResource("1_qwcqe")
 shader_parameter/scrolling_speed = 0.05
 
-[node name="SettingsMenu" type="Control" unique_id=1175825677 node_paths=PackedStringArray("master_volume_value_label", "music_value_label", "sfx_value_label")]
+[node name="SettingsMenu" type="Control" unique_id=1175825677 node_paths=PackedStringArray("master_volume_value_label", "music_value_label", "sfx_value_label", "master_volume_slider", "music_slider", "sfx_slider", "fullscreen_button", "settings_saved_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,6 +25,11 @@ script = ExtResource("1_0b1cv")
 master_volume_value_label = NodePath("SettingsButtons/AudioSettingsButtons/ValueContainer/MasterVolumeValueLabel")
 music_value_label = NodePath("SettingsButtons/AudioSettingsButtons/ValueContainer/MusicValueLabel")
 sfx_value_label = NodePath("SettingsButtons/AudioSettingsButtons/ValueContainer/SFXValueLabel")
+master_volume_slider = NodePath("SettingsButtons/AudioSettingsButtons/SliderContainer/MasterVolumeSlider")
+music_slider = NodePath("SettingsButtons/AudioSettingsButtons/SliderContainer/MusicSlider")
+sfx_slider = NodePath("SettingsButtons/AudioSettingsButtons/SliderContainer/SFXSlider")
+fullscreen_button = NodePath("SettingsButtons/VideoSettingsContainer/FullscreenButton")
+settings_saved_label = NodePath("SettingsSavedLabel")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1275824452]
 layout_mode = 1
@@ -162,6 +167,24 @@ theme_override_constants/h_separation = 70
 theme_override_fonts/font = ExtResource("3_x3vyp")
 theme_override_font_sizes/font_size = 50
 text = "Fullscreen"
+
+[node name="SettingsSavedLabel" type="Label" parent="." unique_id=692182910]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+offset_bottom = -140.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 70
+text = "Saved the settings!"
 
 [node name="BottomButtons" type="HBoxContainer" parent="." unique_id=1173922866]
 layout_mode = 1
