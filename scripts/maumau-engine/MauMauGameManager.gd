@@ -11,7 +11,7 @@ signal game_over(winner_index: int)
 var maumau_players: Array[MauMauPlayer]
 
 #Game state
-var cards_per_player :=5
+var cards_per_player :=2
 var draw_pile: Array[Card] = []
 var discard_pile: Array[Card] = []
 var turn_order: Array = []
@@ -20,6 +20,9 @@ var current_player_node: MauMauPlayer
 var wished_suit: Card.Suit = -1
 var current_draw_penalty = 0
 var current_effect: String = "none"
+
+var winners: Array[MauMauPlayer]
+
 
 func _ready() -> void:
 	start_game()
@@ -42,6 +45,12 @@ func start_game() -> void:
 func start_turn() -> void:
 	var active_player = turn_order[current_player_index]
 	current_player_node = active_player.maumau_player
+	
+	if current_player_node.placement > -1:
+		print("player %s already won next players turn" % current_player_node.name)
+		advance_turn()
+		return
+		
 	emit_signal("turn_changed", current_player_index)
 	
 	print("turn started for ", active_player.name)
@@ -85,6 +94,11 @@ func play_card(card: Card) -> void:
 		
 		discard_pile.append(card)
 		current_player_node.play_card(current_player_index, card)
+		
+		if current_player_node.get_hand_size() == 0:
+			winners.append(current_player_node)
+			current_player_node.placement = winners.size()
+			print( "%d won the game and is placed in %d place" % [current_player_index, winners.size()])
 		
 		current_effect = MauMauRules.get_effect(card)
 		if current_effect == "none" && wished_suit != -1:
@@ -194,16 +208,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 		
 	match event.keycode:
-		KEY_W:
+		KEY_H:
 			current_player_node.select_suit(Card.Suit.HEARTS)
 			return
-		KEY_A:
+		KEY_D:
 			current_player_node.select_suit(Card.Suit.DIAMONDS)
 			return
 		KEY_S:
 			current_player_node.select_suit(Card.Suit.SPADES)
 			return
-		KEY_D:
+		KEY_C:
 			current_player_node.select_suit(Card.Suit.CLUBS)
 			return
 		
