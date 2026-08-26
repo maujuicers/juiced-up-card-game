@@ -88,19 +88,19 @@ theme_override_constants/separation = 20
 [node name="MasterVolumeLabel" type="Label" parent="SettingsButtons/AudioSettingsButtons/LabelContainer" unique_id=997085351]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_x3vyp")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Master Volume"
 
 [node name="MusicLabel" type="Label" parent="SettingsButtons/AudioSettingsButtons/LabelContainer" unique_id=1765308770]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_x3vyp")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Music"
 
 [node name="SFXLabel" type="Label" parent="SettingsButtons/AudioSettingsButtons/LabelContainer" unique_id=138846703]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_x3vyp")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Sound Effects"
 
 [node name="SliderContainer" type="VBoxContainer" parent="SettingsButtons/AudioSettingsButtons" unique_id=2095318513]
@@ -133,21 +133,21 @@ theme_override_constants/separation = 20
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_x3vyp")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "100"
 
 [node name="MusicValueLabel" type="Label" parent="SettingsButtons/AudioSettingsButtons/ValueContainer" unique_id=1670525578]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_x3vyp")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "100"
 
 [node name="SFXValueLabel" type="Label" parent="SettingsButtons/AudioSettingsButtons/ValueContainer" unique_id=107594084]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_x3vyp")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "100"
 
 [node name="VideoSettingsContainer" type="HBoxContainer" parent="SettingsButtons" unique_id=1094376377]
@@ -165,7 +165,7 @@ theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_constants/h_separation = 70
 theme_override_fonts/font = ExtResource("3_x3vyp")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Fullscreen"
 
 [node name="SettingsSavedLabel" type="Label" parent="." unique_id=692182910]
@@ -212,7 +212,7 @@ theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_x3vyp")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Save"
 
 [node name="CloseButton" type="Button" parent="BottomButtons" unique_id=932017126]
@@ -225,7 +225,7 @@ theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_x3vyp")
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 60
 text = "Close"
 
 [connection signal="value_changed" from="SettingsButtons/AudioSettingsButtons/SliderContainer/MasterVolumeSlider" to="." method="_on_master_volume_slider_value_changed"]

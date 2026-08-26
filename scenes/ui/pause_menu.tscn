@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://dpji0gao78poo"]
+
+[ext_resource type="Script" uid="uid://bgm8ec6d6d1tb" path="res://scripts/ui/pause_menu.gd" id="1_0lmf7"]
+[ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="1_6tw0m"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0lmf7"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f6eus"]
+bg_color = Color(0, 0, 0, 0.49803922)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8uki6"]
+bg_color = Color(0, 0, 0, 0.49803922)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0bnpd"]
+bg_color = Color(0, 0, 0, 0.49803922)
+
+[node name="PauseMenu" type="Control" unique_id=2080118311]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0lmf7")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1951694139]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.49803922)
+
+[node name="Buttons" type="VBoxContainer" parent="." unique_id=1498998920]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+
+[node name="SettingsButton" type="Button" parent="Buttons" unique_id=1409661873]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_6tw0m")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_0lmf7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_f6eus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8uki6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_0bnpd")
+text = "Settings
+"
+
+[node name="MainMenuButton" type="Button" parent="Buttons" unique_id=1716348221]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_6tw0m")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_0lmf7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_f6eus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8uki6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_0bnpd")
+text = "Main Menu
+"
+
+[node name="CloseButton" type="Button" parent="Buttons" unique_id=1450769182]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_6tw0m")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_0lmf7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_f6eus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8uki6")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_0bnpd")
+text = "Close
+"
+
+[connection signal="pressed" from="Buttons/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Buttons/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="Buttons/CloseButton" to="." method="_on_close_button_pressed"]

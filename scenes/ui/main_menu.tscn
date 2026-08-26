@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://bjjpvmusxnv2t" path="res://assets/3D assets/Bar/Floor.glb" id="1_bqqt6"]
 [ext_resource type="Script" uid="uid://cxhis2h3lyw27" path="res://scripts/ui/main_menu.gd" id="1_m1kxf"]
-[ext_resource type="AudioStream" uid="uid://daderdb8t3o5t" path="res://audio/music/JuicedUpCards.mp3" id="2_q85j6"]
 [ext_resource type="PackedScene" uid="uid://c10euy7a04m6x" path="res://assets/3D assets/Bar/Table.glb" id="2_wu84c"]
 [ext_resource type="PackedScene" uid="uid://bi4g6yddn2mn3" path="res://assets/3D assets/Bar/Chair.glb" id="3_8ln24"]
 [ext_resource type="PackedScene" uid="uid://btdb0a0csat1v" path="res://assets/3D assets/Bar/Wall.glb" id="3_wb0q5"]
@@ -36,7 +35,6 @@ bg_color = Color(0, 0, 0, 0.49803922)
 [node name="MainMenu" type="Node3D" unique_id=1303346349 node_paths=PackedStringArray("settings_menu")]
 script = ExtResource("1_m1kxf")
 settings_menu = NodePath("SettingsMenu")
-music = ExtResource("2_q85j6")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146967929]
 environment = SubResource("Environment_x2yvf")
