@@ -6,5 +6,3 @@
 offset_right = 200.0
 offset_bottom = 27.0
 script = ExtResource("1_mtdn5")
-
-[node name="Timer" type="Timer" parent="." unique_id=1232499315]
