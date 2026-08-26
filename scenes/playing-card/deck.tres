@@ -1,0 +1,192 @@
+[gd_resource type="Resource" script_class="CardDeck" format=3 uid="uid://cmfvknwcvgqj5"]
+
+[ext_resource type="Script" path="res://scripts/playing-card/Card.gd" id="1_h14md"]
+[ext_resource type="Script" path="res://scripts/playing-card/CardDeck.gd" id="2_gjowi"]
+
+[sub_resource type="Resource" id="Resource_yuqn5"]
+resource_name = "SEVEN of HEARTS"
+script = ExtResource("1_h14md")
+rank = 7
+
+[sub_resource type="Resource" id="Resource_5hvjc"]
+resource_name = "EIGHT of HEARTS"
+script = ExtResource("1_h14md")
+rank = 8
+
+[sub_resource type="Resource" id="Resource_8iert"]
+resource_name = "NINE of HEARTS"
+script = ExtResource("1_h14md")
+rank = 9
+
+[sub_resource type="Resource" id="Resource_x3k7b"]
+resource_name = "TEN of HEARTS"
+script = ExtResource("1_h14md")
+rank = 10
+
+[sub_resource type="Resource" id="Resource_5pnn3"]
+resource_name = "JACK of HEARTS"
+script = ExtResource("1_h14md")
+rank = 11
+
+[sub_resource type="Resource" id="Resource_gt0f2"]
+resource_name = "QUEEN of HEARTS"
+script = ExtResource("1_h14md")
+rank = 12
+
+[sub_resource type="Resource" id="Resource_ohvdu"]
+resource_name = "KING of HEARTS"
+script = ExtResource("1_h14md")
+rank = 13
+
+[sub_resource type="Resource" id="Resource_1buqg"]
+resource_name = "ACE of HEARTS"
+script = ExtResource("1_h14md")
+rank = 14
+
+[sub_resource type="Resource" id="Resource_bi1ff"]
+resource_name = "SEVEN of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 7
+
+[sub_resource type="Resource" id="Resource_timde"]
+resource_name = "EIGHT of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 8
+
+[sub_resource type="Resource" id="Resource_cjwgm"]
+resource_name = "NINE of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 9
+
+[sub_resource type="Resource" id="Resource_s584l"]
+resource_name = "TEN of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 10
+
+[sub_resource type="Resource" id="Resource_a35lc"]
+resource_name = "JACK of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 11
+
+[sub_resource type="Resource" id="Resource_04pna"]
+resource_name = "QUEEN of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 12
+
+[sub_resource type="Resource" id="Resource_gr1cb"]
+resource_name = "KING of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 13
+
+[sub_resource type="Resource" id="Resource_b8aoe"]
+resource_name = "ACE of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 14
+
+[sub_resource type="Resource" id="Resource_7biwj"]
+resource_name = "SEVEN of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 7
+
+[sub_resource type="Resource" id="Resource_4bsxu"]
+resource_name = "EIGHT of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 8
+
+[sub_resource type="Resource" id="Resource_uwgg1"]
+resource_name = "NINE of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 9
+
+[sub_resource type="Resource" id="Resource_do5ur"]
+resource_name = "TEN of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 10
+
+[sub_resource type="Resource" id="Resource_ly5ge"]
+resource_name = "JACK of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 11
+
+[sub_resource type="Resource" id="Resource_7rr2k"]
+resource_name = "QUEEN of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 12
+
+[sub_resource type="Resource" id="Resource_tss1t"]
+resource_name = "KING of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 13
+
+[sub_resource type="Resource" id="Resource_32edt"]
+resource_name = "ACE of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 14
+
+[sub_resource type="Resource" id="Resource_6cldu"]
+resource_name = "SEVEN of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 7
+
+[sub_resource type="Resource" id="Resource_ljub1"]
+resource_name = "EIGHT of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 8
+
+[sub_resource type="Resource" id="Resource_w7uqe"]
+resource_name = "NINE of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 9
+
+[sub_resource type="Resource" id="Resource_qyc5l"]
+resource_name = "TEN of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 10
+
+[sub_resource type="Resource" id="Resource_ayejr"]
+resource_name = "JACK of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 11
+
+[sub_resource type="Resource" id="Resource_gk50w"]
+resource_name = "QUEEN of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 12
+
+[sub_resource type="Resource" id="Resource_dbw2v"]
+resource_name = "KING of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 13
+
+[sub_resource type="Resource" id="Resource_qn105"]
+resource_name = "ACE of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 14
+
+[resource]
+script = ExtResource("2_gjowi")
+cards = Array[ExtResource("1_h14md")]([SubResource("Resource_yuqn5"), SubResource("Resource_5hvjc"), SubResource("Resource_8iert"), SubResource("Resource_x3k7b"), SubResource("Resource_5pnn3"), SubResource("Resource_gt0f2"), SubResource("Resource_ohvdu"), SubResource("Resource_1buqg"), SubResource("Resource_bi1ff"), SubResource("Resource_timde"), SubResource("Resource_cjwgm"), SubResource("Resource_s584l"), SubResource("Resource_a35lc"), SubResource("Resource_04pna"), SubResource("Resource_gr1cb"), SubResource("Resource_b8aoe"), SubResource("Resource_7biwj"), SubResource("Resource_4bsxu"), SubResource("Resource_uwgg1"), SubResource("Resource_do5ur"), SubResource("Resource_ly5ge"), SubResource("Resource_7rr2k"), SubResource("Resource_tss1t"), SubResource("Resource_32edt"), SubResource("Resource_6cldu"), SubResource("Resource_ljub1"), SubResource("Resource_w7uqe"), SubResource("Resource_qyc5l"), SubResource("Resource_ayejr"), SubResource("Resource_gk50w"), SubResource("Resource_dbw2v"), SubResource("Resource_qn105")])
