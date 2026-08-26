@@ -13,10 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://dh6ocbofpft68" path="res://assets/3D assets/Cats/BlackCatBody.fbx" id="11_5qaxt"]
 [ext_resource type="PackedScene" uid="uid://d30gp41ch4m7p" path="res://assets/3D assets/Cats/BlackCatHead.glb" id="11_8y7uo"]
 
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_5qaxt"]
-dof_blur_far_enabled = true
-dof_blur_far_distance = 0.28
-
 [node name="Bar" type="Node3D" unique_id=1303346349]
 
 [node name="Floor" parent="." unique_id=2074607792 instance=ExtResource("1_bwlfd")]
@@ -189,6 +185,5 @@ shadow_enabled = true
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1214693491]
 transform = Transform3D(0.99988055, -4.656613e-10, -0.015457209, 0.0057619708, 0.9279241, 0.37272462, 0.014343117, -0.3727691, 0.92781323, -0.011304498, 1.519163, 0.8353487)
 visible = false
-attributes = SubResource("CameraAttributesPractical_5qaxt")
 
 [editable path="Gathering/BlackCat/BlackCatBody"]

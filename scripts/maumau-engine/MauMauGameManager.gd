@@ -9,6 +9,9 @@ signal game_over_signal(winner_index: int)
 @export var npcs: Array[Npc]
 @export var player: PlayerController
 @export var music: AudioStream
+## The canonical card set; every pile and hand shares its [Card] instances.
+## Falls back to [method CardDeck.load_default] when the scene does not set it.
+@export var deck: CardDeck
 var maumau_players: Array[MauMauPlayer]
 
 #Game state
@@ -18,7 +21,7 @@ var discard_pile: Array[Card] = []
 var turn_order: Array = []
 var current_player_index: int
 var current_player_node: MauMauPlayer
-var wished_suit: Card.Suit = -1
+var wished_suit: Card.Suit = Card.Suit.NONE
 var current_draw_penalty = 0
 var current_effect: String = "none"
 var is_game_over: bool = false
@@ -27,6 +30,8 @@ var winners: Array[MauMauPlayer]
 
 
 func _ready() -> void:
+	if deck == null:
+		deck = CardDeck.load_default()
 	start_game()
 	log_gamestate()
 	current_player_index = 0
@@ -84,23 +89,30 @@ func advance_turn() -> void:
 	log_gamestate()
 	start_turn()
 
-func play_card(card: Card) -> void:
-	
+func play_card(card_id: int) -> void:
+	var card := deck.card(card_id)
+	if card == null:
+		push_error("Player %d tried to play unknown card id %d" % [current_player_index, card_id])
+		return
+
 	#Debug Line
-	print("player %d tried to play %s of %s — The move is %s." % 
+	print("player %d tried to play %s — The move is %s." % 
 	[current_player_index, 
-	Card.Rank.keys()[card.rank], 
-	Card.Suit.keys()[card.suit],
+	card,
 	MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty)
 	])
  	#########
 
 	if MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty):
+		# The seat removes the card by id; a seat that does not hold it simply keeps its turn.
+		if current_player_node.play_card(current_player_index, card_id) == null:
+			push_warning("Player %d does not hold %s" % [current_player_index, card])
+			return
+
 		current_player_node.card_selected.disconnect(play_card)
 		current_player_node.card_drawn.disconnect(draw_card)
 		
 		discard_pile.append(card)
-		current_player_node.play_card(current_player_index, card)
 		
 		#check if player won
 		if current_player_node.get_hand_size() == 0:
@@ -113,14 +125,11 @@ func play_card(card: Card) -> void:
 				return
 		
 		current_effect = MauMauRules.get_effect(card)
-		if current_effect == "none" && wished_suit != -1:
-			wished_suit = -1
+		if current_effect == "none" && wished_suit != Card.Suit.NONE:
+			wished_suit = Card.Suit.NONE
 		effect_triggered.emit(current_effect)
 		if current_effect == "wish_suit":
-			print("player %d played %s of %s — He can now choose a suit" % 
-			[current_player_index, 
-			Card.Rank.keys()[card.rank], 
-			Card.Suit.keys()[card.suit]])
+			print("player %d played %s — He can now choose a suit" % [current_player_index, card])
 			current_player_node.suit_wished.connect(set_wished_suit)
 			return
 		
@@ -148,12 +157,10 @@ func draw_card(draw_amount: int) -> void:
 		
 		#give new card to player
 		var drawn_card: Card = draw_pile.pop_back()
-		current_player_node.hand.append(drawn_card)
+		current_player_node.add_card(drawn_card)
 	
 		#Debugging
-		var rank_str = Card.Rank.keys()[drawn_card.rank]
-		var suit_str = Card.Suit.keys()[drawn_card.suit]
-		print("Player %d drew %s of %s" % [current_player_node.turn_position, rank_str, suit_str])
+		print("Player %d drew %s" % [current_player_node.turn_position, drawn_card])
 		###########
 		
 	current_player_node.card_selected.disconnect(play_card)
@@ -183,12 +190,7 @@ func reset_game() -> void:
 	current_player_index = 0
 	
 func build_draw_pile() -> void:
-	for suit in Card.Suit.values():
-		for rank in Card.Rank.values():
-			var new_card := Card.new()
-			new_card.suit = suit
-			new_card.rank = rank
-			draw_pile.append(new_card)
+	draw_pile = deck.all()
 			
 func init_player_hands() -> void:
 	for p in range(turn_order.size()):
@@ -265,17 +267,12 @@ func log_gamestate() -> void:
 		# Safely check if 'player_script' exists on this participant
 		if "maumau_player" in participant and participant.maumau_player != null:
 			for card in participant.maumau_player.hand:
-				var rank_str = Card.Rank.keys()[card.rank]
-				var suit_str = Card.Suit.keys()[card.suit]
-				print("  - %s of %s" % [rank_str, suit_str])
+				print("  - %s" % card)
 		else:
 			print("  ERROR: maumau_player is missing or null on %s!" % participant.name)
 	# Print the starting card on the discard pile
 	if not discard_pile.is_empty():
-		var top_card: Card = discard_pile.back()
-		var top_rank = Card.Rank.keys()[top_card.rank]
-		var top_suit = Card.Suit.keys()[top_card.suit]
-		print("\nLast Discard Card: %s of %s" % [top_rank, top_suit])
+		print("\nLast Discard Card: %s" % discard_pile.back())
 	print("--------------------------------\n")
 	
 	
