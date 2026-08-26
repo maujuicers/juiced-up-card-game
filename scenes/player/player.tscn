@@ -5,17 +5,12 @@
 [ext_resource type="Script" uid="uid://diiwj638m4uix" path="res://scripts/maumau-engine/MauMauPlayer.gd" id="3_gmlin"]
 [ext_resource type="PackedScene" uid="uid://bitftgnosio2x" path="res://scenes/player/juice.tscn" id="4_lvxji"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
-
 [node name="Player" type="Node3D" unique_id=1662220489 node_paths=PackedStringArray("player_camera", "player_head", "juice", "maumau_player")]
 script = ExtResource("1_4flbx")
 player_camera = NodePath("Head/Camera3D")
 player_head = NodePath("Head")
 juice = NodePath("Juice")
 maumau_player = NodePath("MauMauPlayer")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1088188901]
-mesh = SubResource("CapsuleMesh_4flbx")
 
 [node name="Head" type="Node3D" parent="." unique_id=1003065678]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7909324, 0)
