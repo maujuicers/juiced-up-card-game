@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://cldy26buiv6t8"]
 
-[ext_resource type="PackedScene" uid="uid://b5jxhp3ppt6c2" path="res://assets/3D assets/Bar/Floor.glb" id="1_bwlfd"]
+[ext_resource type="PackedScene" uid="uid://bjjpvmusxnv2t" path="res://assets/3D assets/Bar/Floor.glb" id="1_bwlfd"]
 [ext_resource type="PackedScene" uid="uid://btdb0a0csat1v" path="res://assets/3D assets/Bar/Wall.glb" id="2_efgdo"]
-[ext_resource type="PackedScene" uid="uid://dqvldq5ocyh35" path="res://assets/3D assets/Bar/Table.glb" id="2_qdsxc"]
-[ext_resource type="PackedScene" uid="uid://dfg6idqgcy30t" path="res://assets/3D assets/Bar/Chair.glb" id="2_x848m"]
+[ext_resource type="PackedScene" uid="uid://c10euy7a04m6x" path="res://assets/3D assets/Bar/Table.glb" id="2_qdsxc"]
+[ext_resource type="PackedScene" uid="uid://bi4g6yddn2mn3" path="res://assets/3D assets/Bar/Chair.glb" id="2_x848m"]
 [ext_resource type="PackedScene" uid="uid://cmf537x3grl40" path="res://assets/3D assets/Cats/YellowCatBody.glb" id="5_2j1ym"]
 [ext_resource type="PackedScene" uid="uid://dm5gcvu3e3fcs" path="res://assets/3D assets/Cats/YellowCatHead.glb" id="6_7r073"]
 [ext_resource type="PackedScene" uid="uid://br8klgmdi1eoc" path="res://assets/3D assets/Cats/OrangeCatBody.glb" id="7_5qaxt"]
