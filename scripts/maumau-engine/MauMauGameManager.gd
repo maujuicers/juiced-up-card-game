@@ -11,7 +11,7 @@ signal game_over_signal(winner_index: int)
 var maumau_players: Array[MauMauPlayer]
 
 #Game state
-var cards_per_player :=2
+var cards_per_player :=1
 var draw_pile: Array[Card] = []
 var discard_pile: Array[Card] = []
 var turn_order: Array = []
@@ -104,9 +104,11 @@ func play_card(card: Card) -> void:
 		if current_player_node.get_hand_size() == 0:
 			winners.append(current_player_node)
 			current_player_node.placement = winners.size()
-			if winners.size() == maumau_players.size() -1:
-				game_over()
 			print( "%d won the game and is placed in %d place" % [current_player_index, winners.size()])
+			
+			if winners.size() >= turn_order.size() - 1:
+				game_over()
+				return
 		
 		current_effect = MauMauRules.get_effect(card)
 		if current_effect == "none" && wished_suit != -1:
