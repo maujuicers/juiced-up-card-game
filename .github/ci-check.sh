@@ -20,6 +20,7 @@ fi
 echo "==> Parse-checking scripts"
 fail=0
 while IFS= read -r f; do
+	echo "Checking: $f"
 	if ! timeout 120 godot --path . --headless --check-only --script "$f"; then
 		echo "PARSE FAIL: $f"
 		fail=1
