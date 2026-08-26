@@ -4,9 +4,9 @@ class_name PlayerController
 
 @export var player_camera: Camera3D
 @export var player_head: Node3D
-@export var juice_meter: JuiceMeter
+@export var juice: Juice
 @export var maumau_player: MauMauPlayer
-	
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

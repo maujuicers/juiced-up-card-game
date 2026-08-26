@@ -7,25 +7,21 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kewkp"]
-
-[node name="Player" type="CharacterBody3D" unique_id=50830596 node_paths=PackedStringArray("player_camera", "player_head", "juice_meter", "maumau_player")]
+[node name="Player" type="Node3D" unique_id=1662220489 node_paths=PackedStringArray("player_camera", "player_head", "juice", "maumau_player")]
 script = ExtResource("1_4flbx")
 player_camera = NodePath("Head/Camera3D")
 player_head = NodePath("Head")
-juice_meter = NodePath("UI/JuiceMeter")
+juice = NodePath("Juice")
 maumau_player = NodePath("MauMauPlayer")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1088188901]
 mesh = SubResource("CapsuleMesh_4flbx")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1223591356]
-shape = SubResource("CapsuleShape3D_kewkp")
-
 [node name="Head" type="Node3D" parent="." unique_id=1003065678]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7909324, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=1590453642]
+current = true
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1143690964]
 
