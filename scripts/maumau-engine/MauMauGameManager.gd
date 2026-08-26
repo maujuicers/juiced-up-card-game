@@ -4,14 +4,14 @@ extends Node
 signal card_played(player_index: int, card: Card)
 signal turn_changed(new_player_index: int)
 signal effect_triggered(effect: String)
-signal game_over(winner_index: int)
+signal game_over_signal(winner_index: int)
 
 @export var npcs: Array[Npc]
 @export var player: PlayerController
 var maumau_players: Array[MauMauPlayer]
 
 #Game state
-var cards_per_player :=5
+var cards_per_player :=1
 var draw_pile: Array[Card] = []
 var discard_pile: Array[Card] = []
 var turn_order: Array = []
@@ -20,6 +20,10 @@ var current_player_node: MauMauPlayer
 var wished_suit: Card.Suit = -1
 var current_draw_penalty = 0
 var current_effect: String = "none"
+var is_game_over: bool = false
+
+var winners: Array[MauMauPlayer]
+
 
 func _ready() -> void:
 	start_game()
@@ -40,8 +44,18 @@ func start_game() -> void:
 	discard_pile.append(first_card)
 	
 func start_turn() -> void:
+	
+	if is_game_over:
+		return
+	
 	var active_player = turn_order[current_player_index]
 	current_player_node = active_player.maumau_player
+	
+	if current_player_node.placement > -1:
+		print("player %s already won next players turn" % current_player_node.name)
+		advance_turn()
+		return
+		
 	emit_signal("turn_changed", current_player_index)
 	
 	print("turn started for ", active_player.name)
@@ -85,6 +99,16 @@ func play_card(card: Card) -> void:
 		
 		discard_pile.append(card)
 		current_player_node.play_card(current_player_index, card)
+		
+		#check if player won
+		if current_player_node.get_hand_size() == 0:
+			winners.append(current_player_node)
+			current_player_node.placement = winners.size()
+			print( "%d won the game and is placed in %d place" % [current_player_index, winners.size()])
+			
+			if winners.size() >= turn_order.size() - 1:
+				game_over()
+				return
 		
 		current_effect = MauMauRules.get_effect(card)
 		if current_effect == "none" && wished_suit != -1:
@@ -142,6 +166,12 @@ func set_wished_suit(suit: Card.Suit) -> void:
 	wished_suit = suit
 	print(wished_suit)
 	advance_turn()
+	
+func game_over() -> void:
+	is_game_over = true
+	game_over_signal.emit(winners[0].turn_position)
+	print("Game over! Winner is player: ", winners[0].name)
+	
 #################GAME INITIALIZATION########################
 
 func reset_game() -> void:
@@ -194,16 +224,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 		
 	match event.keycode:
-		KEY_W:
+		KEY_H:
 			current_player_node.select_suit(Card.Suit.HEARTS)
 			return
-		KEY_A:
+		KEY_D:
 			current_player_node.select_suit(Card.Suit.DIAMONDS)
 			return
 		KEY_S:
 			current_player_node.select_suit(Card.Suit.SPADES)
 			return
-		KEY_D:
+		KEY_C:
 			current_player_node.select_suit(Card.Suit.CLUBS)
 			return
 		

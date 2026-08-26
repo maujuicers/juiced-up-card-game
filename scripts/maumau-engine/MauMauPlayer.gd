@@ -9,6 +9,7 @@ signal suit_wished(suit: Card.Suit)
 var hand:Array = []
 var turn_position:int
 var turn_active:bool = false;
+var placement: int = -1
 
 func init_hand(first_hand: Array) -> void:
 	self.hand = first_hand
@@ -46,4 +47,10 @@ func play_card(player_index: int, played_card: Card) -> void:
 		turn_active = false
 		if played_card in hand:
 			hand.erase(played_card)
+			
+func call_mau()-> void:
+	print("meow")
+			
+func get_hand_size() -> int:
+	return hand.size()
 			
