@@ -9,11 +9,8 @@ signal game_over_signal(winner_index: int)
 @export var npcs: Array[Npc]
 @export var player: PlayerController
 @export var music: AudioStream
-## The canonical card set; every pile and hand shares its [Card] instances.
-## Falls back to [method CardDeck.load_default] when the scene does not set it.
+## Falls back to [method CardDeck.load_default] when the scene leaves it unset.
 @export var deck: CardDeck
-## Seconds an autoplaying seat waits before each of its actions, so its turns
-## are readable at the table.
 @export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 1.0
 var maumau_players: Array[MauMauPlayer]
 
@@ -27,12 +24,10 @@ var current_player_node: MauMauPlayer
 var wished_suit: Card.Suit = Card.Suit.NONE
 var current_draw_penalty: int = 0
 var current_effect: String = "none"
-## Set once the seat on turn has taken its regular draw; it may then play the
-## drawn card or draw again to pass.
+## After the regular draw a second draw request means "pass".
 var has_drawn_this_turn: bool = false
 var is_game_over: bool = false
-## Bumped on every start_turn(); lets a delayed autoplay action notice that the
-## turn it was scheduled for is already over.
+## Lets a delayed autoplay action notice its turn is already over.
 var _turn_serial: int = 0
 
 var winners: Array[MauMauPlayer]
@@ -91,15 +86,13 @@ func start_turn() -> void:
 		"skip_next": 
 			print("Player %d was skipped!" % current_player_index)
 			current_effect = "none"
-			# A skipped seat must be closed like any other ended turn, or it
-			# keeps its connections and turn_active and can act out of turn.
+			# Close the seat like any ended turn, or it can act out of turn.
 			_end_turn()
 			return 
 		"wish_suit": 
 			current_effect = "none"
 	
-	# The penalty draw above may already have ended this turn (and started the
-	# next one, which schedules its own autoplay).
+	# The penalty draw may already have ended this turn (and scheduled the next).
 	if serial == _turn_serial and not is_game_over and current_player_node.autoplay:
 		_schedule_autoplay()
 	
@@ -115,7 +108,7 @@ func play_card(card_id: int) -> void:
 		return
 
 	#Debug Line
-	print("player %d tried to play %s — The move is %s." % 
+	print("player %d tried to play %s. The move is %s." % 
 	[current_player_index, 
 	card,
 	MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty)
@@ -123,7 +116,6 @@ func play_card(card_id: int) -> void:
  	#########
 
 	if MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty):
-		# The seat removes the card by id; a seat that does not hold it simply keeps its turn.
 		if current_player_node.play_card(current_player_index, card_id) == null:
 			push_warning("Player %d does not hold %s" % [current_player_index, card])
 			return
@@ -143,27 +135,24 @@ func play_card(card_id: int) -> void:
 				game_over()
 				return
 		
-		# Any played card satisfies (or replaces) a wish; a Jack sets a new one below.
+		# Any play satisfies a wish; a Jack sets a new one afterwards.
 		wished_suit = Card.Suit.NONE
 		current_effect = MauMauRules.get_effect(card)
 		effect_triggered.emit(current_effect)
 		if current_effect == "wish_suit":
-			print("player %d played %s — He can now choose a suit" % [current_player_index, card])
+			print("player %d played %s, he can now choose a suit" % [current_player_index, card])
 			current_player_node.suit_wished.connect(set_wished_suit)
 			return
 		
 		advance_turn()
 
 func draw_card(draw_amount: int) -> void:
-	# Second draw request in one turn: the seat keeps the card it drew and passes.
 	if has_drawn_this_turn:
 		print("Player %d passes" % current_player_index)
 		_end_turn()
 		return
 
-	# Drawing is only allowed when nothing in hand can be played. A pending
-	# draw penalty is the exception: the player may always take it instead of
-	# countering with a seven.
+	# A pending penalty may always be taken instead of countering with a seven.
 	if current_draw_penalty == 0 and MauMauRules.has_valid_move(
 			current_player_node.hand, discard_pile.back(), wished_suit, current_draw_penalty):
 		print("Player %d may not draw: a card in hand can be played" % current_player_index)
@@ -171,7 +160,6 @@ func draw_card(draw_amount: int) -> void:
 
 	var taking_penalty := current_draw_penalty > 0
 	var draw_cards := current_draw_penalty if taking_penalty else 1
-	# Taking the penalty completes it; the next seat starts clean.
 	current_draw_penalty = 0
 
 	var drawn_card: Card
@@ -186,8 +174,7 @@ func draw_card(draw_amount: int) -> void:
 		_end_turn()
 		return
 
-	# A regular draw: if the drawn card fits, the seat may play it now (or draw
-	# again to pass); otherwise the turn is over.
+	# House rule: a drawn card that fits may be played right away.
 	has_drawn_this_turn = true
 	if drawn_card != null and MauMauRules.is_valid_move(drawn_card, discard_pile.back(), wished_suit, current_draw_penalty):
 		print("Player %d may play the drawn %s" % [current_player_index, drawn_card])
@@ -195,8 +182,7 @@ func draw_card(draw_amount: int) -> void:
 	_end_turn()
 
 
-## Top card of the draw pile, refilling it from the discard pile when empty.
-## Returns null only when both piles are exhausted.
+## null only when both piles are exhausted.
 func _draw_from_pile() -> Card:
 	if draw_pile.is_empty():
 		if discard_pile.size() <= 1:
@@ -219,8 +205,6 @@ func _end_turn() -> void:
 
 #################AUTOPLAY########################
 
-## Runs one autoplay action for the seat on turn after [member npc_think_time],
-## unless that turn has ended in the meantime.
 func _schedule_autoplay() -> void:
 	var serial := _turn_serial
 	get_tree().create_timer(npc_think_time).timeout.connect(func() -> void:
@@ -228,9 +212,6 @@ func _schedule_autoplay() -> void:
 			_autoplay_step())
 
 
-## One decision for the seat on turn: answer a pending wish, play the best
-## legal card, or draw. Schedules a follow-up whenever the turn continues
-## (a Jack waiting for its wish, or a drawn card that may be played).
 func _autoplay_step() -> void:
 	var seat := current_player_node
 	var serial := _turn_serial

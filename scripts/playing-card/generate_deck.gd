@@ -1,14 +1,8 @@
-## Headless (re)generator for the default [CardDeck]:
-## [code]godot --path . --headless --script scripts/playing-card/generate_deck.gd[/code]
-##
-## Loads [code]deck.tres[/code] if it exists (keeping its [member CardDeck.lowest_rank]
-## and any textures already assigned), rebuilds the card list — cutting atlas
-## textures for cards that have none — and saves it back
-## under the stable [constant CardDeck.DEFAULT_UID].
+## godot --path . --headless --script scripts/playing-card/generate_deck.gd
+## Rebuilds deck.tres in place; lowest_rank and assigned textures are kept.
 extends SceneTree
 
 const DECK_PATH := "res://scenes/playing-card/deck.tres"
-## assets/3D assets/playing cards/textures/playingCards_Mat_baseColor.png
 const ATLAS_UID := "uid://dtxgsqj0vahbc"
 
 
@@ -33,8 +27,7 @@ func _initialize() -> void:
 	quit()
 
 
-## Outside the editor ResourceSaver writes no uid, so put the canonical one into
-## the [code][gd_resource ...][/code] header ourselves.
+## Outside the editor ResourceSaver writes no uid, so stamp the header ourselves.
 func _stamp_uid(path: String, uid: String) -> Error:
 	var text := FileAccess.get_file_as_string(path)
 	if text.is_empty():

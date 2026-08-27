@@ -1,41 +1,27 @@
 extends Node3D
 class_name Hand
 
-## Lays out one seat's cards on an arc around the seat's head, every card
-## facing the eyes. Follows [member maumau_player] when set; otherwise drive it
-## with [method update_hand] / [method update_hidden].
-##
-## This node's position is where the middle of the fan sits; its rotation does
-## not matter.
+## Cards sit on an arc centred on the seat's head so each one faces the eyes.
+## This node's position is the middle of the fan; its rotation is ignored.
 
 @export var card_scene: PackedScene
-## The eyes the cards face and the centre of the arc they sit on. When unset,
-## [member head_offset] relative to the parent seat is used instead.
+## Unset: [member head_offset] relative to the parent seat is used instead.
 @export var head: Node3D
 @export var head_offset := Vector3(0.0, 0.79, 0.0)
-## Widest distance between neighbouring card centres along the arc. Smaller
-## than a card's width (~0.07) so they always overlap a little.
+## Below a card's width (~0.07) so cards always overlap.
 @export var max_card_spacing: float = 0.05
-## The whole fan never spans more than this; big hands get squeezed together.
 @export var max_spread_degrees: float = 50.0
-## Face up for the local player, face down for everyone else.
 @export var face_up: bool = true
-## Texture for face-down cards; taken from the default [CardDeck] when empty.
+## Taken from the default [CardDeck] when empty.
 @export var card_back: Texture2D
-## The seat whose hand this shows.
 @export var maumau_player: MauMauPlayer
-## Let the local user pick a card out of this fan by aiming the crosshair at it
-## and pressing the left mouse button. Only the seat the human sits in should
-## have this on.
+## Only the human seat: aim the crosshair, left-click to play.
 @export var interactive: bool = false
 
-## How far in front of the camera a click still finds a card.
 const PICK_RAY_LENGTH := 2.0
 
 var cards: Array[Card] = []
 
-## The card of this fan the crosshair currently rests on, highlighted for as
-## long as it does. Only ever set on an interactive hand.
 var _aimed: PlayingCardVisual = null
 
 
@@ -49,18 +35,13 @@ func _ready() -> void:
 		update_hand(maumau_player.hand)
 
 
-## Keeps the card the crosshair rests on lit up. The mouse is captured during
-## play, so the cards' own [member PlayingCardVisual.hover_highlight] cannot see
-## it; aiming replaces it entirely (see [method _rebuild_hand]). Runs in the
-## physics step because the pick ray queries the physics space.
+# Physics step: the pick ray queries the physics space.
 func _physics_process(_delta: float) -> void:
 	if not interactive:
 		return
 	_set_aimed(_card_at(_screen_centre()))
 
 
-## Lights up [param card] and puts out whatever was lit before. Tolerates the
-## previous card having been freed by a hand rebuild.
 func _set_aimed(card: PlayingCardVisual) -> void:
 	if card == _aimed and is_instance_valid(_aimed):
 		return
@@ -71,17 +52,12 @@ func _set_aimed(card: PlayingCardVisual) -> void:
 		_aimed.set_highlighted(true)
 
 
-## Where the crosshair sits: the middle of the viewport, in the same space
-## [method Camera3D.project_ray_origin] expects.
 func _screen_centre() -> Vector2:
 	return get_viewport().get_visible_rect().size / 2.0
 
 
-## Left-clicking asks the seat to play the card under the crosshair. The mouse
-## is captured, so the event's own position means nothing — the screen centre is
-## what counts. Runs after the UI, so a click a control took never reaches a
-## card. The manager still validates the move: an illegal one is refused and the
-## seat keeps its turn, and a Jack is followed by the usual suit wish.
+# The mouse is captured, so event.position is meaningless; the crosshair
+# (screen centre) is the pointer.
 func _unhandled_input(event: InputEvent) -> void:
 	if not interactive or maumau_player == null:
 		return
@@ -97,9 +73,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	maumau_player.try_play_card_by_id(card.card_data.id)
 
 
-## The [PlayingCardVisual] of this hand under [param screen_pos], or null.
-## Queries areas only and on every layer, so it does not care which collision
-## layer the card scene puts its picking shape on.
+# Areas only, any layer: independent of the card scene's layer choice.
 func _card_at(screen_pos: Vector2) -> PlayingCardVisual:
 	var camera := get_viewport().get_camera_3d()
 	if camera == null:
@@ -116,12 +90,10 @@ func _card_at(screen_pos: Vector2) -> PlayingCardVisual:
 	if hit.is_empty():
 		return null
 
-	# The shape can sit anywhere below the card root; climb to the card itself.
 	var node := hit.get("collider") as Node
 	while node != null and not (node is PlayingCardVisual):
 		node = node.get_parent()
-	# Only cards of this fan; another seat's hand answers for its own. Cards a
-	# rebuild has already dropped hang around for one more frame — ignore those.
+	# Cards dropped by a rebuild linger for one more frame.
 	if node != null and node.get_parent() == self and not node.is_queued_for_deletion():
 		return node as PlayingCardVisual
 	return null
@@ -132,7 +104,6 @@ func update_hand(new_cards: Array[Card]) -> void:
 	_rebuild_hand()
 
 
-## For seats whose cards are not known locally: show [param count] backs.
 func update_hidden(count: int) -> void:
 	cards.clear()
 	cards.resize(count)
@@ -166,8 +137,6 @@ func _rebuild_hand() -> void:
 	var middle := (total_cards - 1) / 2.0
 	var head_global := _head_global_position()
 	var up_global := _seat_up()
-	# Work in this node's space: the arc is centred on the head, passes through
-	# this node's origin, and turns around the seat's up axis.
 	var head_local := to_local(head_global)
 	var up_local := (global_basis.inverse() * up_global).normalized()
 	var head_to_centre := -head_local
@@ -178,14 +147,13 @@ func _rebuild_hand() -> void:
 
 	for i in total_cards:
 		var card_instance := card_scene.instantiate() as PlayingCardVisual
-		# Aiming owns the highlight on this hand; the card's own mouse-over would
-		# only fight it, and a captured cursor never reports one anyway.
+		# Aiming owns the highlight; a captured cursor never hovers anyway.
 		card_instance.hover_highlight = not interactive
 		add_child(card_instance)
 		card_instance.setup(cards[i], face_up, card_back)
-		# First card on the seat's left, so slots match the 1–9 debug keys.
+		# First card on the left so slots match the 1–9 debug keys.
 		var offset := head_to_centre.rotated(up_local, (middle - i) * step_angle)
-		# Each later card sits a hair nearer the eyes so overlaps draw in order.
+		# A hair nearer the eyes per card so overlaps draw in order.
 		offset -= offset.normalized() * (i * 0.001)
 		card_instance.position = head_local + offset
 		card_instance.look_at(head_global, up_global, true)

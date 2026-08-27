@@ -2,13 +2,10 @@ extends Control
 
 class_name SettingsMenu
 
-## Radians of yaw per pixel of mouse motion at the slider's midpoint (50).
-## The slider spans 1-100, so the top of the range is twice the default feel.
+## Slider midpoint (50) maps to this.
 const DEFAULT_MOUSE_SENSITIVITY := 0.01
 const MOUSE_SENSITIVITY_SLIDER_MIDPOINT := 50.0
 
-## Emitted while the slider moves so the live PlayerController can follow along
-## before the settings are saved. MainScene forwards it to the player.
 signal mouse_sensitivity_changed(sensitivity: float)
 
 @export var master_volume_value_label: Label
@@ -22,17 +19,14 @@ signal mouse_sensitivity_changed(sensitivity: float)
 @export var fullscreen_button: CheckButton
 @export var settings_saved_label: Label
 
-## The single place the slider scale (1-100) and the controller's
-## radians-per-pixel value are related, so load, save and the live signal can
-## never drift apart. 50 maps to DEFAULT_MOUSE_SENSITIVITY.
+## The one place slider and radians-per-pixel meet, so load/save/live agree.
 static func slider_value_to_sensitivity(value: float) -> float:
 	return value / MOUSE_SENSITIVITY_SLIDER_MIDPOINT * DEFAULT_MOUSE_SENSITIVITY
 
 static func sensitivity_to_slider_value(sensitivity: float) -> float:
 	return sensitivity / DEFAULT_MOUSE_SENSITIVITY * MOUSE_SENSITIVITY_SLIDER_MIDPOINT
 
-## Reads just the mouse sensitivity out of the config, so PlayerController can
-## apply the saved value at startup without a settings menu being in the scene.
+## For PlayerController at startup, without a menu in the scene.
 static func load_mouse_sensitivity() -> float:
 	var config = ConfigFile.new()
 	if config.load("user://settings.cfg") != OK:

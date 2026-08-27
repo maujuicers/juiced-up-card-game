@@ -2,16 +2,12 @@ extends Node
 
 class_name MauMauPlayer
 
-## Emitted when this seat wants to play the card with the given stable
-## [member Card.id]. The manager validates the move and calls [method play_card].
 signal card_selected(card_id: int)
 signal card_drawn()
 signal suit_wished(suit: Card.Suit)
-## Emitted whenever [member hand] gains or loses cards, for the visual layer.
 signal hand_changed(hand: Array[Card])
 
-## When true the manager plays this seat itself (see [MauMauAi]); a human or
-## remote seat leaves it off.
+## Only set true for AI players
 @export var autoplay: bool = false
 
 var hand: Array[Card] = []
@@ -34,8 +30,6 @@ func on_turn_started() -> void:
 	print("MauMauPlayer at seat %d is thinking..." % turn_position)
 
 
-## Called by the manager on every way a turn can end (play, draw, pass, skip)
-## so input for this seat is ignored until its next turn.
 func on_turn_ended() -> void:
 	turn_active = false
 
@@ -49,9 +43,6 @@ func try_play_card(selected_card_pos: int) -> void:
 	card_selected.emit(hand[selected_card_pos].id)
 
 
-## Same as [method try_play_card], but addresses the card by its stable
-## [member Card.id] instead of its slot — used by the click/pick input path,
-## which knows the card it hit but not where it sits in the hand.
 func try_play_card_by_id(card_id: int) -> void:
 	if not turn_active:
 		return
@@ -86,7 +77,6 @@ func has_card(card_id: int) -> bool:
 	return card_index(card_id) != -1
 
 
-## Index of the card with [param card_id] in [member hand], or -1 if not held.
 func card_index(card_id: int) -> int:
 	for i in hand.size():
 		if hand[i].id == card_id:
@@ -94,8 +84,7 @@ func card_index(card_id: int) -> int:
 	return -1
 
 
-## Removes the card with [param card_id] from the hand and returns it.
-## Returns null if this seat is not on turn or does not hold that card.
+## null if this seat is not on turn or does not hold the card.
 func play_card(player_index: int, card_id: int) -> Card:
 	if player_index != turn_position:
 		return null

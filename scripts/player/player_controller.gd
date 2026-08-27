@@ -2,9 +2,7 @@ extends Node3D
 
 class_name PlayerController
 
-## Radians of view rotation per pixel of mouse motion. The editor value is the
-## fallback; _ready overwrites it with the saved Mouse Sensitivity setting, and
-## MainScene keeps it in step with the settings slider while the game runs.
+## Radians per pixel. Fallback only: _ready loads the saved setting.
 @export var look_sensitivity := 0.01
 
 @export var player_camera: Camera3D
@@ -12,10 +10,8 @@ class_name PlayerController
 @export var juice: Juice
 @export var maumau_player: MauMauPlayer
 
-## True while gameplay owns the mouse: the cursor is captured and mouse motion
-## turns the head. MainScene is the single owner of this flag -- it turns looking
-## off for as long as the pause or settings menu is up -- so nothing else may
-## touch Input.set_mouse_mode() while the gameplay scene is running.
+## MainScene owns this (menus release the mouse); nothing else may call
+## Input.set_mouse_mode() during gameplay.
 var _look_enabled := false
 
 func _ready() -> void:
@@ -25,7 +21,6 @@ func _ready() -> void:
 func set_look_sensitivity(value: float) -> void:
 	look_sensitivity = value
 
-## Captures (or releases) the mouse and gates _rotate_view accordingly.
 func set_look_enabled(enabled: bool) -> void:
 	_look_enabled = enabled
 	if enabled:
@@ -33,8 +28,7 @@ func set_look_enabled(enabled: bool) -> void:
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-## Only mouse motion is consumed here; clicks are left alone so Hand can use
-## them to pick the card under the screen centre.
+# Clicks are left for Hand.
 func _unhandled_input(event: InputEvent) -> void:
 	if _look_enabled and event is InputEventMouseMotion:
 		_rotate_view(event.relative)
