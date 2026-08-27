@@ -9,6 +9,10 @@ func _ready() -> void:
 	settings_menu.hide()
 	AudioManager.stop_music()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		settings_menu.hide()
+
 func _on_start_game_button_pressed() -> void:
 	get_tree().change_scene_to_packed(MAIN_SCENE)
 

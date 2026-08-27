@@ -9,6 +9,7 @@ class_name PlayerController
 @export var player_head: Node3D
 @export var juice: Juice
 @export var maumau_player: MauMauPlayer
+@export var crosshair: Control
 
 ## MainScene owns this (menus release the mouse); nothing else may call
 ## Input.set_mouse_mode() during gameplay.

@@ -19,8 +19,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if settings_menu.visible:
 		settings_menu.hide()
 	elif pause_menu.visible:
+		player.crosshair.show()
 		pause_menu.hide()
 	else:
+		player.crosshair.hide()
 		pause_menu.show()
 	get_viewport().set_input_as_handled()
 

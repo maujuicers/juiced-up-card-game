@@ -7,12 +7,13 @@
 [ext_resource type="PackedScene" uid="uid://cs7gmt5qdkqld" path="res://scenes/playing-card/hand.tscn" id="5_hand0"]
 [ext_resource type="PackedScene" uid="uid://b1ygc6dacv7n6" path="res://scenes/ui/crosshair.tscn" id="6_cr0ss"]
 
-[node name="Player" type="Node3D" unique_id=1662220489 node_paths=PackedStringArray("player_camera", "player_head", "juice", "maumau_player")]
+[node name="Player" type="Node3D" unique_id=1662220489 node_paths=PackedStringArray("player_camera", "player_head", "juice", "maumau_player", "crosshair")]
 script = ExtResource("1_4flbx")
 player_camera = NodePath("Head/Camera3D")
 player_head = NodePath("Head")
 juice = NodePath("Juice")
 maumau_player = NodePath("MauMauPlayer")
+crosshair = NodePath("UI/Crosshair")
 
 [node name="Head" type="Node3D" parent="." unique_id=1003065678]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7909324, 0)
@@ -28,7 +29,6 @@ juice = NodePath("../../Juice")
 [node name="Crosshair" parent="UI" unique_id=1198549079 instance=ExtResource("6_cr0ss")]
 layout_mode = 3
 crosshair_size = 14.0
-opacity = null
 
 [node name="MauMauPlayer" type="Node" parent="." unique_id=1609776256]
 script = ExtResource("3_gmlin")
