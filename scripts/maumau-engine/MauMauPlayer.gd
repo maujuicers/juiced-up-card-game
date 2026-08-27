@@ -10,6 +10,10 @@ signal suit_wished(suit: Card.Suit)
 ## Emitted whenever [member hand] gains or loses cards, for the visual layer.
 signal hand_changed(hand: Array[Card])
 
+## When true the manager plays this seat itself (see [MauMauAi]); a human or
+## remote seat leaves it off.
+@export var autoplay: bool = false
+
 var hand: Array[Card] = []
 var turn_position: int
 var turn_active: bool = false
@@ -28,6 +32,12 @@ func init_pos(turn: int) -> void:
 func on_turn_started() -> void:
 	turn_active = true
 	print("MauMauPlayer at seat %d is thinking..." % turn_position)
+
+
+## Called by the manager on every way a turn can end (play, draw, pass, skip)
+## so input for this seat is ignored until its next turn.
+func on_turn_ended() -> void:
+	turn_active = false
 
 
 func try_play_card(selected_card_pos: int) -> void:

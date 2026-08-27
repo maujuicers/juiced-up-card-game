@@ -11,8 +11,9 @@
 
 [sub_resource type="Environment" id="Environment_04g65"]
 
-[node name="MainScene" type="Node3D" unique_id=1676986623 node_paths=PackedStringArray("pause_menu", "settings_menu")]
+[node name="MainScene" type="Node3D" unique_id=1676986623 node_paths=PackedStringArray("player", "pause_menu", "settings_menu")]
 script = ExtResource("1_66tet")
+player = NodePath("Player")
 pause_menu = NodePath("PauseMenu")
 settings_menu = NodePath("SettingsMenu")
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# CI checks: 
+# CI checks:
 # - import assets
 # - load every script inside the project (catches compile errors, sees autoloads)
 # - boot main_scene headless
@@ -32,13 +32,7 @@ timeout 300 godot --path . --headless --quit-after 120 res://main_scene.tscn 2>&
 smoke_exit=$?
 # Exit code is unreliable -> grep for runtime script errors.
 # Headless runs use Godot's dummy audio and rendering backends, which raise a
-# few errors a real build never does:
-#  - the dummy audio mixer never frees playbacks still active at quit, so
-#    Godot reports "N resources still in use at exit";
-#  - the dummy renderer has no materials, so setting up a ShaderMaterial logs
-#    'Parameter "material" is null' from servers/rendering/dummy/.
-# A windowed run exits clean, so drop exactly those: the audio line, and any
-# ERROR whose "at:" line points into the dummy renderer.
+# few errors a real build never does.
 strip_headless_noise() {
 	grep -vE "resources still in use at exit" | awk '
 		held != "" { if ($0 ~ /servers\/rendering\/dummy\//) { held = ""; next } print held; held = "" }

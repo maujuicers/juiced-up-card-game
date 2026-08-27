@@ -12,6 +12,9 @@ signal game_over_signal(winner_index: int)
 ## The canonical card set; every pile and hand shares its [Card] instances.
 ## Falls back to [method CardDeck.load_default] when the scene does not set it.
 @export var deck: CardDeck
+## Seconds an autoplaying seat waits before each of its actions, so its turns
+## are readable at the table.
+@export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 1.0
 var maumau_players: Array[MauMauPlayer]
 
 #Game state
@@ -28,6 +31,9 @@ var current_effect: String = "none"
 ## drawn card or draw again to pass.
 var has_drawn_this_turn: bool = false
 var is_game_over: bool = false
+## Bumped on every start_turn(); lets a delayed autoplay action notice that the
+## turn it was scheduled for is already over.
+var _turn_serial: int = 0
 
 var winners: Array[MauMauPlayer]
 
@@ -68,6 +74,8 @@ func start_turn() -> void:
 		
 	emit_signal("turn_changed", current_player_index)
 	has_drawn_this_turn = false
+	_turn_serial += 1
+	var serial := _turn_serial
 	
 	print("turn started for ", active_player.name)
 	
@@ -83,10 +91,17 @@ func start_turn() -> void:
 		"skip_next": 
 			print("Player %d was skipped!" % current_player_index)
 			current_effect = "none"
-			advance_turn()
+			# A skipped seat must be closed like any other ended turn, or it
+			# keeps its connections and turn_active and can act out of turn.
+			_end_turn()
 			return 
 		"wish_suit": 
 			current_effect = "none"
+	
+	# The penalty draw above may already have ended this turn (and started the
+	# next one, which schedules its own autoplay).
+	if serial == _turn_serial and not is_game_over and current_player_node.autoplay:
+		_schedule_autoplay()
 	
 func advance_turn() -> void:
 	current_player_index = (current_player_index + 1) % turn_order.size()
@@ -196,9 +211,39 @@ func _draw_from_pile() -> Card:
 
 
 func _end_turn() -> void:
+	current_player_node.on_turn_ended()
 	current_player_node.card_selected.disconnect(play_card)
 	current_player_node.card_drawn.disconnect(draw_card)
 	advance_turn()
+
+
+#################AUTOPLAY########################
+
+## Runs one autoplay action for the seat on turn after [member npc_think_time],
+## unless that turn has ended in the meantime.
+func _schedule_autoplay() -> void:
+	var serial := _turn_serial
+	get_tree().create_timer(npc_think_time).timeout.connect(func() -> void:
+		if serial == _turn_serial and not is_game_over:
+			_autoplay_step())
+
+
+## One decision for the seat on turn: answer a pending wish, play the best
+## legal card, or draw. Schedules a follow-up whenever the turn continues
+## (a Jack waiting for its wish, or a drawn card that may be played).
+func _autoplay_step() -> void:
+	var seat := current_player_node
+	var serial := _turn_serial
+	if seat.suit_wished.is_connected(set_wished_suit):
+		seat.select_suit(MauMauAi.choose_suit(seat.hand))
+		return
+	var card := MauMauAi.choose_card(seat.hand, discard_pile.back(), wished_suit, current_draw_penalty)
+	if card != null:
+		seat.try_play_card_by_id(card.id)
+	else:
+		seat.draw_card()
+	if serial == _turn_serial and not is_game_over:
+		_schedule_autoplay()
 
 func set_wished_suit(suit: Card.Suit) -> void:
 	current_player_node.suit_wished.disconnect(set_wished_suit)

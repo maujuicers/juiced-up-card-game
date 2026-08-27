@@ -10,6 +10,7 @@ maumau_player = NodePath("MauMauPlayer")
 
 [node name="MauMauPlayer" type="Node" parent="." unique_id=987309261]
 script = ExtResource("2_pcwmf")
+autoplay = true
 
 [node name="Hand" parent="." unique_id=1382204948 node_paths=PackedStringArray("maumau_player") instance=ExtResource("3_hand0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, -0.32)

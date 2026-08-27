@@ -1,15 +1,9 @@
-// Soft green "glow" border for a playing card, drawn on a quad a little larger
-// than the card. The quad sits a fraction of a millimetre in front of the
-// sprite with render_priority 1, so the ring is never swallowed by the
-// neighbouring cards of the fan; the card's own face stays fully visible
-// because the shader is transparent everywhere inside the card rectangle.
-// Unshaded and fully transparent, so it works under the GL Compatibility
-// renderer without any Environment glow.
+// Soft green "glow" border for a playing card, drawn on a quad a little larger than the card.
 shader_type spatial;
 render_mode unshaded, blend_mix, cull_disabled, depth_draw_never, shadows_disabled, fog_disabled;
 
 uniform vec4 outline_color : source_color = vec4(0.3, 1.0, 0.4, 1.0);
-// Size of this quad and of the card it frames, both in metres.
+// Size of this quad and of the card it frames
 uniform vec2 quad_size = vec2(0.110125, 0.145325);
 uniform vec2 card_size = vec2(0.070125, 0.105325);
 // Solid part of the border, measured outwards from the card edge.
@@ -35,8 +29,7 @@ void fragment() {
 	float falloff = clamp(1.0 - max(outside - outline_width, 0.0) / max(glow_range, 0.0001), 0.0, 1.0);
 	float glow = pow(falloff, 1.6) * glow_strength;
 
-	// Transparent over the card itself: the quad sits in front of the sprite so
-	// the border is never hidden by an overlapping neighbour in the fan.
+	// Transparent over the card itself
 	float inside = smoothstep(-inner_fade, 0.0, d);
 
 	ALBEDO = outline_color.rgb;

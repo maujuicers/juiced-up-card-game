@@ -24,14 +24,19 @@ class_name Hand
 @export var card_back: Texture2D
 ## The seat whose hand this shows.
 @export var maumau_player: MauMauPlayer
-## Let the local user pick a card out of this fan with the left mouse button.
-## Only the seat the human sits in should have this on.
+## Let the local user pick a card out of this fan by aiming the crosshair at it
+## and pressing the left mouse button. Only the seat the human sits in should
+## have this on.
 @export var interactive: bool = false
 
 ## How far in front of the camera a click still finds a card.
 const PICK_RAY_LENGTH := 2.0
 
 var cards: Array[Card] = []
+
+## The card of this fan the crosshair currently rests on, highlighted for as
+## long as it does. Only ever set on an interactive hand.
+var _aimed: PlayingCardVisual = null
 
 
 func _ready() -> void:
@@ -44,10 +49,39 @@ func _ready() -> void:
 		update_hand(maumau_player.hand)
 
 
-## Left-clicking a card of this hand asks the seat to play it. Runs after the
-## UI, so a click that landed on a control never reaches a card. The manager
-## still validates the move: an illegal one is refused and the seat keeps its
-## turn, and a Jack is followed by the usual suit wish.
+## Keeps the card the crosshair rests on lit up. The mouse is captured during
+## play, so the cards' own [member PlayingCardVisual.hover_highlight] cannot see
+## it; aiming replaces it entirely (see [method _rebuild_hand]). Runs in the
+## physics step because the pick ray queries the physics space.
+func _physics_process(_delta: float) -> void:
+	if not interactive:
+		return
+	_set_aimed(_card_at(_screen_centre()))
+
+
+## Lights up [param card] and puts out whatever was lit before. Tolerates the
+## previous card having been freed by a hand rebuild.
+func _set_aimed(card: PlayingCardVisual) -> void:
+	if card == _aimed and is_instance_valid(_aimed):
+		return
+	if is_instance_valid(_aimed):
+		_aimed.set_highlighted(false)
+	_aimed = card
+	if _aimed != null:
+		_aimed.set_highlighted(true)
+
+
+## Where the crosshair sits: the middle of the viewport, in the same space
+## [method Camera3D.project_ray_origin] expects.
+func _screen_centre() -> Vector2:
+	return get_viewport().get_visible_rect().size / 2.0
+
+
+## Left-clicking asks the seat to play the card under the crosshair. The mouse
+## is captured, so the event's own position means nothing — the screen centre is
+## what counts. Runs after the UI, so a click a control took never reaches a
+## card. The manager still validates the move: an illegal one is refused and the
+## seat keeps its turn, and a Jack is followed by the usual suit wish.
 func _unhandled_input(event: InputEvent) -> void:
 	if not interactive or maumau_player == null:
 		return
@@ -55,7 +89,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if button == null or button.button_index != MOUSE_BUTTON_LEFT or not button.pressed:
 		return
 
-	var card := _card_at(button.position)
+	var card := _card_at(_screen_centre())
 	if card == null or card.card_data == null:
 		return
 
@@ -86,8 +120,9 @@ func _card_at(screen_pos: Vector2) -> PlayingCardVisual:
 	var node := hit.get("collider") as Node
 	while node != null and not (node is PlayingCardVisual):
 		node = node.get_parent()
-	# Only cards of this fan; another seat's hand answers for its own.
-	if node != null and node.get_parent() == self:
+	# Only cards of this fan; another seat's hand answers for its own. Cards a
+	# rebuild has already dropped hang around for one more frame — ignore those.
+	if node != null and node.get_parent() == self and not node.is_queued_for_deletion():
 		return node as PlayingCardVisual
 	return null
 
@@ -120,6 +155,7 @@ func clear_hand() -> void:
 
 
 func _rebuild_hand() -> void:
+	_set_aimed(null)
 	for child in get_children():
 		child.queue_free()
 
@@ -142,6 +178,9 @@ func _rebuild_hand() -> void:
 
 	for i in total_cards:
 		var card_instance := card_scene.instantiate() as PlayingCardVisual
+		# Aiming owns the highlight on this hand; the card's own mouse-over would
+		# only fight it, and a captured cursor never reports one anyway.
+		card_instance.hover_highlight = not interactive
 		add_child(card_instance)
 		card_instance.setup(cards[i], face_up, card_back)
 		# First card on the seat's left, so slots match the 1–9 debug keys.
