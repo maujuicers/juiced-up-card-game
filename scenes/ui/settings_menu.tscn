@@ -14,7 +14,7 @@ shader_parameter/scrolling_speed = 0.05
 shader = ExtResource("1_qwcqe")
 shader_parameter/scrolling_speed = 0.05
 
-[node name="SettingsMenu" type="Control" unique_id=1175825677 node_paths=PackedStringArray("master_volume_value_label", "music_value_label", "sfx_value_label", "master_volume_slider", "music_slider", "sfx_slider", "fullscreen_button", "settings_saved_label")]
+[node name="SettingsMenu" type="Control" unique_id=1175825677 node_paths=PackedStringArray("master_volume_value_label", "music_value_label", "sfx_value_label", "master_volume_slider", "music_slider", "sfx_slider", "mouse_sensitivity_value_label", "mouse_sensitivity_slider", "fullscreen_button", "settings_saved_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,6 +28,8 @@ sfx_value_label = NodePath("SettingsButtons/AudioSettingsButtons/ValueContainer/
 master_volume_slider = NodePath("SettingsButtons/AudioSettingsButtons/SliderContainer/MasterVolumeSlider")
 music_slider = NodePath("SettingsButtons/AudioSettingsButtons/SliderContainer/MusicSlider")
 sfx_slider = NodePath("SettingsButtons/AudioSettingsButtons/SliderContainer/SFXSlider")
+mouse_sensitivity_value_label = NodePath("SettingsButtons/ControlSettingsContainer/ValueContainer/MouseSensitivityValueLabel")
+mouse_sensitivity_slider = NodePath("SettingsButtons/ControlSettingsContainer/SliderContainer/MouseSensitivitySlider")
 fullscreen_button = NodePath("SettingsButtons/VideoSettingsContainer/FullscreenButton")
 settings_saved_label = NodePath("SettingsSavedLabel")
 
@@ -150,6 +152,42 @@ theme_override_fonts/font = ExtResource("3_x3vyp")
 theme_override_font_sizes/font_size = 60
 text = "100"
 
+[node name="ControlSettingsContainer" type="HBoxContainer" parent="SettingsButtons" unique_id=1523008741]
+layout_mode = 2
+theme_override_constants/separation = 70
+
+[node name="LabelContainer" type="VBoxContainer" parent="SettingsButtons/ControlSettingsContainer" unique_id=1523008742]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="MouseSensitivityLabel" type="Label" parent="SettingsButtons/ControlSettingsContainer/LabelContainer" unique_id=1523008743]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 60
+text = "Mouse Sensitivity"
+
+[node name="SliderContainer" type="VBoxContainer" parent="SettingsButtons/ControlSettingsContainer" unique_id=1523008744]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="MouseSensitivitySlider" type="HSlider" parent="SettingsButtons/ControlSettingsContainer/SliderContainer" unique_id=1523008745]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_vertical = 6
+min_value = 1.0
+value = 50.0
+
+[node name="ValueContainer" type="VBoxContainer" parent="SettingsButtons/ControlSettingsContainer" unique_id=1523008746]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="MouseSensitivityValueLabel" type="Label" parent="SettingsButtons/ControlSettingsContainer/ValueContainer" unique_id=1523008747]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 60
+text = "50"
+
 [node name="VideoSettingsContainer" type="HBoxContainer" parent="SettingsButtons" unique_id=1094376377]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -231,6 +269,7 @@ text = "Close"
 [connection signal="value_changed" from="SettingsButtons/AudioSettingsButtons/SliderContainer/MasterVolumeSlider" to="." method="_on_master_volume_slider_value_changed"]
 [connection signal="value_changed" from="SettingsButtons/AudioSettingsButtons/SliderContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="SettingsButtons/AudioSettingsButtons/SliderContainer/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="value_changed" from="SettingsButtons/ControlSettingsContainer/SliderContainer/MouseSensitivitySlider" to="." method="_on_mouse_sensitivity_slider_value_changed"]
 [connection signal="toggled" from="SettingsButtons/VideoSettingsContainer/FullscreenButton" to="." method="_on_fullscreen_button_toggled"]
 [connection signal="pressed" from="BottomButtons/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="BottomButtons/CloseButton" to="." method="_on_close_button_pressed"]

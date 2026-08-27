@@ -5,7 +5,7 @@ enum Suit {NONE = -1, HEARTS, DIAMONDS, CLUBS, SPADES}
 
 enum Rank {SIX = 6, SEVEN = 7, EIGHT = 8, NINE = 9, TEN = 10, JACK = 11, QUEEN = 12, KING = 13, ACE = 14}
 
-## Stride between suits in [member id]; leaves room for every rank value.
+## Larger than any rank value.
 const _RANK_STRIDE := 16
 
 @export var suit: Suit
@@ -41,7 +41,6 @@ static func rank_name(a_rank: Rank) -> String:
 	return Rank.find_key(a_rank)
 
 
-## "SEVEN of HEARTS" for a card id, without needing the [Card] instance.
 static func id_to_string(a_id: int) -> String:
 	return "%s of %s" % [rank_name(rank_of(a_id)), suit_name(suit_of(a_id))]
 

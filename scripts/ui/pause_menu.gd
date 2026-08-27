@@ -9,6 +9,8 @@ func _on_settings_button_pressed() -> void:
 
 
 func _on_main_menu_button_pressed() -> void:
+	# The main menu has no PlayerController to release the mouse.
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().change_scene_to_packed(main_menu)
 
 

@@ -2,11 +2,13 @@ extends Node
 
 class_name MauMauPlayer
 
-## Emitted when this seat wants to play the card with the given stable
-## [member Card.id]. The manager validates the move and calls [method play_card].
 signal card_selected(card_id: int)
 signal card_drawn()
 signal suit_wished(suit: Card.Suit)
+signal hand_changed(hand: Array[Card])
+
+## Only set true for AI players
+@export var autoplay: bool = false
 
 var hand: Array[Card] = []
 var turn_position: int
@@ -16,6 +18,7 @@ var placement: int = -1
 
 func init_hand(first_hand: Array[Card]) -> void:
 	self.hand = first_hand
+	hand_changed.emit(hand)
 
 
 func init_pos(turn: int) -> void:
@@ -27,6 +30,10 @@ func on_turn_started() -> void:
 	print("MauMauPlayer at seat %d is thinking..." % turn_position)
 
 
+func on_turn_ended() -> void:
+	turn_active = false
+
+
 func try_play_card(selected_card_pos: int) -> void:
 	if not turn_active:
 		return
@@ -34,6 +41,15 @@ func try_play_card(selected_card_pos: int) -> void:
 		return
 
 	card_selected.emit(hand[selected_card_pos].id)
+
+
+func try_play_card_by_id(card_id: int) -> void:
+	if not turn_active:
+		return
+	if not has_card(card_id):
+		return
+
+	card_selected.emit(card_id)
 
 
 # draw function if player doesnt have fitting cards
@@ -54,13 +70,13 @@ func select_suit(suit: Card.Suit) -> void:
 
 func add_card(card: Card) -> void:
 	hand.append(card)
+	hand_changed.emit(hand)
 
 
 func has_card(card_id: int) -> bool:
 	return card_index(card_id) != -1
 
 
-## Index of the card with [param card_id] in [member hand], or -1 if not held.
 func card_index(card_id: int) -> int:
 	for i in hand.size():
 		if hand[i].id == card_id:
@@ -68,8 +84,7 @@ func card_index(card_id: int) -> int:
 	return -1
 
 
-## Removes the card with [param card_id] from the hand and returns it.
-## Returns null if this seat is not on turn or does not hold that card.
+## null if this seat is not on turn or does not hold the card.
 func play_card(player_index: int, card_id: int) -> Card:
 	if player_index != turn_position:
 		return null
@@ -82,6 +97,7 @@ func play_card(player_index: int, card_id: int) -> Card:
 	hand.remove_at(index)
 	turn_active = false
 	print("%s was played" % played_card)
+	hand_changed.emit(hand)
 	return played_card
 
 

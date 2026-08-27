@@ -1,7 +1,5 @@
-## CI helper: load every GDScript in the project and fail if any does not compile.
-## Runs inside the real project (autoloads registered), unlike
-## `--check-only --script`, which cannot resolve autoload singletons.
-##   godot --path . --headless --script .github/check_scripts.gd
+## godot --path . --headless --script .github/check_scripts.gd
+## Loads scripts inside the project because `--check-only` cannot resolve autoloads.
 extends SceneTree
 
 const ROOTS := ["res://scripts", "res://audio"]
