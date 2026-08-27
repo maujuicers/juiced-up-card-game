@@ -14,7 +14,7 @@ shader_parameter/scrolling_speed = 0.05
 shader = ExtResource("1_qwcqe")
 shader_parameter/scrolling_speed = 0.05
 
-[node name="SettingsMenu" type="Control" unique_id=1175825677 node_paths=PackedStringArray("master_volume_value_label", "music_value_label", "sfx_value_label", "master_volume_slider", "music_slider", "sfx_slider", "mouse_sensitivity_value_label", "mouse_sensitivity_slider", "fullscreen_button", "settings_saved_label")]
+[node name="SettingsMenu" type="Control" unique_id=1175825677 node_paths=PackedStringArray("master_volume_value_label", "music_value_label", "sfx_value_label", "master_volume_slider", "music_slider", "sfx_slider", "mouse_sensitivity_value_label", "mouse_sensitivity_slider", "fullscreen_button", "settings_saved_label", "save_settings_question")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,6 +32,7 @@ mouse_sensitivity_value_label = NodePath("SettingsButtons/ControlSettingsContain
 mouse_sensitivity_slider = NodePath("SettingsButtons/ControlSettingsContainer/SliderContainer/MouseSensitivitySlider")
 fullscreen_button = NodePath("SettingsButtons/VideoSettingsContainer/FullscreenButton")
 settings_saved_label = NodePath("SettingsSavedLabel")
+save_settings_question = NodePath("SaveSettingsQuestion")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1275824452]
 layout_mode = 1
@@ -270,6 +271,77 @@ theme_override_fonts/font = ExtResource("3_x3vyp")
 theme_override_font_sizes/font_size = 60
 text = "Close"
 
+[node name="SaveSettingsQuestion" type="Control" parent="." unique_id=1505152907]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -761.7084
+offset_top = -505.0
+offset_right = 761.7084
+offset_bottom = 505.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="SaveSettingsQuestion" unique_id=1557028807]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.74509805)
+
+[node name="ContentContainer" type="VBoxContainer" parent="SaveSettingsQuestion" unique_id=1925103644]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -361.0
+offset_top = 350.0
+offset_right = 361.0
+offset_bottom = 72.0
+grow_horizontal = 2
+theme_override_constants/separation = 150
+
+[node name="Question" type="Label" parent="SaveSettingsQuestion/ContentContainer" unique_id=2048567322]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 60
+text = "Do you want to save these settings?"
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="SaveSettingsQuestion/ContentContainer" unique_id=170188049]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 60
+
+[node name="YesButton" type="Button" parent="SaveSettingsQuestion/ContentContainer/ButtonsContainer" unique_id=1241074607]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 60
+text = "Yes"
+
+[node name="NoButton" type="Button" parent="SaveSettingsQuestion/ContentContainer/ButtonsContainer" unique_id=1191443958]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_x3vyp")
+theme_override_font_sizes/font_size = 60
+text = "No"
+
 [connection signal="value_changed" from="SettingsButtons/AudioSettingsContainer/SliderContainer/MasterVolumeSlider" to="." method="_on_master_volume_slider_value_changed"]
 [connection signal="value_changed" from="SettingsButtons/AudioSettingsContainer/SliderContainer/MusicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="SettingsButtons/AudioSettingsContainer/SliderContainer/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
@@ -277,3 +349,5 @@ text = "Close"
 [connection signal="toggled" from="SettingsButtons/VideoSettingsContainer/FullscreenButton" to="." method="_on_fullscreen_button_toggled"]
 [connection signal="pressed" from="BottomButtons/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="BottomButtons/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="SaveSettingsQuestion/ContentContainer/ButtonsContainer/YesButton" to="." method="_on_yes_button_pressed"]
+[connection signal="pressed" from="SaveSettingsQuestion/ContentContainer/ButtonsContainer/NoButton" to="." method="_on_no_button_pressed"]
