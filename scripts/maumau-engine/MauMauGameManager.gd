@@ -9,24 +9,33 @@ signal game_over_signal(winner_index: int)
 @export var npcs: Array[Npc]
 @export var player: PlayerController
 @export var music: AudioStream
+## Falls back to [method CardDeck.load_default] when the scene leaves it unset.
+@export var deck: CardDeck
+@export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 1.0
 var maumau_players: Array[MauMauPlayer]
 
 #Game state
-var cards_per_player :=1
+@export_range(1, 8) var cards_per_player := 5
 var draw_pile: Array[Card] = []
 var discard_pile: Array[Card] = []
 var turn_order: Array = []
 var current_player_index: int
 var current_player_node: MauMauPlayer
-var wished_suit: Card.Suit = -1
-var current_draw_penalty = 0
+var wished_suit: Card.Suit = Card.Suit.NONE
+var current_draw_penalty: int = 0
 var current_effect: String = "none"
+## After the regular draw a second draw request means "pass".
+var has_drawn_this_turn: bool = false
 var is_game_over: bool = false
+## Lets a delayed autoplay action notice its turn is already over.
+var _turn_serial: int = 0
 
 var winners: Array[MauMauPlayer]
 
 
 func _ready() -> void:
+	if deck == null:
+		deck = CardDeck.load_default()
 	start_game()
 	log_gamestate()
 	current_player_index = 0
@@ -59,6 +68,9 @@ func start_turn() -> void:
 		return
 		
 	emit_signal("turn_changed", current_player_index)
+	has_drawn_this_turn = false
+	_turn_serial += 1
+	var serial := _turn_serial
 	
 	print("turn started for ", active_player.name)
 	
@@ -74,33 +86,44 @@ func start_turn() -> void:
 		"skip_next": 
 			print("Player %d was skipped!" % current_player_index)
 			current_effect = "none"
-			advance_turn()
+			# Close the seat like any ended turn, or it can act out of turn.
+			_end_turn()
 			return 
 		"wish_suit": 
 			current_effect = "none"
+	
+	# The penalty draw may already have ended this turn (and scheduled the next).
+	if serial == _turn_serial and not is_game_over and current_player_node.autoplay:
+		_schedule_autoplay()
 	
 func advance_turn() -> void:
 	current_player_index = (current_player_index + 1) % turn_order.size()
 	log_gamestate()
 	start_turn()
 
-func play_card(card: Card) -> void:
-	
+func play_card(card_id: int) -> void:
+	var card := deck.card(card_id)
+	if card == null:
+		push_error("Player %d tried to play unknown card id %d" % [current_player_index, card_id])
+		return
+
 	#Debug Line
-	print("player %d tried to play %s of %s — The move is %s." % 
+	print("player %d tried to play %s. The move is %s." % 
 	[current_player_index, 
-	Card.Rank.keys()[card.rank], 
-	Card.Suit.keys()[card.suit],
+	card,
 	MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty)
 	])
  	#########
 
 	if MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty):
+		if current_player_node.play_card(current_player_index, card_id) == null:
+			push_warning("Player %d does not hold %s" % [current_player_index, card])
+			return
+
 		current_player_node.card_selected.disconnect(play_card)
 		current_player_node.card_drawn.disconnect(draw_card)
 		
 		discard_pile.append(card)
-		current_player_node.play_card(current_player_index, card)
 		
 		#check if player won
 		if current_player_node.get_hand_size() == 0:
@@ -112,55 +135,96 @@ func play_card(card: Card) -> void:
 				game_over()
 				return
 		
+		# Any play satisfies a wish; a Jack sets a new one afterwards.
+		wished_suit = Card.Suit.NONE
 		current_effect = MauMauRules.get_effect(card)
-		if current_effect == "none" && wished_suit != -1:
-			wished_suit = -1
 		effect_triggered.emit(current_effect)
 		if current_effect == "wish_suit":
-			print("player %d played %s of %s — He can now choose a suit" % 
-			[current_player_index, 
-			Card.Rank.keys()[card.rank], 
-			Card.Suit.keys()[card.suit]])
+			print("player %d played %s, he can now choose a suit" % [current_player_index, card])
 			current_player_node.suit_wished.connect(set_wished_suit)
 			return
 		
 		advance_turn()
 
 func draw_card(draw_amount: int) -> void:
-	var draw_cards: int
-	if current_draw_penalty == 0:
-		draw_cards = 1
-	else :
-		draw_cards = current_draw_penalty
-		#reset the draw counter
-		current_draw_penalty = 0
-		
-	#draw certain amount of cards
+	if has_drawn_this_turn:
+		print("Player %d passes" % current_player_index)
+		_end_turn()
+		return
+
+	# A pending penalty may always be taken instead of countering with a seven.
+	if current_draw_penalty == 0 and MauMauRules.has_valid_move(
+			current_player_node.hand, discard_pile.back(), wished_suit, current_draw_penalty):
+		print("Player %d may not draw: a card in hand can be played" % current_player_index)
+		return
+
+	var taking_penalty := current_draw_penalty > 0
+	var draw_cards := current_draw_penalty if taking_penalty else 1
+	current_draw_penalty = 0
+
+	var drawn_card: Card
 	for i in range(draw_cards):
-		
-		#shuffle new drawpile from discardpile if its empty
-		if draw_pile.is_empty():
-			var top_card = discard_pile.pop_back()
-			draw_pile = discard_pile.duplicate()
-			discard_pile.clear()
-			discard_pile.append(top_card)
-			draw_pile.shuffle()
-		
-		#give new card to player
-		var drawn_card: Card = draw_pile.pop_back()
-		current_player_node.hand.append(drawn_card)
-	
-		#Debugging
-		var rank_str = Card.Rank.keys()[drawn_card.rank]
-		var suit_str = Card.Suit.keys()[drawn_card.suit]
-		print("Player %d drew %s of %s" % [current_player_node.turn_position, rank_str, suit_str])
-		###########
-		
+		drawn_card = _draw_from_pile()
+		if drawn_card == null:
+			break
+		current_player_node.add_card(drawn_card)
+		print("Player %d drew %s" % [current_player_node.turn_position, drawn_card])
+
+	if taking_penalty:
+		_end_turn()
+		return
+
+	# House rule: a drawn card that fits may be played right away.
+	has_drawn_this_turn = true
+	if drawn_card != null and MauMauRules.is_valid_move(drawn_card, discard_pile.back(), wished_suit, current_draw_penalty):
+		print("Player %d may play the drawn %s" % [current_player_index, drawn_card])
+		return
+	_end_turn()
+
+
+## null only when both piles are exhausted.
+func _draw_from_pile() -> Card:
+	if draw_pile.is_empty():
+		if discard_pile.size() <= 1:
+			push_warning("No cards left to draw")
+			return null
+		var top_card: Card = discard_pile.pop_back()
+		draw_pile = discard_pile.duplicate()
+		discard_pile.clear()
+		discard_pile.append(top_card)
+		draw_pile.shuffle()
+	return draw_pile.pop_back()
+
+
+func _end_turn() -> void:
+	current_player_node.on_turn_ended()
 	current_player_node.card_selected.disconnect(play_card)
 	current_player_node.card_drawn.disconnect(draw_card)
-	
-	# next turn after drawing cards
 	advance_turn()
+
+
+#################AUTOPLAY########################
+
+func _schedule_autoplay() -> void:
+	var serial := _turn_serial
+	get_tree().create_timer(npc_think_time).timeout.connect(func() -> void:
+		if serial == _turn_serial and not is_game_over:
+			_autoplay_step())
+
+
+func _autoplay_step() -> void:
+	var seat := current_player_node
+	var serial := _turn_serial
+	if seat.suit_wished.is_connected(set_wished_suit):
+		seat.select_suit(MauMauAi.choose_suit(seat.hand))
+		return
+	var card := MauMauAi.choose_card(seat.hand, discard_pile.back(), wished_suit, current_draw_penalty)
+	if card != null:
+		seat.try_play_card_by_id(card.id)
+	else:
+		seat.draw_card()
+	if serial == _turn_serial and not is_game_over:
+		_schedule_autoplay()
 
 func set_wished_suit(suit: Card.Suit) -> void:
 	current_player_node.suit_wished.disconnect(set_wished_suit)
@@ -183,12 +247,7 @@ func reset_game() -> void:
 	current_player_index = 0
 	
 func build_draw_pile() -> void:
-	for suit in Card.Suit.values():
-		for rank in Card.Rank.values():
-			var new_card := Card.new()
-			new_card.suit = suit
-			new_card.rank = rank
-			draw_pile.append(new_card)
+	draw_pile = deck.all()
 			
 func init_player_hands() -> void:
 	for p in range(turn_order.size()):
@@ -265,17 +324,12 @@ func log_gamestate() -> void:
 		# Safely check if 'player_script' exists on this participant
 		if "maumau_player" in participant and participant.maumau_player != null:
 			for card in participant.maumau_player.hand:
-				var rank_str = Card.Rank.keys()[card.rank]
-				var suit_str = Card.Suit.keys()[card.suit]
-				print("  - %s of %s" % [rank_str, suit_str])
+				print("  - %s" % card)
 		else:
 			print("  ERROR: maumau_player is missing or null on %s!" % participant.name)
 	# Print the starting card on the discard pile
 	if not discard_pile.is_empty():
-		var top_card: Card = discard_pile.back()
-		var top_rank = Card.Rank.keys()[top_card.rank]
-		var top_suit = Card.Suit.keys()[top_card.suit]
-		print("\nLast Discard Card: %s of %s" % [top_rank, top_suit])
+		print("\nLast Discard Card: %s" % discard_pile.back())
 	print("--------------------------------\n")
 	
 	

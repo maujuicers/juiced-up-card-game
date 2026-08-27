@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# CI checks: 
+# CI checks:
 # - import assets
-# - parse-check every script
+# - load every script inside the project (catches compile errors, sees autoloads)
 # - boot main_scene headless
 # Run locally with: nix develop --command ./.github/ci-check.sh
 set -uo pipefail
@@ -18,15 +18,12 @@ if [ "$import_exit" -ne 0 ] || grep -qE "SCRIPT ERROR|^ERROR" "$log_dir/import.l
 fi
 
 echo "==> Parse-checking scripts"
-fail=0
-while IFS= read -r f; do
-	echo "Checking: $f"
-	if ! timeout 120 godot --path . --headless --check-only --script "$f"; then
-		echo "PARSE FAIL: $f"
-		fail=1
-	fi
-done < <(find scripts -name '*.gd' | sort)
-if [ "$fail" -ne 0 ]; then
+# Loads every script inside the running project so autoload singletons
+# (e.g. AudioManager) resolve; `--check-only --script` cannot see them.
+timeout 300 godot --path . --headless --script .github/check_scripts.gd 2>&1 | tee "$log_dir/scripts.log"
+scripts_exit=$?
+if [ "$scripts_exit" -ne 0 ] || grep -qE "SCRIPT ERROR|PARSE FAIL" "$log_dir/scripts.log"; then
+	echo "FAIL: script check reported errors (exit $scripts_exit)"
 	exit 1
 fi
 
@@ -34,7 +31,16 @@ echo "==> Smoke test: booting main_scene for 120 frames"
 timeout 300 godot --path . --headless --quit-after 120 res://main_scene.tscn 2>&1 | tee "$log_dir/smoke.log"
 smoke_exit=$?
 # Exit code is unreliable -> grep for runtime script errors.
-if [ "$smoke_exit" -ne 0 ] || grep -qE "SCRIPT ERROR|^ERROR" "$log_dir/smoke.log"; then
+# Headless runs use Godot's dummy audio and rendering backends, which raise a
+# few errors a real build never does.
+strip_headless_noise() {
+	grep -vE "resources still in use at exit" | awk '
+		held != "" { if ($0 ~ /servers\/rendering\/dummy\//) { held = ""; next } print held; held = "" }
+		/^ERROR/ { held = $0; next }
+		{ print }
+		END { if (held != "") print held }'
+}
+if [ "$smoke_exit" -ne 0 ] || strip_headless_noise < "$log_dir/smoke.log" | grep -qE "SCRIPT ERROR|^ERROR"; then
 	echo "FAIL: smoke test reported errors (exit $smoke_exit)"
 	exit 1
 fi

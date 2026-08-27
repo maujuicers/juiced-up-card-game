@@ -1,0 +1,392 @@
+[gd_resource type="Resource" script_class="CardDeck" format=3 uid="uid://cmfvknwcvgqj5"]
+
+[ext_resource type="Texture2D" uid="uid://dtxgsqj0vahbc" path="res://assets/3D assets/playing cards/textures/playingCards_Mat_baseColor.png" id="1_gjowi"]
+[ext_resource type="Script" uid="uid://cmqgpdhogt3t2" path="res://scripts/playing-card/Card.gd" id="1_h14md"]
+[ext_resource type="Script" uid="uid://buorsfny7qio4" path="res://scripts/playing-card/CardDeck.gd" id="2_gjowi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuqn5"]
+resource_name = "card back"
+atlas = ExtResource("1_gjowi")
+region = Rect2(85, 72, 255, 383)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5hvjc"]
+resource_name = "SEVEN of HEARTS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(1919, 3662, 255, 383)
+
+[sub_resource type="Resource" id="Resource_yuqn5"]
+resource_name = "SEVEN of HEARTS"
+script = ExtResource("1_h14md")
+rank = 7
+texture = SubResource("AtlasTexture_5hvjc")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8iert"]
+resource_name = "EIGHT of HEARTS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2228, 3662, 255, 383)
+
+[sub_resource type="Resource" id="Resource_5hvjc"]
+resource_name = "EIGHT of HEARTS"
+script = ExtResource("1_h14md")
+rank = 8
+texture = SubResource("AtlasTexture_8iert")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x3k7b"]
+resource_name = "NINE of HEARTS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2537, 3662, 255, 383)
+
+[sub_resource type="Resource" id="Resource_8iert"]
+resource_name = "NINE of HEARTS"
+script = ExtResource("1_h14md")
+rank = 9
+texture = SubResource("AtlasTexture_x3k7b")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pnn3"]
+resource_name = "TEN of HEARTS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2846, 3662, 255, 383)
+
+[sub_resource type="Resource" id="Resource_x3k7b"]
+resource_name = "TEN of HEARTS"
+script = ExtResource("1_h14md")
+rank = 10
+texture = SubResource("AtlasTexture_5pnn3")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gt0f2"]
+resource_name = "JACK of HEARTS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3155, 3662, 255, 383)
+
+[sub_resource type="Resource" id="Resource_5pnn3"]
+resource_name = "JACK of HEARTS"
+script = ExtResource("1_h14md")
+rank = 11
+texture = SubResource("AtlasTexture_gt0f2")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohvdu"]
+resource_name = "QUEEN of HEARTS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3464, 3662, 255, 383)
+
+[sub_resource type="Resource" id="Resource_gt0f2"]
+resource_name = "QUEEN of HEARTS"
+script = ExtResource("1_h14md")
+rank = 12
+texture = SubResource("AtlasTexture_ohvdu")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1buqg"]
+resource_name = "KING of HEARTS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3773, 3662, 255, 383)
+
+[sub_resource type="Resource" id="Resource_ohvdu"]
+resource_name = "KING of HEARTS"
+script = ExtResource("1_h14md")
+rank = 13
+texture = SubResource("AtlasTexture_1buqg")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bi1ff"]
+resource_name = "ACE of HEARTS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(65, 3662, 255, 383)
+
+[sub_resource type="Resource" id="Resource_1buqg"]
+resource_name = "ACE of HEARTS"
+script = ExtResource("1_h14md")
+rank = 14
+texture = SubResource("AtlasTexture_bi1ff")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_timde"]
+resource_name = "SEVEN of DIAMONDS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(1919, 3237, 255, 383)
+
+[sub_resource type="Resource" id="Resource_bi1ff"]
+resource_name = "SEVEN of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 7
+texture = SubResource("AtlasTexture_timde")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cjwgm"]
+resource_name = "EIGHT of DIAMONDS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2228, 3237, 255, 383)
+
+[sub_resource type="Resource" id="Resource_timde"]
+resource_name = "EIGHT of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 8
+texture = SubResource("AtlasTexture_cjwgm")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s584l"]
+resource_name = "NINE of DIAMONDS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2537, 3237, 255, 383)
+
+[sub_resource type="Resource" id="Resource_cjwgm"]
+resource_name = "NINE of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 9
+texture = SubResource("AtlasTexture_s584l")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a35lc"]
+resource_name = "TEN of DIAMONDS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2846, 3237, 255, 383)
+
+[sub_resource type="Resource" id="Resource_s584l"]
+resource_name = "TEN of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 10
+texture = SubResource("AtlasTexture_a35lc")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04pna"]
+resource_name = "JACK of DIAMONDS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3155, 3237, 255, 383)
+
+[sub_resource type="Resource" id="Resource_a35lc"]
+resource_name = "JACK of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 11
+texture = SubResource("AtlasTexture_04pna")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gr1cb"]
+resource_name = "QUEEN of DIAMONDS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3464, 3237, 255, 383)
+
+[sub_resource type="Resource" id="Resource_04pna"]
+resource_name = "QUEEN of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 12
+texture = SubResource("AtlasTexture_gr1cb")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8aoe"]
+resource_name = "KING of DIAMONDS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3773, 3237, 255, 383)
+
+[sub_resource type="Resource" id="Resource_gr1cb"]
+resource_name = "KING of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 13
+texture = SubResource("AtlasTexture_b8aoe")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7biwj"]
+resource_name = "ACE of DIAMONDS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(65, 3237, 255, 383)
+
+[sub_resource type="Resource" id="Resource_b8aoe"]
+resource_name = "ACE of DIAMONDS"
+script = ExtResource("1_h14md")
+suit = 1
+rank = 14
+texture = SubResource("AtlasTexture_7biwj")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bsxu"]
+resource_name = "SEVEN of CLUBS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(1919, 2808, 255, 383)
+
+[sub_resource type="Resource" id="Resource_7biwj"]
+resource_name = "SEVEN of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 7
+texture = SubResource("AtlasTexture_4bsxu")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwgg1"]
+resource_name = "EIGHT of CLUBS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2228, 2808, 255, 383)
+
+[sub_resource type="Resource" id="Resource_4bsxu"]
+resource_name = "EIGHT of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 8
+texture = SubResource("AtlasTexture_uwgg1")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_do5ur"]
+resource_name = "NINE of CLUBS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2537, 2808, 255, 383)
+
+[sub_resource type="Resource" id="Resource_uwgg1"]
+resource_name = "NINE of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 9
+texture = SubResource("AtlasTexture_do5ur")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ly5ge"]
+resource_name = "TEN of CLUBS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2846, 2808, 255, 383)
+
+[sub_resource type="Resource" id="Resource_do5ur"]
+resource_name = "TEN of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 10
+texture = SubResource("AtlasTexture_ly5ge")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rr2k"]
+resource_name = "JACK of CLUBS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3155, 2808, 255, 383)
+
+[sub_resource type="Resource" id="Resource_ly5ge"]
+resource_name = "JACK of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 11
+texture = SubResource("AtlasTexture_7rr2k")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tss1t"]
+resource_name = "QUEEN of CLUBS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3464, 2808, 255, 383)
+
+[sub_resource type="Resource" id="Resource_7rr2k"]
+resource_name = "QUEEN of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 12
+texture = SubResource("AtlasTexture_tss1t")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32edt"]
+resource_name = "KING of CLUBS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3773, 2808, 255, 383)
+
+[sub_resource type="Resource" id="Resource_tss1t"]
+resource_name = "KING of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 13
+texture = SubResource("AtlasTexture_32edt")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6cldu"]
+resource_name = "ACE of CLUBS"
+atlas = ExtResource("1_gjowi")
+region = Rect2(65, 2808, 255, 383)
+
+[sub_resource type="Resource" id="Resource_32edt"]
+resource_name = "ACE of CLUBS"
+script = ExtResource("1_h14md")
+suit = 2
+rank = 14
+texture = SubResource("AtlasTexture_6cldu")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ljub1"]
+resource_name = "SEVEN of SPADES"
+atlas = ExtResource("1_gjowi")
+region = Rect2(1919, 2372, 255, 383)
+
+[sub_resource type="Resource" id="Resource_6cldu"]
+resource_name = "SEVEN of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 7
+texture = SubResource("AtlasTexture_ljub1")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7uqe"]
+resource_name = "EIGHT of SPADES"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2228, 2372, 255, 383)
+
+[sub_resource type="Resource" id="Resource_ljub1"]
+resource_name = "EIGHT of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 8
+texture = SubResource("AtlasTexture_w7uqe")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qyc5l"]
+resource_name = "NINE of SPADES"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2537, 2372, 255, 383)
+
+[sub_resource type="Resource" id="Resource_w7uqe"]
+resource_name = "NINE of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 9
+texture = SubResource("AtlasTexture_qyc5l")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayejr"]
+resource_name = "TEN of SPADES"
+atlas = ExtResource("1_gjowi")
+region = Rect2(2846, 2372, 255, 383)
+
+[sub_resource type="Resource" id="Resource_qyc5l"]
+resource_name = "TEN of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 10
+texture = SubResource("AtlasTexture_ayejr")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gk50w"]
+resource_name = "JACK of SPADES"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3155, 2372, 255, 383)
+
+[sub_resource type="Resource" id="Resource_ayejr"]
+resource_name = "JACK of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 11
+texture = SubResource("AtlasTexture_gk50w")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbw2v"]
+resource_name = "QUEEN of SPADES"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3464, 2372, 255, 383)
+
+[sub_resource type="Resource" id="Resource_gk50w"]
+resource_name = "QUEEN of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 12
+texture = SubResource("AtlasTexture_dbw2v")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qn105"]
+resource_name = "KING of SPADES"
+atlas = ExtResource("1_gjowi")
+region = Rect2(3773, 2372, 255, 383)
+
+[sub_resource type="Resource" id="Resource_dbw2v"]
+resource_name = "KING of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 13
+texture = SubResource("AtlasTexture_qn105")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3oli"]
+resource_name = "ACE of SPADES"
+atlas = ExtResource("1_gjowi")
+region = Rect2(65, 2372, 255, 383)
+
+[sub_resource type="Resource" id="Resource_qn105"]
+resource_name = "ACE of SPADES"
+script = ExtResource("1_h14md")
+suit = 3
+rank = 14
+texture = SubResource("AtlasTexture_k3oli")
+
+[resource]
+script = ExtResource("2_gjowi")
+cards = Array[ExtResource("1_h14md")]([SubResource("Resource_yuqn5"), SubResource("Resource_5hvjc"), SubResource("Resource_8iert"), SubResource("Resource_x3k7b"), SubResource("Resource_5pnn3"), SubResource("Resource_gt0f2"), SubResource("Resource_ohvdu"), SubResource("Resource_1buqg"), SubResource("Resource_bi1ff"), SubResource("Resource_timde"), SubResource("Resource_cjwgm"), SubResource("Resource_s584l"), SubResource("Resource_a35lc"), SubResource("Resource_04pna"), SubResource("Resource_gr1cb"), SubResource("Resource_b8aoe"), SubResource("Resource_7biwj"), SubResource("Resource_4bsxu"), SubResource("Resource_uwgg1"), SubResource("Resource_do5ur"), SubResource("Resource_ly5ge"), SubResource("Resource_7rr2k"), SubResource("Resource_tss1t"), SubResource("Resource_32edt"), SubResource("Resource_6cldu"), SubResource("Resource_ljub1"), SubResource("Resource_w7uqe"), SubResource("Resource_qyc5l"), SubResource("Resource_ayejr"), SubResource("Resource_gk50w"), SubResource("Resource_dbw2v"), SubResource("Resource_qn105")])
+atlas = ExtResource("1_gjowi")
+back_texture = SubResource("AtlasTexture_yuqn5")

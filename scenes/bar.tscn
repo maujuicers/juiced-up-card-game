@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://bmq5vxxkof2ko" path="res://assets/3D assets/Cats/OrangeCatHead.glb" id="8_cmq8q"]
 [ext_resource type="PackedScene" uid="uid://00kietukhj2r" path="res://assets/3D assets/Cats/GrayCatBody.glb" id="9_i5gm6"]
 [ext_resource type="PackedScene" uid="uid://ld0qo184attr" path="res://assets/3D assets/Cats/GrayCatHead.glb" id="10_7uitc"]
+[ext_resource type="PackedScene" uid="uid://dh6ocbofpft68" path="res://assets/3D assets/Cats/BlackCatBody.fbx" id="11_5qaxt"]
 [ext_resource type="PackedScene" uid="uid://d30gp41ch4m7p" path="res://assets/3D assets/Cats/BlackCatHead.glb" id="11_8y7uo"]
-[ext_resource type="PackedScene" uid="uid://b2t6xmjhegf" path="res://assets/3D assets/Cats/BlackCatBody.glb" id="12_b7mdb"]
 
 [node name="Bar" type="Node3D" unique_id=1303346349]
 
@@ -19,7 +19,7 @@
 transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 0, 0)
 
 [node name="Ceiling" parent="." unique_id=973510017 instance=ExtResource("1_bwlfd")]
-transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 4.164683, 0)
+transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 3.3498797, 0)
 
 [node name="Wall" parent="." unique_id=984812684 instance=ExtResource("2_efgdo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20847344, 0, 0.01211071)
@@ -56,26 +56,56 @@ transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0
 
 [node name="OrangeCat" type="Node3D" parent="Gathering" unique_id=1618268841]
 
-[node name="OrangeCatBody" parent="Gathering/OrangeCat" unique_id=263964827 instance=ExtResource("7_5qaxt")]
+[node name="OrangeCatHead" parent="Gathering/OrangeCat" unique_id=1295134047 instance=ExtResource("8_cmq8q")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="OrangeCatHead" parent="Gathering/OrangeCat" unique_id=1295134047 instance=ExtResource("8_cmq8q")]
+[node name="OrangeCatBody" parent="Gathering/OrangeCat" unique_id=263964827 instance=ExtResource("7_5qaxt")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
 [node name="GrayCat" type="Node3D" parent="Gathering" unique_id=2127953591]
 
-[node name="GrayCatBody" parent="Gathering/GrayCat" unique_id=954631602 instance=ExtResource("9_i5gm6")]
+[node name="GrayCatHead" parent="Gathering/GrayCat" unique_id=1984435602 instance=ExtResource("10_7uitc")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="GrayCatHead" parent="Gathering/GrayCat" unique_id=1984435602 instance=ExtResource("10_7uitc")]
+[node name="GrayCatBody" parent="Gathering/GrayCat" unique_id=954631602 instance=ExtResource("9_i5gm6")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="BlackCat" type="Node3D" parent="Gathering" unique_id=1833370294]
 
-[node name="BlackCatHead" parent="Gathering/BlackCat" unique_id=1938965592 instance=ExtResource("11_8y7uo")]
-transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 0, 0, 0)
+[node name="BlackCatBody" parent="Gathering/BlackCat" unique_id=1846484419 instance=ExtResource("11_5qaxt")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="BlackCatBody" parent="Gathering/BlackCat" unique_id=1403215864 instance=ExtResource("12_b7mdb")]
+[node name="Skeleton3D" parent="Gathering/BlackCat/BlackCatBody/Armature" parent_id_path=PackedInt32Array(1846484419, 1614536077) index="0" unique_id=1921007249]
+bones/0/rotation = Quaternion(-0.26740676, 0.7250868, -0.40853676, -0.4856341)
+bones/1/rotation = Quaternion(0.29340175, -0.014378569, -0.13127448, 0.946824)
+bones/2/rotation = Quaternion(0.27736285, 0.008823737, -0.18049313, 0.94361764)
+bones/3/rotation = Quaternion(0.096418984, 0.022255352, -0.12244215, 0.9875303)
+
+[node name="Cone_052" parent="Gathering/BlackCat/BlackCatBody" index="1" unique_id=1074902329]
+transform = Transform3D(-51.13578, 1.8256495e-05, -85.93679, 85.93679, 1.673251e-05, -51.13578, 5.043782e-06, -100, -2.4245344e-05, 0.5593221, 0.25328967, -0.1669836)
+
+[node name="Cone_053" parent="Gathering/BlackCat/BlackCatBody" index="2" unique_id=655216111]
+transform = Transform3D(-45.31914, 46.320553, -76.161545, 85.93678, 3.7221434e-05, -51.135784, -23.68635, -88.62508, -39.80642, 0.57787555, 0.25328967, -0.19887933)
+
+[node name="Cone_055" parent="Gathering/BlackCat/BlackCatBody" index="4" unique_id=1812045039]
+transform = Transform3D(-51.13578, 1.8256495e-05, -85.93679, 85.93679, 1.673251e-05, -51.13578, 5.043782e-06, -100, -2.4245344e-05, 0.5593221, 0.25328967, 0.16263065)
+
+[node name="Cone_056" parent="Gathering/BlackCat/BlackCatBody" index="5" unique_id=12651040]
+transform = Transform3D(-45.31914, 46.320553, -76.161545, 85.93678, 3.7221434e-05, -51.135784, -23.68635, -88.62508, -39.80642, 0.57787555, 0.25328967, 0.13073492)
+
+[node name="Cone_061" parent="Gathering/BlackCat/BlackCatBody" index="7" unique_id=1735423602]
+transform = Transform3D(95.96751, -7.077507, -27.205658, 17.479155, -60.772522, 77.467316, -22.01631, -79.09877, -57.084778, 0.58373106, 1.165473, 0.12431038)
+
+[node name="Cone_062" parent="Gathering/BlackCat/BlackCatBody" index="8" unique_id=1639586888]
+transform = Transform3D(92.38692, -16.27799, -34.636433, 21.832582, -51.91463, 82.63299, -31.432362, -83.90411, -44.408424, 0.5820581, 1.1953812, 0.175289)
+
+[node name="Cone_063" parent="Gathering/BlackCat/BlackCatBody" index="9" unique_id=947472653]
+transform = Transform3D(97.64429, -19.66252, -8.886959, -9.467761, -76.051155, 64.23848, -19.38954, -61.88381, -76.12121, 0.62152636, 1.1275588, 0.10150796)
+
+[node name="Cylinder_039" parent="Gathering/BlackCat/BlackCatBody" index="12" unique_id=1904810906]
+transform = Transform3D(1.9106854e-13, -4.371139e-06, 100, -100, -4.371139e-06, 0, 4.371139e-06, -100, -4.371139e-06, 1.545516, 0.69588685, 0)
+
+[node name="BlackCatHead" parent="Gathering/BlackCat" unique_id=1938965592 instance=ExtResource("11_8y7uo")]
 transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 0, 0, 0)
 
 [node name="Gathering2" type="Node3D" parent="." unique_id=1405353681]
@@ -141,3 +171,19 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 
 [node name="Chair4" parent="Gathering5" unique_id=1596887115 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1583430958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=178961635]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1214693491]
+transform = Transform3D(0.99988055, -4.656613e-10, -0.015457209, 0.0057619708, 0.9279241, 0.37272462, 0.014343117, -0.3727691, 0.92781323, -0.011304498, 1.519163, 0.8353487)
+visible = false
+
+[editable path="Gathering/BlackCat/BlackCatBody"]
