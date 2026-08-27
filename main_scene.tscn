@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://bumewyxm8u3qg" path="res://scripts/main_scene.gd" id="1_66tet"]
 [ext_resource type="PackedScene" uid="uid://biqyni0po3e7b" path="res://scenes/maumau-engine/MaumauEngine.tscn" id="2_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://dugrco4ylfn5t" path="res://scenes/npc/npc.tscn" id="3_d5x1h"]
-[ext_resource type="AudioStream" uid="uid://daderdb8t3o5t" path="res://audio/music/JuicedUpCards.mp3" id="4_8mm7a"]
 [ext_resource type="PackedScene" uid="uid://cldy26buiv6t8" path="res://scenes/bar.tscn" id="4_bar01"]
 [ext_resource type="PackedScene" uid="uid://dpji0gao78poo" path="res://scenes/ui/pause_menu.tscn" id="6_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://c5ek0fsypmit6" path="res://scenes/ui/settings_menu.tscn" id="7_nfk4m"]
@@ -39,7 +38,6 @@ environment = SubResource("Environment_04g65")
 [node name="MaumauEngine" parent="." unique_id=1722475892 node_paths=PackedStringArray("npcs", "player") instance=ExtResource("2_gyfs4")]
 npcs = [NodePath("../Npc"), NodePath("../Npc2"), NodePath("../Npc3")]
 player = NodePath("../Player")
-music = ExtResource("4_8mm7a")
 
 [node name="Npc" parent="." unique_id=676701979 instance=ExtResource("3_d5x1h")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.63, -1.14)
