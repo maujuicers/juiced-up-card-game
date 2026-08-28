@@ -2,9 +2,6 @@ extends Node
 
 class_name MauMauPlayer
 
-signal card_selected(card_id: int)
-signal card_drawn()
-signal suit_wished(suit: Card.Suit)
 signal hand_changed(hand: Array[Card])
 
 ## Only set true for AI players
@@ -12,8 +9,10 @@ signal hand_changed(hand: Array[Card])
 
 var hand: Array[Card] = []
 var turn_position: int
-var turn_active: bool = false
 var placement: int = -1
+## The MauMauGameManager that placed this seat; whether the seat may act is its call.
+## Typed as Node: the manager names this class, and the cycle breaks the parser.
+var manager: Node
 
 
 func init_hand(first_hand: Array[Card]) -> void:
@@ -25,47 +24,23 @@ func init_pos(turn: int) -> void:
 	self.turn_position = turn
 
 
-func on_turn_started() -> void:
-	turn_active = true
-	print("MauMauPlayer at seat %d is thinking..." % turn_position)
-
-
-func on_turn_ended() -> void:
-	turn_active = false
-
-
-func try_play_card(selected_card_pos: int) -> void:
-	if not turn_active:
-		return
+## The three intents. Each returns whether the manager accepted the action.
+func try_play_card(selected_card_pos: int) -> bool:
 	if selected_card_pos < 0 or selected_card_pos >= hand.size():
-		return
-
-	card_selected.emit(hand[selected_card_pos].id)
-
-
-func try_play_card_by_id(card_id: int) -> void:
-	if not turn_active:
-		return
-	if not has_card(card_id):
-		return
-
-	card_selected.emit(card_id)
+		return false
+	return try_play_card_by_id(hand[selected_card_pos].id)
 
 
-# draw function if player doesnt have fitting cards
-func draw_card(draw_amount: int = 1) -> void:
-	card_drawn.emit(draw_amount)
+func try_play_card_by_id(card_id: int) -> bool:
+	return manager != null and manager.submit_move(self, card_id)
 
 
-# draw function for rank 7 cards
-func draw_penalty_card(draw_amount: int) -> void:
-	if not hand.any(func(card: Card) -> bool: return card.rank == Card.Rank.SEVEN):
-		card_drawn.emit(draw_amount)
+func draw_card() -> bool:
+	return manager != null and manager.submit_draw(self)
 
 
-func select_suit(suit: Card.Suit) -> void:
-	print("%s was wished" % Card.suit_name(suit))
-	suit_wished.emit(suit)
+func select_suit(suit: Card.Suit) -> bool:
+	return manager != null and manager.submit_wish(self, suit)
 
 
 func add_card(card: Card) -> void:
@@ -84,21 +59,16 @@ func card_index(card_id: int) -> int:
 	return -1
 
 
-## null if this seat is not on turn or does not hold the card.
-func play_card(player_index: int, card_id: int) -> Card:
-	if player_index != turn_position:
-		return null
-
+## null if this seat does not hold the card.
+func remove_card(card_id: int) -> Card:
 	var index := card_index(card_id)
 	if index == -1:
 		return null
 
-	var played_card: Card = hand[index]
+	var removed: Card = hand[index]
 	hand.remove_at(index)
-	turn_active = false
-	print("%s was played" % played_card)
 	hand_changed.emit(hand)
-	return played_card
+	return removed
 
 
 func call_mau() -> void:
@@ -107,3 +77,8 @@ func call_mau() -> void:
 
 func get_hand_size() -> int:
 	return hand.size()
+
+
+func _to_string() -> String:
+	var owner_name := get_parent().name if get_parent() != null else name
+	return "%s (seat %d)" % [owner_name, turn_position]
