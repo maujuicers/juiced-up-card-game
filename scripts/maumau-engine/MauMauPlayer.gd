@@ -10,6 +10,10 @@ signal hand_changed(hand: Array[Card])
 var hand: Array[Card] = []
 var turn_position: int
 var placement: int = -1
+var cheated: bool = false
+var cheat_counter: int = 0
+var cheat_accusation: bool = false
+var cheat_penalties: int = 0
 ## The MauMauGameManager that placed this seat; whether the seat may act is its call.
 ## Typed as Node: the manager names this class, and the cycle breaks the parser.
 var manager: Node
@@ -33,7 +37,36 @@ func try_play_card(selected_card_pos: int) -> bool:
 
 func try_play_card_by_id(card_id: int) -> bool:
 	return manager != null and manager.submit_move(self, card_id)
+	
+func trigger_cheat(duration: float) -> void:
+	cheat_counter += 1
+	cheated = true
+	print("I just cheated hehe")
+	var this_call := cheat_counter
+	await get_tree().create_timer(duration).timeout
+	if this_call == cheat_counter:
+		cheated = false
+		print("cheat cant be called anymore")
+		
+func call_cheater(cheater: MauMauPlayer)-> void:
+	print(cheater.cheated)
+	cheat_accusation = true
+	if cheater.cheated:
+		cheater.cheat_accusation = true;
+		print("player %s got called out by player %s for his cheat and has to draw cards" % [cheater.turn_position, self.turn_position])
+		cheater.cheat_penalty()
+	else:
+		print("player %s didnt cheat so player %s has to draw cards, for calling him out" % [cheater.turn_position, self.turn_position])
+		cheat_penalty()
+		
+	cheat_accusation = false
+	cheater.cheat_accusation = false
 
+func cheat_penalty() -> void:
+	cheat_penalties += 1
+	print("player %s received %d penalties now" % [self.turn_position, self.cheat_penalties])
+	self.manager._set_penalty()
+	draw_card()
 
 func draw_card() -> bool:
 	return manager != null and manager.submit_draw(self)
