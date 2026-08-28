@@ -27,7 +27,7 @@ signal mouse_sensitivity_changed(sensitivity: float)
 @export var settings_saved_label: Label
 @export var save_settings_question: Control
 
-var save_button_was_pressed: bool = false
+var save_button_was_pressed: bool = true
 
 ## The one place slider and radians-per-pixel meet, so load/save/live agree.
 static func slider_value_to_sensitivity(value: float) -> float:
@@ -78,7 +78,6 @@ func load_settings_config() -> void:
 
 func _on_close_button_pressed() -> void:
 	if(save_button_was_pressed):
-		save_button_was_pressed = false
 		self.hide()
 	else:
 		save_settings_question.show()
