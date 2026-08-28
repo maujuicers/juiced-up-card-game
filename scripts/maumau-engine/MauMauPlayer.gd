@@ -11,6 +11,7 @@ var hand: Array[Card] = []
 var turn_position: int
 var placement: int = -1
 var cheated: bool = false
+var cheat: Cheat
 var cheat_counter: int = 0
 var cheat_accusation: bool = false
 var cheat_penalties: int = 0
@@ -38,14 +39,16 @@ func try_play_card(selected_card_pos: int) -> bool:
 func try_play_card_by_id(card_id: int) -> bool:
 	return manager != null and manager.submit_move(self, card_id)
 	
-func trigger_cheat(duration: float) -> void:
+func trigger_cheat(duration: float, method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> void:
 	cheat_counter += 1
 	cheated = true
+	cheat = Cheat.with_card(Cheat.Method.ONE, card)
 	print("I just cheated hehe")
 	var this_call := cheat_counter
 	await get_tree().create_timer(duration).timeout
 	if this_call == cheat_counter:
 		cheated = false
+		cheat = null
 		print("cheat cant be called anymore")
 		
 func call_cheater(cheater: MauMauPlayer)-> void:

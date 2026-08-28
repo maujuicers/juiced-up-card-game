@@ -25,6 +25,7 @@ var turn_order: Array[MauMauPlayer] = []
 var current_player_index: int
 var current_player_node: MauMauPlayer
 var wished_suit: Card.Suit = Card.Suit.NONE
+var cheat_penalty: bool = false
 var current_draw_penalty: int = 0
 var current_effect: String = "none"
 ## After the regular draw a second draw request means "pass".
@@ -140,7 +141,7 @@ func _play_card(card_id: int) -> bool:
 	var legal := MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty)
 	print("player %d tried to play %s. The move is %s." % [current_player_index, card, legal])
 	if not legal:
-		current_player_node.trigger_cheat(cheat_call_duration)
+		current_player_node.trigger_cheat(cheat_call_duration, Cheat.Method.ONE, card)
 
 	if current_player_node.remove_card(card_id) == null:
 		push_warning("Player %d does not hold %s" % [current_player_index, card])
@@ -198,7 +199,9 @@ func _draw_card(seat: MauMauPlayer) -> bool:
 		print("Player %d drew %s" % [seat.turn_position, drawn_card])
 
 	if taking_penalty:
-		advance_turn()
+		if not cheat_penalty:
+			advance_turn()
+		cheat_penalty = false
 		return true
 
 	# House rule: a drawn card that fits may be played right away.
@@ -218,6 +221,7 @@ func _set_wished_suit(suit: Card.Suit) -> void:
 
 func _set_penalty() -> void:
 	current_draw_penalty = cards_drawn_on_cheat
+	cheat_penalty = true
 	
 ## null only when both piles are exhausted.
 func _draw_from_pile() -> Card:
