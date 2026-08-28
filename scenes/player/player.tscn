@@ -31,8 +31,7 @@ juice = NodePath("../../Juice")
 layout_mode = 3
 crosshair_size = 14.0
 
-[node name="CurrentPlayerLabel" parent="UI" unique_id=1427191879 node_paths=PackedStringArray("mau_mau_player") instance=ExtResource("4_0owmy")]
-mau_mau_player = NodePath("../../MauMauPlayer")
+[node name="CurrentPlayerLabel" parent="UI" unique_id=1427191879 instance=ExtResource("4_0owmy")]
 
 [node name="MauMauPlayer" type="Node" parent="." unique_id=1609776256]
 script = ExtResource("3_gmlin")

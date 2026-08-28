@@ -26,7 +26,7 @@ transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 4.164683, 
 [node name="YellowCatHead" parent="Bar/Gathering/YellowCat" parent_id_path=PackedInt32Array(1497321058, 39755458) index="0" unique_id=1115419289]
 visible = false
 
-[node name="BlackCatBody" parent="Bar/Gathering/BlackCat" parent_id_path=PackedInt32Array(1497321058, 1833370294) index="0" unique_id=1846484419]
+[node name="BlackCatBody" parent="Bar/Gathering/BlackCat" parent_id_path=PackedInt32Array(1497321058, 1833370294) index="0" unique_id=1956931998]
 transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 0, 0, 0)
 
 [node name="Player" parent="." unique_id=50830596 instance=ExtResource("1_0f027")]
@@ -50,18 +50,18 @@ transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -1.14, 0.63, 0)
 [node name="Npc3" parent="." unique_id=1846873257 instance=ExtResource("3_d5x1h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.63, 1.14)
 
+[node name="LastPlayedCard" parent="." unique_id=1222789218 node_paths=PackedStringArray("manager", "player") instance=ExtResource("8_7ycvg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+manager = NodePath("../MaumauEngine")
+card_scene = ExtResource("9_wr18j")
+player = NodePath("../Player")
+
 [node name="PauseMenu" parent="." unique_id=2080118311 node_paths=PackedStringArray("settings_menu") instance=ExtResource("6_hq1ik")]
 visible = false
 settings_menu = NodePath("../SettingsMenu")
 
 [node name="SettingsMenu" parent="." unique_id=1175825677 instance=ExtResource("7_nfk4m")]
 visible = false
-
-[node name="LastPlayedCard" parent="." unique_id=1222789218 node_paths=PackedStringArray("manager", "player") instance=ExtResource("8_7ycvg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
-manager = NodePath("../MaumauEngine")
-card_scene = ExtResource("9_wr18j")
-player = NodePath("../Player")
 
 [editable path="Bar"]
 [editable path="Bar/Gathering/BlackCat/BlackCatBody"]

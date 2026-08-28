@@ -7,6 +7,7 @@ signal card_played(player_index: int, card: Card)
 signal turn_changed(new_player_index: int)
 signal effect_triggered(effect: String)
 signal game_over_signal(winner_index: int)
+signal base_card_played(card: Card)
 
 @export var npcs: Array[Npc]
 @export var player: PlayerController
@@ -57,6 +58,7 @@ func start_game() -> void:
 
 	#draw first card
 	discard_pile.append(_draw_from_pile())
+	call_deferred("emit_signal", "base_card_played", discard_pile.back()) # Call deferred because of init order
 
 func start_turn() -> void:
 

@@ -15,6 +15,7 @@ var cheat: Cheat
 var cheat_counter: int = 0
 var cheat_accusation: bool = false
 var cheat_penalties: int = 0
+var current_player_label: CurrentPlayerLabel
 ## The MauMauGameManager that placed this seat; whether the seat may act is its call.
 ## Typed as Node: the manager names this class, and the cycle breaks the parser.
 var manager: Node
@@ -24,10 +25,8 @@ func init_hand(first_hand: Array[Card]) -> void:
 	self.hand = first_hand
 	hand_changed.emit(hand)
 
-
 func init_pos(turn: int) -> void:
 	self.turn_position = turn
-
 
 ## The three intents. Each returns whether the manager accepted the action.
 func try_play_card(selected_card_pos: int) -> bool:
