@@ -14,6 +14,8 @@ signal game_over_signal(winner_index: int)
 ## Falls back to [method CardDeck.load_default] when the scene leaves it unset.
 @export var deck: CardDeck
 @export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 1.0
+@export_range(5.0, 25.0, 0.5, "suffix:s") var cheat_call_duration: float = 10.0
+@export_range(1, 5, 1, "suffix:c") var cards_drawn_on_cheat: int = 2
 
 #Game state
 @export_range(1, 8) var cards_per_player := 5
@@ -23,6 +25,7 @@ var turn_order: Array[MauMauPlayer] = []
 var current_player_index: int
 var current_player_node: MauMauPlayer
 var wished_suit: Card.Suit = Card.Suit.NONE
+var cheat_penalty: bool = false
 var current_draw_penalty: int = 0
 var current_effect: String = "none"
 ## After the regular draw a second draw request means "pass".
@@ -82,7 +85,7 @@ func start_turn() -> void:
 			# Without a seven to counter, the penalty is taken at once.
 			if not MauMauRules.has_valid_move(
 					current_player_node.hand, discard_pile.back(), wished_suit, current_draw_penalty):
-				_draw_card()
+				_draw_card(current_player_node)
 		"skip_next":
 			print("Player %d was skipped!" % current_player_index)
 			current_effect = "none"
@@ -111,9 +114,9 @@ func submit_move(seat: MauMauPlayer, card_id: int) -> bool:
 
 
 func submit_draw(seat: MauMauPlayer) -> bool:
-	if not _is_on_turn(seat) or awaiting_wish:
-		return false
-	return _draw_card()
+	if _is_on_turn(seat) or not awaiting_wish or _is_in_cheat_accusation(seat):
+		return _draw_card(seat)
+	return false
 
 
 func submit_wish(seat: MauMauPlayer, suit: Card.Suit) -> bool:
@@ -125,7 +128,9 @@ func submit_wish(seat: MauMauPlayer, suit: Card.Suit) -> bool:
 
 func _is_on_turn(seat: MauMauPlayer) -> bool:
 	return not is_game_over and seat != null and seat == current_player_node
-
+	
+func _is_in_cheat_accusation(seat: MauMauPlayer) -> bool:
+	return seat.cheat_accusation
 
 func _play_card(card_id: int) -> bool:
 	var card := deck.card(card_id)
@@ -136,7 +141,7 @@ func _play_card(card_id: int) -> bool:
 	var legal := MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty)
 	print("player %d tried to play %s. The move is %s." % [current_player_index, card, legal])
 	if not legal:
-		return false
+		current_player_node.trigger_cheat(cheat_call_duration, Cheat.Method.ONE, card)
 
 	if current_player_node.remove_card(card_id) == null:
 		push_warning("Player %d does not hold %s" % [current_player_index, card])
@@ -169,17 +174,17 @@ func _play_card(card_id: int) -> bool:
 	return true
 
 
-func _draw_card() -> bool:
+func _draw_card(seat: MauMauPlayer) -> bool:
 	if has_drawn_this_turn:
-		print("Player %d passes" % current_player_index)
+		print("Player %d passes" % seat.turn_position)
 		advance_turn()
 		return true
 
 	# A pending penalty may always be taken instead of countering with a seven.
-	if current_draw_penalty == 0 and MauMauRules.has_valid_move(
-			current_player_node.hand, discard_pile.back(), wished_suit, current_draw_penalty):
-		print("Player %d may not draw: a card in hand can be played" % current_player_index)
-		return false
+	#if current_draw_penalty == 0 and MauMauRules.has_valid_move(
+			#current_player_node.hand, discard_pile.back(), wished_suit, current_draw_penalty):
+		#print("Player %d may not draw: a card in hand can be played" % current_player_index)
+		#return false
 
 	var taking_penalty := current_draw_penalty > 0
 	var draw_cards := current_draw_penalty if taking_penalty else 1
@@ -190,17 +195,19 @@ func _draw_card() -> bool:
 		drawn_card = _draw_from_pile()
 		if drawn_card == null:
 			break
-		current_player_node.add_card(drawn_card)
-		print("Player %d drew %s" % [current_player_node.turn_position, drawn_card])
+		seat.add_card(drawn_card)
+		print("Player %d drew %s" % [seat.turn_position, drawn_card])
 
 	if taking_penalty:
-		advance_turn()
+		if not cheat_penalty:
+			advance_turn()
+		cheat_penalty = false
 		return true
 
 	# House rule: a drawn card that fits may be played right away.
 	has_drawn_this_turn = true
 	if drawn_card != null and MauMauRules.is_valid_move(drawn_card, discard_pile.back(), wished_suit, current_draw_penalty):
-		print("Player %d may play the drawn %s" % [current_player_index, drawn_card])
+		print("Player %d may play the drawn %s" % [seat.turn_position, drawn_card])
 		return true
 	advance_turn()
 	return true
@@ -212,7 +219,10 @@ func _set_wished_suit(suit: Card.Suit) -> void:
 	print("%s was wished" % Card.suit_name(suit))
 	advance_turn()
 
-
+func _set_penalty() -> void:
+	current_draw_penalty = cards_drawn_on_cheat
+	cheat_penalty = true
+	
 ## null only when both piles are exhausted.
 func _draw_from_pile() -> Card:
 	if draw_pile.is_empty():
@@ -332,14 +342,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_2, KEY_KP_2: key_index = 1
 		KEY_3, KEY_KP_3: key_index = 2
 		KEY_4, KEY_KP_4: key_index = 3
-		KEY_5, KEY_KP_5: key_index = 4
-		KEY_6, KEY_KP_6: key_index = 5
-		KEY_7, KEY_KP_7: key_index = 6
-		KEY_8, KEY_KP_8: key_index = 7
-		KEY_9, KEY_KP_9: key_index = 8
 
 	if key_index != -1:
-		seat.try_play_card(key_index)
+		seat.call_cheater(turn_order[key_index])
 
 func log_gamestate() -> void:
 	print("\n--- PLAYER HANDS INITIALIZED ---")
