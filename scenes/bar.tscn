@@ -4,13 +4,14 @@
 [ext_resource type="PackedScene" uid="uid://btdb0a0csat1v" path="res://assets/3D assets/Bar/Wall.glb" id="2_efgdo"]
 [ext_resource type="PackedScene" uid="uid://c10euy7a04m6x" path="res://assets/3D assets/Bar/Table.glb" id="2_qdsxc"]
 [ext_resource type="PackedScene" uid="uid://bi4g6yddn2mn3" path="res://assets/3D assets/Bar/Chair.glb" id="2_x848m"]
-[ext_resource type="PackedScene" uid="uid://cmf537x3grl40" path="res://assets/3D assets/Cats/YellowCatBody.glb" id="5_2j1ym"]
-[ext_resource type="PackedScene" uid="uid://dm5gcvu3e3fcs" path="res://assets/3D assets/Cats/YellowCatHead.glb" id="6_7r073"]
-[ext_resource type="PackedScene" uid="uid://br8klgmdi1eoc" path="res://assets/3D assets/Cats/OrangeCatBody.glb" id="7_5qaxt"]
-[ext_resource type="PackedScene" uid="uid://bmq5vxxkof2ko" path="res://assets/3D assets/Cats/OrangeCatHead.glb" id="8_cmq8q"]
-[ext_resource type="PackedScene" uid="uid://00kietukhj2r" path="res://assets/3D assets/Cats/GrayCatBody.glb" id="9_i5gm6"]
-[ext_resource type="PackedScene" uid="uid://ld0qo184attr" path="res://assets/3D assets/Cats/GrayCatHead.glb" id="10_7uitc"]
-[ext_resource type="PackedScene" uid="uid://e1pk1iesaya6" path="res://assets/3D assets/Cats/BlackCatBody.glb" id="11_7uitc"]
+[ext_resource type="PackedScene" uid="uid://bon71ikyoiyf0" path="res://assets/3D assets/Cats/YellowCatBody.glb" id="5_2j1ym"]
+[ext_resource type="PackedScene" uid="uid://bnw52wvj7s63a" path="res://assets/3D assets/Cats/YellowCatHead.glb" id="6_7r073"]
+[ext_resource type="PackedScene" uid="uid://df2tykbhx5ccl" path="res://assets/3D assets/Cats/OrangeCatBody.glb" id="7_5qaxt"]
+[ext_resource type="PackedScene" uid="uid://bm22aly8746bp" path="res://assets/3D assets/Cats/OrangeCatHead.glb" id="8_cmq8q"]
+[ext_resource type="PackedScene" uid="uid://bafjr32ptyo1r" path="res://assets/3D assets/Cats/GrayCatBody.glb" id="9_i5gm6"]
+[ext_resource type="PackedScene" uid="uid://buikmfht0a2q5" path="res://assets/3D assets/Cats/GrayCatHead.glb" id="10_7uitc"]
+[ext_resource type="PackedScene" uid="uid://gjtsal36t5vo" path="res://assets/3D assets/Cats/BlackCatHead.glb" id="10_8y7uo"]
+[ext_resource type="PackedScene" uid="uid://ds8ke7oawkri2" path="res://assets/3D assets/Cats/BlackCatBody.glb" id="11_7uitc"]
 [ext_resource type="PackedScene" uid="uid://c45kl0riyt41u" path="res://assets/3D assets/Bar/WaterBottle.fbx" id="12_8y7uo"]
 [ext_resource type="PackedScene" uid="uid://cbehhoaxc3afq" path="res://assets/3D assets/Bar/WaterBottleLogo.glb" id="13_b7mdb"]
 [ext_resource type="PackedScene" uid="uid://fv586iu6e01y" path="res://assets/3D assets/Bar/JuiceBottle.fbx" id="14_pbi2s"]
@@ -53,39 +54,45 @@ transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0
 
 [node name="YellowCat" type="Node3D" parent="Gathering" unique_id=39755458]
 
-[node name="YellowCatHead" parent="Gathering/YellowCat" unique_id=1115419289 instance=ExtResource("6_7r073")]
+[node name="YellowCatHead" parent="Gathering/YellowCat" unique_id=1060222907 instance=ExtResource("6_7r073")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1599903, 1.3913467, 0)
 
-[node name="YellowCatBody" parent="Gathering/YellowCat" unique_id=409594524 instance=ExtResource("5_2j1ym")]
+[node name="YellowCatBody" parent="Gathering/YellowCat" unique_id=1483088055 instance=ExtResource("5_2j1ym")]
 
 [node name="OrangeCat" type="Node3D" parent="Gathering" unique_id=1618268841]
 
-[node name="OrangeCatHead" parent="Gathering/OrangeCat" unique_id=1295134047 instance=ExtResource("8_cmq8q")]
+[node name="OrangeCatHead" parent="Gathering/OrangeCat" unique_id=2011536089 instance=ExtResource("8_cmq8q")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 1.4096402, 1.1556413)
+
+[node name="OrangeCatBody" parent="Gathering/OrangeCat" unique_id=1407330369 instance=ExtResource("7_5qaxt")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 
-[node name="OrangeCatBody" parent="Gathering/OrangeCat" unique_id=263964827 instance=ExtResource("7_5qaxt")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+[node name="Skeleton3D" parent="Gathering/OrangeCat/OrangeCatBody/Armature" parent_id_path=PackedInt32Array(1407330369, 1163192074) index="0" unique_id=1574705530]
+bones/0/rotation = Quaternion(-0.15431, -0.22383463, 0.80159295, 0.53248024)
+bones/1/rotation = Quaternion(0.29340178, -0.014378564, -0.13127446, 0.946824)
+bones/1/scale = Vector3(0.99999994, 0.99999976, 1)
+bones/2/rotation = Quaternion(0.27736285, 0.00882373, -0.18049315, 0.94361764)
+bones/3/rotation = Quaternion(0.09641899, 0.022255355, -0.12244215, 0.9875303)
+bones/3/scale = Vector3(0.99999994, 0.99999994, 0.99999994)
 
 [node name="GrayCat" type="Node3D" parent="Gathering" unique_id=2127953591]
 
-[node name="GrayCatHead" parent="Gathering/GrayCat" unique_id=1984435602 instance=ExtResource("10_7uitc")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+[node name="GrayCatHead" parent="Gathering/GrayCat" unique_id=781677368 instance=ExtResource("10_7uitc")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.1501516, 1.3989626, 0)
 
-[node name="GrayCatBody" parent="Gathering/GrayCat" unique_id=954631602 instance=ExtResource("9_i5gm6")]
+[node name="GrayCatBody" parent="Gathering/GrayCat" unique_id=336561744 instance=ExtResource("9_i5gm6")]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="BlackCat" type="Node3D" parent="Gathering" unique_id=1833370294]
 
-[node name="BlackCatBody" parent="Gathering/BlackCat" unique_id=1956931998 instance=ExtResource("11_7uitc")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+[node name="BlackCatHead" parent="Gathering/BlackCat" unique_id=1131930883 instance=ExtResource("10_8y7uo")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5.9604645e-08, 1.3747518, -1.1766207)
 
-[node name="Skeleton3D" parent="Gathering/BlackCat/BlackCatBody/Armature" parent_id_path=PackedInt32Array(1956931998, 2034520439) index="0" unique_id=1276003100]
-bones/0/rotation = Quaternion(-0.15431, -0.22383463, 0.80159295, 0.53248024)
-bones/1/rotation = Quaternion(0.29340178, -0.014378564, -0.13127446, 0.946824)
-bones/1/scale = Vector3(0.99999994, 0.99999976, 1)
-bones/2/rotation = Quaternion(0.27736285, 0.008823742, -0.18049316, 0.94361764)
-bones/2/scale = Vector3(1, 1.0000001, 0.99999976)
-bones/3/rotation = Quaternion(0.09641883, 0.022255328, -0.1224422, 0.9875303)
-bones/3/scale = Vector3(1, 0.99999946, 1.0000001)
+[node name="Sphere_046" parent="Gathering/BlackCat/BlackCatHead" index="7" unique_id=228756440]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019911274, 0.014530018, 0)
+
+[node name="BlackCatBody" parent="Gathering/BlackCat" unique_id=744630522 instance=ExtResource("11_7uitc")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 
 [node name="WaterBottle" parent="Gathering" unique_id=166302210 instance=ExtResource("12_8y7uo")]
 transform = Transform3D(0.7671442, 0, 0.64147466, 0, 1, 0, -0.64147466, 0, 0.7671442, 0, 1.4048734, 0)
@@ -93,7 +100,7 @@ transform = Transform3D(0.7671442, 0, 0.64147466, 0, 1, 0, -0.64147466, 0, 0.767
 [node name="WaterBottleLogo" parent="Gathering/WaterBottle" unique_id=155001396 instance=ExtResource("13_b7mdb")]
 
 [node name="JuiceBottle" parent="Gathering" unique_id=1601902337 instance=ExtResource("14_pbi2s")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3948064, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.34514427, 1.3948064, 0.27973002)
 
 [node name="JuiceBottleLogo" parent="Gathering/JuiceBottle" unique_id=1640384419 instance=ExtResource("15_onlfy")]
 
@@ -175,4 +182,11 @@ shadow_enabled = true
 transform = Transform3D(0.99988055, -4.656613e-10, -0.015457209, 0.0057619708, 0.9279241, 0.37272462, 0.014343117, -0.3727691, 0.92781323, -0.011304498, 1.519163, 0.8353487)
 visible = false
 
+[editable path="Gathering/YellowCat/YellowCatHead"]
+[editable path="Gathering/YellowCat/YellowCatBody"]
+[editable path="Gathering/OrangeCat/OrangeCatHead"]
+[editable path="Gathering/OrangeCat/OrangeCatBody"]
+[editable path="Gathering/GrayCat/GrayCatHead"]
+[editable path="Gathering/GrayCat/GrayCatBody"]
+[editable path="Gathering/BlackCat/BlackCatHead"]
 [editable path="Gathering/BlackCat/BlackCatBody"]
