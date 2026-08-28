@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bjxov8cxpkada"
-path="res://.godot/imported/louder-card-moved-1.wav-7f3ba0181e317f4adcbecc9ec6da8c2e.sample"
+path="res://.godot/imported/card-moved-1.wav-46a23685a182602c3dc9a8243c453aed.sample"
 
 [deps]
 
-source_file="res://audio/sfx/card/louder-card-moved-1.wav"
-dest_files=["res://.godot/imported/louder-card-moved-1.wav-7f3ba0181e317f4adcbecc9ec6da8c2e.sample"]
+source_file="res://audio/sfx/card/card-moved-1.wav"
+dest_files=["res://.godot/imported/card-moved-1.wav-46a23685a182602c3dc9a8243c453aed.sample"]
 
 [params]
 
