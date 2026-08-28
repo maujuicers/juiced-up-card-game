@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://cldy26buiv6t8" path="res://scenes/bar.tscn" id="4_bar01"]
 [ext_resource type="PackedScene" uid="uid://dpji0gao78poo" path="res://scenes/ui/pause_menu.tscn" id="6_hq1ik"]
 [ext_resource type="PackedScene" uid="uid://c5ek0fsypmit6" path="res://scenes/ui/settings_menu.tscn" id="7_nfk4m"]
+[ext_resource type="PackedScene" uid="uid://pjtartsbd0xr" path="res://scenes/playing-card/last_played_card.tscn" id="8_7ycvg"]
+[ext_resource type="PackedScene" uid="uid://bbu748peiij0q" path="res://scenes/playing-card/playing_card.tscn" id="9_wr18j"]
 
 [sub_resource type="Environment" id="Environment_04g65"]
 
@@ -54,6 +56,12 @@ settings_menu = NodePath("../SettingsMenu")
 
 [node name="SettingsMenu" parent="." unique_id=1175825677 instance=ExtResource("7_nfk4m")]
 visible = false
+
+[node name="LastPlayedCard" parent="." unique_id=1222789218 node_paths=PackedStringArray("manager", "player") instance=ExtResource("8_7ycvg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+manager = NodePath("../MaumauEngine")
+card_scene = ExtResource("9_wr18j")
+player = NodePath("../Player")
 
 [editable path="Bar"]
 [editable path="Bar/Gathering/BlackCat/BlackCatBody"]

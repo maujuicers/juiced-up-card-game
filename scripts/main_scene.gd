@@ -9,6 +9,7 @@ func _ready() -> void:
 	settings_menu.hide()
 	# Driven by visibility so every close path (Esc, Close, Settings) hands the mouse back.
 	pause_menu.visibility_changed.connect(_update_look)
+	pause_menu.hidden.connect(show_crosshair)
 	settings_menu.visibility_changed.connect(_update_look)
 	settings_menu.mouse_sensitivity_changed.connect(player.set_look_sensitivity)
 	_update_look()
@@ -19,7 +20,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if settings_menu.visible:
 		settings_menu.hide()
 	elif pause_menu.visible:
-		player.crosshair.show()
+		show_crosshair()
 		pause_menu.hide()
 	else:
 		player.crosshair.hide()
@@ -28,3 +29,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _update_look() -> void:
 	player.set_look_enabled(not (pause_menu.visible or settings_menu.visible))
+
+func show_crosshair() -> void:
+	player.crosshair.show()
