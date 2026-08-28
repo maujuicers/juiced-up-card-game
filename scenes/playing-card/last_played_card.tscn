@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://pjtartsbd0xr"]
+
+[ext_resource type="Script" uid="uid://xvbr3nukuh87" path="res://scripts/playing-card/last_played_card.gd" id="1_h5bu3"]
+
+[node name="LastPlayedCard" type="Node3D" unique_id=1222789218]
+script = ExtResource("1_h5bu3")
