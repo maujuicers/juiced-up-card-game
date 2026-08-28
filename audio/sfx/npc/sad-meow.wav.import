@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://bbkamfhrse0yc"
-path="res://.godot/imported/angry-meow.wav-f34c9c280b256caf7cfb6be3b1dc5ef3.sample"
+uid="uid://c1e14u05ku23n"
+path="res://.godot/imported/sad-meow.wav-1df5dd2a4bdd180695c13f73ebbbaa55.sample"
 
 [deps]
 
-source_file="res://audio/sfx/angry-meow.wav"
-dest_files=["res://.godot/imported/angry-meow.wav-f34c9c280b256caf7cfb6be3b1dc5ef3.sample"]
+source_file="res://audio/sfx/npc/sad-meow.wav"
+dest_files=["res://.godot/imported/sad-meow.wav-1df5dd2a4bdd180695c13f73ebbbaa55.sample"]
 
 [params]
 

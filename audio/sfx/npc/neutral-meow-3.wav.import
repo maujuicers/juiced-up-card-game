@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://clkf6ro5diy84"
-path="res://.godot/imported/neutral-meow-3.wav-4b6452efea9be8020ad76002474bfdd8.sample"
+path="res://.godot/imported/neutral-meow-3.wav-06db3721097fa5a6845f155f99c9465d.sample"
 
 [deps]
 
-source_file="res://audio/sfx/neutral-meow-3.wav"
-dest_files=["res://.godot/imported/neutral-meow-3.wav-4b6452efea9be8020ad76002474bfdd8.sample"]
+source_file="res://audio/sfx/npc/neutral-meow-3.wav"
+dest_files=["res://.godot/imported/neutral-meow-3.wav-06db3721097fa5a6845f155f99c9465d.sample"]
 
 [params]
 
