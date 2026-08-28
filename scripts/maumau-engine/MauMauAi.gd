@@ -21,6 +21,9 @@ static func choose_card(hand: Array[Card], top_card: Card, wished_suit: Card.Sui
 
 static func choose_suit(hand: Array[Card]) -> Card.Suit:
 	var counts := suit_counts(hand)
+	# Going out on a Jack: nothing to prefer, so don't be predictable.
+	if counts.is_empty():
+		return [Card.Suit.HEARTS, Card.Suit.DIAMONDS, Card.Suit.CLUBS, Card.Suit.SPADES].pick_random()
 	var best := Card.Suit.HEARTS
 	var best_count := -1
 	for suit: Card.Suit in counts:
