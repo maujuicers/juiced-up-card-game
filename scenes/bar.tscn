@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cldy26buiv6t8"]
 
 [ext_resource type="PackedScene" uid="uid://bjjpvmusxnv2t" path="res://assets/3D assets/Bar/Floor.glb" id="1_bwlfd"]
+[ext_resource type="PackedScene" uid="uid://cifks0lhw6nvr" path="res://assets/3D assets/Bar/Lamp.glb" id="2_b7mdb"]
 [ext_resource type="PackedScene" uid="uid://btdb0a0csat1v" path="res://assets/3D assets/Bar/Wall.glb" id="2_efgdo"]
 [ext_resource type="PackedScene" uid="uid://c10euy7a04m6x" path="res://assets/3D assets/Bar/Table.glb" id="2_qdsxc"]
 [ext_resource type="PackedScene" uid="uid://bi4g6yddn2mn3" path="res://assets/3D assets/Bar/Chair.glb" id="2_x848m"]
@@ -16,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://duksgkluxbu05" path="res://assets/3D assets/Bar/WaterBottle.glb" id="14_7uitc"]
 [ext_resource type="PackedScene" uid="uid://bc463pdunsays" path="res://assets/3D assets/Cats/WaiterWithBottles.glb" id="15_8y7uo"]
 [ext_resource type="PackedScene" uid="uid://b3rmgdphskyr3" path="res://assets/3D assets/Cats/WaiterWithoutBottles.glb" id="16_b7mdb"]
+[ext_resource type="PackedScene" uid="uid://curp8336pddcc" path="res://assets/3D assets/Cats/BackgroundCat.glb" id="16_pbi2s"]
 
 [node name="Bar" type="Node3D" unique_id=1303346349]
 
@@ -24,6 +26,75 @@ transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 0, 0)
 
 [node name="Ceiling" parent="." unique_id=973510017 instance=ExtResource("1_bwlfd")]
 transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 3.3498797, 0)
+
+[node name="Lamp1" parent="." unique_id=1158010292 instance=ExtResource("2_b7mdb")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lamp1" unique_id=1583430958]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lamp1" unique_id=178961635]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Lamp1" unique_id=1735073275]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="Lamp2" parent="." unique_id=933678184 instance=ExtResource("2_b7mdb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0106945, 0, -4.0195374)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lamp2" unique_id=211475269]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lamp2" unique_id=457042790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="Lamp3" parent="." unique_id=119393030 instance=ExtResource("2_b7mdb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0299015, 0, -4.0195374)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lamp3" unique_id=1224874221]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lamp3" unique_id=1813051309]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="Lamp4" parent="." unique_id=1883255248 instance=ExtResource("2_b7mdb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.002283, 0, 3.9620028)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lamp4" unique_id=1752847744]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lamp4" unique_id=381596092]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="Lamp5" parent="." unique_id=1401294763 instance=ExtResource("2_b7mdb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.006877, 0, 4.017238)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lamp5" unique_id=1363316688]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lamp5" unique_id=237056263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
 
 [node name="Wall" parent="." unique_id=984812684 instance=ExtResource("2_efgdo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20847344, 0, 0.01211071)
@@ -108,6 +179,12 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 [node name="Chair4" parent="Gathering2" unique_id=1001281363 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
 
+[node name="BackgroundCat" parent="Gathering2" unique_id=2139266702 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat2" parent="Gathering2" unique_id=777464837 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
+
 [node name="Gathering3" type="Node3D" parent="." unique_id=455027951]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
 
@@ -123,6 +200,14 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 
 [node name="Chair4" parent="Gathering3" unique_id=691951852 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="Gathering3" unique_id=1564413860 instance=ExtResource("16_pbi2s")]
+
+[node name="BackgroundCat2" parent="Gathering3" unique_id=1533266401 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat3" parent="Gathering3" unique_id=1920670243 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="Gathering4" type="Node3D" parent="." unique_id=1594497949]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
@@ -140,6 +225,8 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 [node name="Chair4" parent="Gathering4" unique_id=1208602604 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
 
+[node name="BackgroundCat" parent="Gathering4" unique_id=1625280880 instance=ExtResource("16_pbi2s")]
+
 [node name="Gathering5" type="Node3D" parent="." unique_id=118417921]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
 
@@ -156,15 +243,16 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 [node name="Chair4" parent="Gathering5" unique_id=1596887115 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1583430958]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
-light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
-shadow_enabled = true
+[node name="BackgroundCat" parent="Gathering5" unique_id=964525593 instance=ExtResource("16_pbi2s")]
 
-[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=178961635]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
-light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
-shadow_enabled = true
+[node name="BackgroundCat2" parent="Gathering5" unique_id=1675042062 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat3" parent="Gathering5" unique_id=314616726 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="BackgroundCat4" parent="Gathering5" unique_id=1270862153 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1214693491]
 transform = Transform3D(0.99988055, -4.656613e-10, -0.015457209, 0.0057619708, 0.9279241, 0.37272462, 0.014343117, -0.3727691, 0.92781323, -0.011304498, 1.519163, 0.8353487)
