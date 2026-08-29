@@ -19,6 +19,8 @@ signal hand_changed(hand: Array[Card])
 
 @export var juice: Juice
 
+@export var suit_choice_node: SuitChoiceNode
+
 var move_card_sfx_list: Array[AudioStream]
 var neutral_meow_sfx_list: Array[AudioStream]
 var hand: Array[Card] = []

@@ -1,5 +1,7 @@
 extends Node3D
 
+class_name SuitChoiceNode
+
 @export var interactive: bool = true
 @export var mau_mau_player: MauMauPlayer
 

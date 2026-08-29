@@ -51,7 +51,7 @@ anchors_preset = 0
 offset_left = 0.0
 offset_top = 0.0
 
-[node name="MauMauPlayer" type="Node" parent="." unique_id=1609776256 node_paths=PackedStringArray("current_player_label", "current_player_arrow", "juice")]
+[node name="MauMauPlayer" type="Node" parent="." unique_id=1609776256 node_paths=PackedStringArray("current_player_label", "current_player_arrow", "juice", "suit_choice_node")]
 script = ExtResource("3_gmlin")
 click_sfx = ExtResource("6_qek5x")
 cheat_meow_sfx_list = Array[AudioStream]([ExtResource("13_myrg7"), ExtResource("14_kvlxm")])
@@ -60,6 +60,7 @@ sad_meow_sfx_list = Array[AudioStream]([ExtResource("12_fcs02"), ExtResource("13
 current_player_label = NodePath("../UI/CurrentPlayerLabel")
 current_player_arrow = NodePath("../CurrentPlayerArrow")
 juice = NodePath("../Juice")
+suit_choice_node = NodePath("../SuitChoice")
 
 [node name="Juice" parent="." unique_id=1555947057 instance=ExtResource("4_lvxji")]
 
@@ -69,6 +70,7 @@ visible = false
 
 [node name="SuitChoice" parent="." unique_id=57904205 node_paths=PackedStringArray("mau_mau_player") instance=ExtResource("16_kvlxm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, -1)
+visible = false
 mau_mau_player = NodePath("../MauMauPlayer")
 
 [node name="Hand" parent="." unique_id=1382204947 node_paths=PackedStringArray("head", "maumau_player") instance=ExtResource("5_hand0")]

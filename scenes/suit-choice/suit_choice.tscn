@@ -29,6 +29,7 @@ size = Vector3(6, 6.5, 0.002)
 
 [node name="SuitChoice" type="Node3D" unique_id=57904205]
 script = ExtResource("1_jnk5x")
+interactive = null
 
 [node name="Heart" type="Node3D" parent="." unique_id=703372172 node_paths=PackedStringArray("suit_sprite", "pick_area", "outline_mesh")]
 transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.3, 0)

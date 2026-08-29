@@ -171,6 +171,7 @@ func _play_card(card_id: int) -> bool:
 	if current_effect == "wish_suit":
 		print("player %d played %s, he can now choose a suit" % [current_player_index, card])
 		awaiting_wish = true
+		current_player_node.suit_choice_node.show()
 		return true
 
 	advance_turn()
@@ -217,6 +218,7 @@ func _draw_card(seat: MauMauPlayer) -> bool:
 
 
 func _set_wished_suit(suit: Card.Suit) -> void:
+	current_player_node.suit_choice_node.hide()
 	awaiting_wish = false
 	wished_suit = suit
 	print("%s was wished" % Card.suit_name(suit))
