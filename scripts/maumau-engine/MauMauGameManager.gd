@@ -12,6 +12,7 @@ signal base_card_played(card: Card)
 @export var npcs: Array[Npc]
 @export var player: PlayerController
 @export var music: AudioStream
+@export var move_card_sfx_list: Array[AudioStream]
 ## Falls back to [method CardDeck.load_default] when the scene leaves it unset.
 @export var deck: CardDeck
 @export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 1.0
@@ -135,6 +136,7 @@ func _is_in_cheat_accusation(seat: MauMauPlayer) -> bool:
 	return seat.cheat_accusation
 
 func _play_card(card_id: int) -> bool:
+	AudioManager.play_sfx(move_card_sfx_list[randi_range(0, 2)])
 	var card := deck.card(card_id)
 	if card == null:
 		push_error("Player %d tried to play unknown card id %d" % [current_player_index, card_id])
@@ -301,6 +303,7 @@ func init_player_positions() -> void:
 		if participant == null or participant.maumau_player == null:
 			push_error("Participant %s has no MauMauPlayer" % participant)
 			continue
+		participant.maumau_player.move_card_sfx_list = move_card_sfx_list
 		turn_order.append(participant.maumau_player)
 	turn_order.shuffle()
 

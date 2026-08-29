@@ -5,15 +5,18 @@
 [ext_resource type="PackedScene" uid="uid://biqyni0po3e7b" path="res://scenes/maumau-engine/MaumauEngine.tscn" id="2_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://dugrco4ylfn5t" path="res://scenes/npc/npc.tscn" id="3_d5x1h"]
 [ext_resource type="PackedScene" uid="uid://cldy26buiv6t8" path="res://scenes/bar.tscn" id="4_bar01"]
+[ext_resource type="AudioStream" uid="uid://bjxov8cxpkada" path="res://audio/sfx/card/card-moved-1.wav" id="5_u0ygc"]
+[ext_resource type="AudioStream" uid="uid://00whfxsu63x0" path="res://audio/sfx/card/card-moved-2.wav" id="6_7th4q"]
 [ext_resource type="PackedScene" uid="uid://dpji0gao78poo" path="res://scenes/ui/pause_menu.tscn" id="6_hq1ik"]
-[ext_resource type="AudioStream" uid="uid://c38ee7i88dshq" path="res://audio/sfx/npc/meow-neutral-1.wav" id="6_qwutr"]
-[ext_resource type="AudioStream" uid="uid://drqup6gdy8ww8" path="res://audio/sfx/npc/meow-neutral-2.wav" id="7_671wp"]
+[ext_resource type="AudioStream" path="res://audio/sfx/npc/meow-neutral-1.wav" id="6_qwutr"]
+[ext_resource type="AudioStream" uid="uid://dyyypdoih0qkp" path="res://audio/sfx/card/card-moved-3.wav" id="7_6jybn"]
+[ext_resource type="AudioStream" path="res://audio/sfx/npc/meow-neutral-2.wav" id="7_671wp"]
 [ext_resource type="PackedScene" uid="uid://c5ek0fsypmit6" path="res://scenes/ui/settings_menu.tscn" id="7_nfk4m"]
 [ext_resource type="PackedScene" uid="uid://pjtartsbd0xr" path="res://scenes/playing-card/last_played_card.tscn" id="8_7ycvg"]
-[ext_resource type="AudioStream" uid="uid://bynq1vropnahq" path="res://audio/sfx/npc/meow-neutral-3.wav" id="8_671wp"]
-[ext_resource type="AudioStream" uid="uid://cuywsdi1l8iar" path="res://audio/sfx/npc/meow-neutral-4.wav" id="9_42l1d"]
+[ext_resource type="AudioStream" path="res://audio/sfx/npc/meow-neutral-3.wav" id="8_671wp"]
+[ext_resource type="AudioStream" path="res://audio/sfx/npc/meow-neutral-4.wav" id="9_42l1d"]
 [ext_resource type="PackedScene" uid="uid://bbu748peiij0q" path="res://scenes/playing-card/playing_card.tscn" id="9_wr18j"]
-[ext_resource type="AudioStream" uid="uid://dpk68r2e21kxv" path="res://audio/sfx/npc/meow-neutral-5.wav" id="10_2jcla"]
+[ext_resource type="AudioStream" path="res://audio/sfx/npc/meow-neutral-5.wav" id="10_2jcla"]
 
 [sub_resource type="Environment" id="Environment_04g65"]
 
@@ -45,6 +48,7 @@ environment = SubResource("Environment_04g65")
 [node name="MaumauEngine" parent="." unique_id=1722475892 node_paths=PackedStringArray("npcs", "player") instance=ExtResource("2_gyfs4")]
 npcs = [NodePath("../Npc"), NodePath("../Npc2"), NodePath("../Npc3")]
 player = NodePath("../Player")
+move_card_sfx_list = Array[AudioStream]([ExtResource("5_u0ygc"), ExtResource("6_7th4q"), ExtResource("7_6jybn")])
 
 [node name="Npc" parent="." unique_id=676701979 instance=ExtResource("3_d5x1h")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.63, -1.14)
@@ -52,11 +56,11 @@ neutral_meow_sfx_list = Array[AudioStream]([ExtResource("6_qwutr"), ExtResource(
 
 [node name="Npc2" parent="." unique_id=357456118 instance=ExtResource("3_d5x1h")]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -1.14, 0.63, 0)
-neutral_meow_sfx_list = Array[AudioStream]([ExtResource("8_671wp")])
+neutral_meow_sfx_list = Array[AudioStream]([ExtResource("8_671wp"), ExtResource("9_42l1d")])
 
 [node name="Npc3" parent="." unique_id=1846873257 instance=ExtResource("3_d5x1h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.63, 1.14)
-neutral_meow_sfx_list = Array[AudioStream]([ExtResource("9_42l1d"), ExtResource("10_2jcla")])
+neutral_meow_sfx_list = Array[AudioStream]([ExtResource("10_2jcla")])
 
 [node name="LastPlayedCard" parent="." unique_id=1222789218 node_paths=PackedStringArray("manager", "player") instance=ExtResource("8_7ycvg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
