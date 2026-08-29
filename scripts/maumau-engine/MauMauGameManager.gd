@@ -315,7 +315,6 @@ func init_player_positions() -> void:
 		
 		turn_order[i].init_current_player_label()
 		turn_order[i].init_current_player_arrow()
-		turn_order[i].suit_choice_node.init_suit_choice()
 
 #################FUNCTIONS FOR DEBUGGING########################
 
