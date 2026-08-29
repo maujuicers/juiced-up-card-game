@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cbehhoaxc3afq"
-path="res://.godot/imported/WaterBottleLogo.glb-7f71d548b8b52fbbefb8698d89aa52a1.scn"
+uid="uid://b3rmgdphskyr3"
+path="res://.godot/imported/WaiterWithoutBottles.glb-a70dc290636adcaf2476abe91cddc196.scn"
 
 [deps]
 
-source_file="res://assets/3D assets/Bar/WaterBottleLogo.glb"
-dest_files=["res://.godot/imported/WaterBottleLogo.glb-7f71d548b8b52fbbefb8698d89aa52a1.scn"]
+source_file="res://assets/3D assets/Cats/WaiterWithoutBottles.glb"
+dest_files=["res://.godot/imported/WaiterWithoutBottles.glb-a70dc290636adcaf2476abe91cddc196.scn"]
 
 [params]
 
