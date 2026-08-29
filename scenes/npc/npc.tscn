@@ -3,7 +3,9 @@
 [ext_resource type="Script" uid="uid://dxwbl0u1jrf06" path="res://scripts/npc/npc.gd" id="1_sspvn"]
 [ext_resource type="Script" uid="uid://diiwj638m4uix" path="res://scripts/maumau-engine/MauMauPlayer.gd" id="2_pcwmf"]
 [ext_resource type="PackedScene" uid="uid://cs7gmt5qdkqld" path="res://scenes/playing-card/hand.tscn" id="3_hand0"]
+[ext_resource type="AudioStream" uid="uid://bengq2igp2ogj" path="res://audio/sfx/npc/losing-meow-1.wav" id="8_cbmue"]
 [ext_resource type="AudioStream" uid="uid://ckghw2tnmw7ub" path="res://audio/sfx/npc/cheat-meow-1.wav" id="9_1duk3"]
+[ext_resource type="AudioStream" uid="uid://burydh3qfm7cv" path="res://audio/sfx/npc/losing-meow-2.wav" id="9_1owdj"]
 [ext_resource type="AudioStream" uid="uid://dv34oxac8e0k5" path="res://audio/sfx/npc/cheat-meow-2.wav" id="10_1owdj"]
 [ext_resource type="Script" uid="uid://c70d07lpl0quv" path="res://scenes/npc/npc_audio.gd" id="10_hlwrr"]
 [ext_resource type="AudioStream" uid="uid://cmgbeukhlswnm" path="res://audio/sfx/npc/upset-meow-1.wav" id="11_atglx"]
@@ -19,6 +21,7 @@ script = ExtResource("2_pcwmf")
 autoplay = true
 cheat_meow_sfx_list = Array[AudioStream]([ExtResource("9_1duk3"), ExtResource("10_1owdj")])
 angry_meow_sfx_list = Array[AudioStream]([ExtResource("11_atglx"), ExtResource("12_sjvbi"), ExtResource("13_fv38m")])
+sad_meow_sfx_list = Array[AudioStream]([ExtResource("8_cbmue"), ExtResource("9_1owdj")])
 npc_audio = NodePath("../NpcAudio")
 
 [node name="Hand" parent="." unique_id=1382204948 node_paths=PackedStringArray("maumau_player") instance=ExtResource("3_hand0")]

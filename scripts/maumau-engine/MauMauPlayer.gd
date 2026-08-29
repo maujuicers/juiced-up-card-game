@@ -9,6 +9,7 @@ signal hand_changed(hand: Array[Card])
 @export var click_sfx: AudioStream
 @export var cheat_meow_sfx_list: Array[AudioStream]
 @export var angry_meow_sfx_list: Array[AudioStream]
+@export var sad_meow_sfx_list: Array[AudioStream]
 @export var npc_audio: EntityAudio
 
 var neutral_meow_sfx_list: Array[AudioStream]
@@ -88,6 +89,10 @@ func cheat_penalty() -> void:
 	draw_card()
 
 func draw_card() -> bool:
+	if autoplay:
+		npc_audio.play_random(sad_meow_sfx_list)
+	else:
+		AudioManager.play_sfx(sad_meow_sfx_list[randi_range(0, 1)])
 	return manager != null and manager.submit_draw(self)
 
 
