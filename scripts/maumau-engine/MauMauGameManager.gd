@@ -304,7 +304,7 @@ func init_player_positions() -> void:
 			continue
 		participant.maumau_player.move_card_sfx_list = move_card_sfx_list
 		turn_order.append(participant.maumau_player)
-	turn_order.shuffle()
+	#turn_order.shuffle()
 
 	for i in range(turn_order.size()):
 		turn_order[i].manager = self

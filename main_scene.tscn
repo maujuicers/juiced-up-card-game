@@ -8,15 +8,15 @@
 [ext_resource type="AudioStream" uid="uid://bjxov8cxpkada" path="res://audio/sfx/card/card-moved-1.wav" id="5_u0ygc"]
 [ext_resource type="AudioStream" uid="uid://00whfxsu63x0" path="res://audio/sfx/card/card-moved-2.wav" id="6_7th4q"]
 [ext_resource type="PackedScene" uid="uid://dpji0gao78poo" path="res://scenes/ui/pause_menu.tscn" id="6_hq1ik"]
-[ext_resource type="AudioStream" path="res://audio/sfx/npc/meow-neutral-1.wav" id="6_qwutr"]
+[ext_resource type="AudioStream" uid="uid://choain6dgfm7w" path="res://audio/sfx/npc/meow-neutral-1.wav" id="6_qwutr"]
 [ext_resource type="AudioStream" uid="uid://dyyypdoih0qkp" path="res://audio/sfx/card/card-moved-3.wav" id="7_6jybn"]
-[ext_resource type="AudioStream" path="res://audio/sfx/npc/meow-neutral-2.wav" id="7_671wp"]
+[ext_resource type="AudioStream" uid="uid://cwx8qydxi6mnw" path="res://audio/sfx/npc/meow-neutral-2.wav" id="7_671wp"]
 [ext_resource type="PackedScene" uid="uid://c5ek0fsypmit6" path="res://scenes/ui/settings_menu.tscn" id="7_nfk4m"]
 [ext_resource type="PackedScene" uid="uid://pjtartsbd0xr" path="res://scenes/playing-card/last_played_card.tscn" id="8_7ycvg"]
-[ext_resource type="AudioStream" path="res://audio/sfx/npc/meow-neutral-3.wav" id="8_671wp"]
-[ext_resource type="AudioStream" path="res://audio/sfx/npc/meow-neutral-4.wav" id="9_42l1d"]
+[ext_resource type="AudioStream" uid="uid://bndbxqqwj0buo" path="res://audio/sfx/npc/meow-neutral-3.wav" id="8_671wp"]
+[ext_resource type="AudioStream" uid="uid://b2e67cwkg3lwc" path="res://audio/sfx/npc/meow-neutral-4.wav" id="9_42l1d"]
 [ext_resource type="PackedScene" uid="uid://bbu748peiij0q" path="res://scenes/playing-card/playing_card.tscn" id="9_wr18j"]
-[ext_resource type="AudioStream" path="res://audio/sfx/npc/meow-neutral-5.wav" id="10_2jcla"]
+[ext_resource type="AudioStream" uid="uid://8g41qd8y5yxv" path="res://audio/sfx/npc/meow-neutral-5.wav" id="10_2jcla"]
 
 [sub_resource type="Environment" id="Environment_04g65"]
 
@@ -46,7 +46,7 @@ transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.14, 0.63, 0)
 environment = SubResource("Environment_04g65")
 
 [node name="MaumauEngine" parent="." unique_id=1722475892 node_paths=PackedStringArray("npcs", "player") instance=ExtResource("2_gyfs4")]
-npcs = [NodePath("../Npc"), NodePath("../Npc2"), NodePath("../Npc3")]
+npcs = [NodePath("../Npc3"), NodePath("../Npc2"), NodePath("../Npc")]
 player = NodePath("../Player")
 move_card_sfx_list = Array[AudioStream]([ExtResource("5_u0ygc"), ExtResource("6_7th4q"), ExtResource("7_6jybn")])
 
