@@ -16,11 +16,34 @@ const PICK_RAY_LENGTH := 2.0
 var _aimed: SuitChoiceVisual = null
 
 func init_suit_choice() -> void:
+	hide()
+	mau_mau_player.wish_requested.connect(_show_picker)
+	mau_mau_player.manager.suit_wished.connect(_show_wished_suit)
+	# Any play answers the wish; TODO: maybe modify for wrong card cheat
+	mau_mau_player.manager.card_played.connect(func(_seat: int, _card: Card) -> void: hide())
+
+
+func _show_picker() -> void:
 	current_wished_suit_node.hide()
-	mau_mau_player.manager.suit_wished.connect(translate_suit_to_sprite)
-	mau_mau_player.manager.suit_wished.connect(self.hide)
-	# Hides the sprite every time a card is played after wish; TODO: maybe modify for wrong card cheat
-	mau_mau_player.manager.card_played.connect(current_wished_suit_node.hide)
+	for picker in _pickers():
+		picker.show()
+	show()
+
+
+func _show_wished_suit(suit: Card.Suit) -> void:
+	translate_suit_to_sprite(suit)
+	for picker in _pickers():
+		picker.hide()
+	current_wished_suit_node.show()
+	show()
+
+
+func _pickers() -> Array[SuitChoiceVisual]:
+	var found: Array[SuitChoiceVisual] = []
+	for child in get_children():
+		if child is SuitChoiceVisual:
+			found.append(child)
+	return found
 
 func _physics_process(_delta: float) -> void:
 	if not interactive:

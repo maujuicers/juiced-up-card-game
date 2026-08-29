@@ -5,14 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://btdb0a0csat1v" path="res://assets/3D assets/Bar/Wall.glb" id="2_efgdo"]
 [ext_resource type="PackedScene" uid="uid://c10euy7a04m6x" path="res://assets/3D assets/Bar/Table.glb" id="2_qdsxc"]
 [ext_resource type="PackedScene" uid="uid://bi4g6yddn2mn3" path="res://assets/3D assets/Bar/Chair.glb" id="2_x848m"]
-[ext_resource type="PackedScene" uid="uid://bon71ikyoiyf0" path="res://assets/3D assets/Cats/YellowCatBody.glb" id="5_2j1ym"]
-[ext_resource type="PackedScene" uid="uid://bnw52wvj7s63a" path="res://assets/3D assets/Cats/YellowCatHead.glb" id="6_7r073"]
-[ext_resource type="PackedScene" uid="uid://df2tykbhx5ccl" path="res://assets/3D assets/Cats/OrangeCatBody.glb" id="7_5qaxt"]
-[ext_resource type="PackedScene" uid="uid://bm22aly8746bp" path="res://assets/3D assets/Cats/OrangeCatHead.glb" id="8_cmq8q"]
-[ext_resource type="PackedScene" uid="uid://bafjr32ptyo1r" path="res://assets/3D assets/Cats/GrayCatBody.glb" id="9_i5gm6"]
-[ext_resource type="PackedScene" uid="uid://buikmfht0a2q5" path="res://assets/3D assets/Cats/GrayCatHead.glb" id="10_7uitc"]
-[ext_resource type="PackedScene" uid="uid://gjtsal36t5vo" path="res://assets/3D assets/Cats/BlackCatHead.glb" id="10_8y7uo"]
-[ext_resource type="PackedScene" uid="uid://ds8ke7oawkri2" path="res://assets/3D assets/Cats/BlackCatBody.glb" id="11_7uitc"]
 [ext_resource type="PackedScene" uid="uid://b40os8m4vwi5y" path="res://assets/3D assets/Bar/JuiceBottle.glb" id="13_i5gm6"]
 [ext_resource type="PackedScene" uid="uid://duksgkluxbu05" path="res://assets/3D assets/Bar/WaterBottle.glb" id="14_7uitc"]
 [ext_resource type="PackedScene" uid="uid://bc463pdunsays" path="res://assets/3D assets/Cats/WaiterWithBottles.glb" id="15_8y7uo"]
@@ -122,40 +114,6 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 
 [node name="Chair4" parent="Gathering" unique_id=437812636 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="YellowCat" type="Node3D" parent="Gathering" unique_id=39755458]
-
-[node name="YellowCatHead" parent="Gathering/YellowCat" unique_id=1060222907 instance=ExtResource("6_7r073")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1599903, 1.3913467, 0)
-
-[node name="YellowCatBody" parent="Gathering/YellowCat" unique_id=1483088055 instance=ExtResource("5_2j1ym")]
-
-[node name="OrangeCat" type="Node3D" parent="Gathering" unique_id=1618268841]
-
-[node name="OrangeCatHead" parent="Gathering/OrangeCat" unique_id=2011536089 instance=ExtResource("8_cmq8q")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 1.4096402, 1.1556413)
-
-[node name="OrangeCatBody" parent="Gathering/OrangeCat" unique_id=1407330369 instance=ExtResource("7_5qaxt")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="GrayCat" type="Node3D" parent="Gathering" unique_id=2127953591]
-
-[node name="GrayCatHead" parent="Gathering/GrayCat" unique_id=781677368 instance=ExtResource("10_7uitc")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -1.1501516, 1.3989626, 0)
-
-[node name="GrayCatBody" parent="Gathering/GrayCat" unique_id=336561744 instance=ExtResource("9_i5gm6")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="BlackCat" type="Node3D" parent="Gathering" unique_id=1833370294]
-
-[node name="BlackCatHead" parent="Gathering/BlackCat" unique_id=1131930883 instance=ExtResource("10_8y7uo")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5.9604645e-08, 1.3747518, -1.1766207)
-
-[node name="Sphere_046" parent="Gathering/BlackCat/BlackCatHead" index="7" unique_id=228756440]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019911274, 0.014530018, 0)
-
-[node name="BlackCatBody" parent="Gathering/BlackCat" unique_id=744630522 instance=ExtResource("11_7uitc")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 
 [node name="JuiceBottle" parent="Gathering" unique_id=1558012997 instance=ExtResource("13_i5gm6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5759887, 1.0949593, -0.60724384)
@@ -283,13 +241,5 @@ bones/0/rotation = Quaternion(4.0858235e-15, -5.9241632e-08, 0.20760703, 0.97821
 bones/0/scale = Vector3(1.0842309, 1.0842309, 1.0842305)
 bones/1/rotation = Quaternion(0.39549893, 1.0559326e-07, 3.7357324e-08, 0.91846645)
 
-[editable path="Gathering/YellowCat/YellowCatHead"]
-[editable path="Gathering/YellowCat/YellowCatBody"]
-[editable path="Gathering/OrangeCat/OrangeCatHead"]
-[editable path="Gathering/OrangeCat/OrangeCatBody"]
-[editable path="Gathering/GrayCat/GrayCatHead"]
-[editable path="Gathering/GrayCat/GrayCatBody"]
-[editable path="Gathering/BlackCat/BlackCatHead"]
-[editable path="Gathering/BlackCat/BlackCatBody"]
 [editable path="WaiterWithBottles"]
 [editable path="WaiterWithoutBottles"]
