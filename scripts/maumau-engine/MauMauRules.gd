@@ -3,10 +3,13 @@ class_name MauMauRules
 ## With a penalty pending only a counter (another seven) is legal.
 ## Once a suit is wished the Jack's own suit no longer counts.
 static func is_valid_move(card: Card, top_card: Card, wished_suit: Card.Suit, penalty_draw:int) -> bool:
+	# No jack on jack
+	if card.rank == Card.Rank.JACK and top_card.rank == Card.Rank.JACK:
+		return false
 	return card.suit == top_card.suit and wished_suit == Card.Suit.NONE and penalty_draw == 0 \
-		or card.rank == top_card.rank and top_card.rank != Card.Rank.JACK \
+		or card.rank == top_card.rank \
 		or card.suit == wished_suit and penalty_draw == 0 \
-		or card.rank == Card.Rank.JACK and top_card.rank != Card.Rank.JACK and penalty_draw == 0
+		or card.rank == Card.Rank.JACK and penalty_draw == 0
 	
 static func has_valid_move(hand: Array[Card], top_card: Card, wished_suit: Card.Suit, penalty_draw: int) -> bool:
 	for card in hand:
