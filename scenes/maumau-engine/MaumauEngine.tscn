@@ -2,9 +2,15 @@
 
 [ext_resource type="Script" uid="uid://of7n0f3psiju" path="res://scripts/maumau-engine/MauMauGameManager.gd" id="1_svsd2"]
 [ext_resource type="Resource" uid="uid://cmfvknwcvgqj5" path="res://scenes/playing-card/deck.tres" id="2_deck0"]
+[ext_resource type="Script" uid="uid://bcjicds2j8jeo" path="res://scripts/maumau-engine/MauMauNetSync.gd" id="3_nsync"]
 [ext_resource type="AudioStream" uid="uid://dunmy8g5bilvt" path="res://audio/music/meow-mau.ogg" id="2_srfyq"]
 
-[node name="MaumauEngine" type="Node3D" unique_id=1722475892]
+[node name="MaumauEngine" type="Node3D" unique_id=1722475892 node_paths=PackedStringArray("net_sync")]
 script = ExtResource("1_svsd2")
 music = ExtResource("2_srfyq")
 deck = ExtResource("2_deck0")
+net_sync = NodePath("NetSync")
+
+[node name="NetSync" type="Node" parent="." unique_id=1937442018 node_paths=PackedStringArray("manager")]
+script = ExtResource("3_nsync")
+manager = NodePath("..")

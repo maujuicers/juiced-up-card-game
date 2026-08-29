@@ -34,10 +34,19 @@ bg_color = Color(0, 0, 0, 0.49803922)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8g5eo"]
 bg_color = Color(0, 0, 0, 0.49803922)
 
-[node name="MainMenu" type="Node3D" unique_id=1303346349 node_paths=PackedStringArray("settings_menu")]
+[node name="MainMenu" type="Node3D" unique_id=1303346349 node_paths=PackedStringArray("settings_menu", "start_game_button", "status_label", "roster_label", "address_row", "server_address", "idle_buttons", "host_button", "connected_buttons", "start_round_button")]
 script = ExtResource("1_m1kxf")
 settings_menu = NodePath("SettingsMenu")
 click_sfx = ExtResource("2_8g5eo")
+start_game_button = NodePath("Buttons/StartGameButton")
+status_label = NodePath("Lobby/StatusLabel")
+roster_label = NodePath("Lobby/RosterLabel")
+address_row = NodePath("Lobby/AddressRow")
+server_address = NodePath("Lobby/AddressRow/ServerAddress")
+idle_buttons = NodePath("Lobby/IdleButtons")
+host_button = NodePath("Lobby/IdleButtons/HostButton")
+connected_buttons = NodePath("Lobby/ConnectedButtons")
+start_round_button = NodePath("Lobby/ConnectedButtons/StartRoundButton")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146967929]
 environment = SubResource("Environment_x2yvf")
@@ -236,6 +245,120 @@ texture = ExtResource("9_q85j6")
 expand_mode = 1
 stretch_mode = 4
 
+[node name="Lobby" type="VBoxContainer" parent="." unique_id=1043928517]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -800.0
+offset_top = 180.0
+offset_right = -60.0
+offset_bottom = 800.0
+grow_horizontal = 0
+theme_override_constants/separation = 24
+
+[node name="StatusLabel" type="Label" parent="Lobby" unique_id=1877402693]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+text = "Not connected"
+
+[node name="AddressRow" type="HBoxContainer" parent="Lobby" unique_id=602318844]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ServerLabel" type="Label" parent="Lobby/AddressRow" unique_id=1330297570]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+text = "Server"
+
+[node name="ServerAddress" type="LineEdit" parent="Lobby/AddressRow" unique_id=1719546038]
+custom_minimum_size = Vector2(560, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 40
+caret_blink = true
+
+[node name="IdleButtons" type="HBoxContainer" parent="Lobby" unique_id=1160451382]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="HostButton" type="Button" parent="Lobby/IdleButtons" unique_id=778291045]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="Lobby/IdleButtons" unique_id=1489340219]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Join"
+
+[node name="RosterLabel" type="Label" parent="Lobby" unique_id=1963041292]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 45
+
+[node name="ConnectedButtons" type="HBoxContainer" parent="Lobby" unique_id=1274475408]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="StartRoundButton" type="Button" parent="Lobby/ConnectedButtons" unique_id=346021784]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Start Round"
+
+[node name="LeaveButton" type="Button" parent="Lobby/ConnectedButtons" unique_id=1806714935]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Leave"
+
 [node name="SettingsMenu" parent="." unique_id=1175825677 instance=ExtResource("7_btxxm")]
 visible = false
 
@@ -243,3 +366,7 @@ visible = false
 [connection signal="pressed" from="Buttons/TutorialButton" to="." method="_on_tutorial_button_pressed"]
 [connection signal="pressed" from="Buttons/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Buttons/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Lobby/IdleButtons/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="Lobby/IdleButtons/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="Lobby/ConnectedButtons/StartRoundButton" to="." method="_on_start_round_button_pressed"]
+[connection signal="pressed" from="Lobby/ConnectedButtons/LeaveButton" to="." method="_on_leave_button_pressed"]
