@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b5s7oteydehn3"]
+
+[ext_resource type="Script" uid="uid://d06hvchktesxd" path="res://scripts/seat/seat_marker.gd" id="1_seat0"]
+
+[node name="SeatMarker" type="Node3D" unique_id=1517204411]
+script = ExtResource("1_seat0")

@@ -3,6 +3,11 @@ extends Node
 class_name MauMauPlayer
 
 signal hand_changed(hand: Array[Card])
+## Relayed by the manager to this seat alone, so the views beside it can
+## subscribe before the manager exists.
+signal turn_started
+signal turn_ended
+signal wish_requested
 
 ## Only set true for AI players
 @export var autoplay: bool = false
@@ -40,17 +45,21 @@ func init_hand(first_hand: Array[Card]) -> void:
 	self.hand = first_hand
 	hand_changed.emit(hand)
 
-func init_pos(turn: int) -> void:
-	self.turn_position = turn
-
-func init_current_player_label() -> void:
-	if not autoplay:
+func seat_at(game_manager: Node, index: int) -> void:
+	manager = game_manager
+	turn_position = index
+	if current_player_label != null:
 		current_player_label.init_label(self, manager)
-		
+	if current_player_arrow != null:
+		current_player_arrow.init_player_arrow(self, manager)
+	if suit_choice_node != null:
+		suit_choice_node.init_suit_choice()
+	init_card_played_listener()
+
 func init_card_played_listener() -> void:
 	if manager != null:
 		manager.connect("card_played", _on_card_played)
-		
+
 func _on_card_played(player_index: int, card: Card) -> void:
 	if player_index == turn_position:
 		return  
@@ -62,8 +71,26 @@ func _on_card_played(player_index: int, card: Card) -> void:
 			cheats.remove_at(i)
 	cheated = not cheats.is_empty()
 
-func init_current_player_arrow() -> void:
-	current_player_arrow.init_player_arrow(self, manager)
+
+## The private payload: this hand as card ids.
+func hand_ids() -> PackedInt32Array:
+	var ids := PackedInt32Array()
+	for card in hand:
+		ids.append(card.id)
+	return ids
+
+
+## Replaces the hand from the private payload, resolved through the manager's deck.
+func set_hand_ids(ids: PackedInt32Array) -> void:
+	var cards: Array[Card] = []
+	for id in ids:
+		var card: Card = manager.deck.card(id)
+		if card == null:
+			push_error("%s received unknown card id %d" % [self, id])
+			continue
+		cards.append(card)
+	hand = cards
+	hand_changed.emit(hand)
 
 ## The three intents. Each returns whether the manager accepted the action.
 func try_play_card(selected_card_pos: int) -> bool:
