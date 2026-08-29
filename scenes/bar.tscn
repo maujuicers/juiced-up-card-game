@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://duksgkluxbu05" path="res://assets/3D assets/Bar/WaterBottle.glb" id="14_7uitc"]
 [ext_resource type="PackedScene" uid="uid://bc463pdunsays" path="res://assets/3D assets/Cats/WaiterWithBottles.glb" id="15_8y7uo"]
 [ext_resource type="PackedScene" uid="uid://b3rmgdphskyr3" path="res://assets/3D assets/Cats/WaiterWithoutBottles.glb" id="16_b7mdb"]
+[ext_resource type="PackedScene" uid="uid://curp8336pddcc" path="res://assets/3D assets/Cats/BackgroundCat.glb" id="16_pbi2s"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_5qaxt"]
 dof_blur_far_enabled = true
@@ -182,6 +183,12 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 [node name="Chair4" parent="Gathering2" unique_id=1001281363 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
 
+[node name="BackgroundCat" parent="Gathering2" unique_id=2139266702 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat2" parent="Gathering2" unique_id=777464837 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
+
 [node name="Gathering3" type="Node3D" parent="." unique_id=455027951]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
 
@@ -197,6 +204,14 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 
 [node name="Chair4" parent="Gathering3" unique_id=691951852 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="Gathering3" unique_id=1564413860 instance=ExtResource("16_pbi2s")]
+
+[node name="BackgroundCat2" parent="Gathering3" unique_id=1533266401 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat3" parent="Gathering3" unique_id=1920670243 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 
 [node name="Gathering4" type="Node3D" parent="." unique_id=1594497949]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
@@ -214,6 +229,8 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 [node name="Chair4" parent="Gathering4" unique_id=1208602604 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
 
+[node name="BackgroundCat" parent="Gathering4" unique_id=1625280880 instance=ExtResource("16_pbi2s")]
+
 [node name="Gathering5" type="Node3D" parent="." unique_id=118417921]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
 
@@ -229,6 +246,17 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 
 [node name="Chair4" parent="Gathering5" unique_id=1596887115 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="Gathering5" unique_id=964525593 instance=ExtResource("16_pbi2s")]
+
+[node name="BackgroundCat2" parent="Gathering5" unique_id=1675042062 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat3" parent="Gathering5" unique_id=314616726 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="BackgroundCat4" parent="Gathering5" unique_id=1270862153 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1214693491]
 transform = Transform3D(0.99988055, -4.656613e-10, -0.015457209, 0.0057619708, 0.9279241, 0.37272462, 0.014343117, -0.3727691, 0.92781323, -0.011304498, 1.519163, 0.8353487)
