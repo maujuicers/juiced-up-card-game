@@ -61,7 +61,9 @@ func try_play_card_by_id(card_id: int) -> bool:
 	else:
 		AudioManager.play_ui(click_sfx, -5.0)
 	return manager != null and manager.submit_move(self, card_id)
-	
+
+func try_choosing_suit(suit: Card.Suit) -> bool:
+	return manager != null and manager.submit_wish(self, suit)
 
 func draw_card() -> bool:
 	if autoplay:

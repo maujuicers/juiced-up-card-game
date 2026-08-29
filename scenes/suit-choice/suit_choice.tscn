@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://kmnjc3rv1x7k"]
+
+[ext_resource type="Script" uid="uid://b63qfk1xe4h8t" path="res://scripts/suit-choice/suit_choice.gd" id="1_jnk5x"]
+[ext_resource type="Script" uid="uid://2g41wxk2gvn7" path="res://scripts/suit-choice/suit_choice_visual.gd" id="2_3cd3i"]
+[ext_resource type="Texture2D" uid="uid://cyr0024qjf354" path="res://assets/2D assets/CardSymbols/playing-card-heart-shape-icon.png" id="3_h6oim"]
+[ext_resource type="Shader" uid="uid://81y8s2t5qrhh" path="res://scenes/playing-card/card_outline.gdshader" id="4_x6yrj"]
+[ext_resource type="Texture2D" uid="uid://cb62hf04x4tha" path="res://assets/2D assets/CardSymbols/playing-card-club-shape-icon.png" id="5_aym7e"]
+[ext_resource type="Texture2D" uid="uid://kfymwxduix8" path="res://assets/2D assets/CardSymbols/playing-card-spade-shape-icon.png" id="6_6gdhe"]
+[ext_resource type="Texture2D" uid="uid://ggmb350e3i20" path="res://assets/2D assets/CardSymbols/playing-card-diamond-shape-icon.png" id="7_w445v"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_soek0"]
+size = Vector2(8.5, 8.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k25bx"]
+resource_local_to_scene = true
+render_priority = 1
+shader = ExtResource("4_x6yrj")
+shader_parameter/outline_color = Color(0.3, 1, 0.4, 1)
+shader_parameter/quad_size = Vector2(0.110125, 0.145325)
+shader_parameter/card_size = Vector2(0.070125, 0.105325)
+shader_parameter/outline_width = 0.0035
+shader_parameter/glow_range = 0.013
+shader_parameter/glow_strength = 0.9
+shader_parameter/corner_radius = 0.003
+shader_parameter/inner_fade = 0.0012
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kewkp"]
+size = Vector3(6, 6.5, 0.002)
+
+[node name="SuitChoice" type="Node3D" unique_id=57904205]
+script = ExtResource("1_jnk5x")
+
+[node name="Heart" type="Node3D" parent="." unique_id=703372172 node_paths=PackedStringArray("suit_sprite", "pick_area", "outline_mesh")]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.3, 0)
+script = ExtResource("2_3cd3i")
+suit_sprite = NodePath("HeartSprite")
+pick_area = NodePath("HeartPickArea")
+outline_mesh = NodePath("HeartOutline")
+
+[node name="HeartSprite" type="Sprite3D" parent="Heart" unique_id=237885313]
+texture = ExtResource("3_h6oim")
+
+[node name="HeartOutline" type="MeshInstance3D" parent="Heart" unique_id=86403287]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0006)
+visible = false
+cast_shadow = 0
+mesh = SubResource("QuadMesh_soek0")
+surface_material_override/0 = SubResource("ShaderMaterial_k25bx")
+
+[node name="HeartPickArea" type="Area3D" parent="Heart" unique_id=346074630]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Heart/HeartPickArea" unique_id=664736006]
+shape = SubResource("BoxShape3D_kewkp")
+
+[node name="Club" type="Node3D" parent="." unique_id=696338440 node_paths=PackedStringArray("suit_sprite", "pick_area", "outline_mesh")]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, -0.3, 0, 0)
+script = ExtResource("2_3cd3i")
+suit_sprite = NodePath("ClubSprite")
+pick_area = NodePath("ClubPickArea")
+outline_mesh = NodePath("ClubOutline")
+suit = 2
+
+[node name="ClubSprite" type="Sprite3D" parent="Club" unique_id=1953358216]
+texture = ExtResource("5_aym7e")
+
+[node name="ClubOutline" type="MeshInstance3D" parent="Club" unique_id=174483248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0006)
+visible = false
+cast_shadow = 0
+mesh = SubResource("QuadMesh_soek0")
+surface_material_override/0 = SubResource("ShaderMaterial_k25bx")
+
+[node name="ClubPickArea" type="Area3D" parent="Club" unique_id=375236132]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Club/ClubPickArea" unique_id=2028297895]
+shape = SubResource("BoxShape3D_kewkp")
+
+[node name="Spade" type="Node3D" parent="." unique_id=1251354919 node_paths=PackedStringArray("suit_sprite", "pick_area", "outline_mesh")]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.3, 0, 0)
+script = ExtResource("2_3cd3i")
+suit_sprite = NodePath("SpadeSprite")
+pick_area = NodePath("SpadePickArea")
+outline_mesh = NodePath("SpadeOutline")
+suit = 3
+
+[node name="SpadeSprite" type="Sprite3D" parent="Spade" unique_id=86747485]
+texture = ExtResource("6_6gdhe")
+
+[node name="SpadeOutline" type="MeshInstance3D" parent="Spade" unique_id=311207969]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0006)
+visible = false
+cast_shadow = 0
+mesh = SubResource("QuadMesh_soek0")
+surface_material_override/0 = SubResource("ShaderMaterial_k25bx")
+
+[node name="SpadePickArea" type="Area3D" parent="Spade" unique_id=1686861075]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Spade/SpadePickArea" unique_id=1490299850]
+shape = SubResource("BoxShape3D_kewkp")
+
+[node name="Diamond" type="Node3D" parent="." unique_id=1054840090 node_paths=PackedStringArray("suit_sprite", "pick_area", "outline_mesh")]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, -0.3, 0)
+script = ExtResource("2_3cd3i")
+suit_sprite = NodePath("DiamondSprite")
+pick_area = NodePath("DiamondPickArea")
+outline_mesh = NodePath("DiamondOutline")
+suit = 1
+
+[node name="DiamondSprite" type="Sprite3D" parent="Diamond" unique_id=1075616562]
+texture = ExtResource("7_w445v")
+
+[node name="DiamondOutline" type="MeshInstance3D" parent="Diamond" unique_id=1816127691]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0006)
+visible = false
+cast_shadow = 0
+mesh = SubResource("QuadMesh_soek0")
+surface_material_override/0 = SubResource("ShaderMaterial_k25bx")
+
+[node name="DiamondPickArea" type="Area3D" parent="Diamond" unique_id=1560431423]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Diamond/DiamondPickArea" unique_id=658645714]
+shape = SubResource("BoxShape3D_kewkp")

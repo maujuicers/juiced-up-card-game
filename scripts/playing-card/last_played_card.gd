@@ -17,6 +17,7 @@ func _ready() -> void:
 	for child in get_children():
 		child.queue_free()
 
+## The same as show last card but without second param
 func show_base_card(card: Card) -> void:
 	for child in get_children():
 		child.queue_free()

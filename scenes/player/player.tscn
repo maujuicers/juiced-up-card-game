@@ -15,13 +15,13 @@
 [ext_resource type="AudioStream" uid="uid://batvmlw3u5ouc" path="res://audio/sfx/npc/upset-meow-1.wav" id="15_lgqa7"]
 [ext_resource type="PackedScene" uid="uid://bm8cybph3ugw0" path="res://scenes/player/current_player_arrow.tscn" id="15_myrg7"]
 [ext_resource type="AudioStream" uid="uid://b3084un18hscv" path="res://audio/sfx/npc/upset-meow-2.wav" id="16_8ydkj"]
+[ext_resource type="PackedScene" uid="uid://kmnjc3rv1x7k" path="res://scenes/suit-choice/suit_choice.tscn" id="16_kvlxm"]
 [ext_resource type="AudioStream" uid="uid://brms3w1q1jxgl" path="res://audio/sfx/npc/upset-meow-3.wav" id="17_3j4b4"]
 
-[node name="Player" type="Node3D" unique_id=1662220489 node_paths=PackedStringArray("player_camera", "player_head", "juice", "maumau_player", "crosshair")]
+[node name="Player" type="Node3D" unique_id=1662220489 node_paths=PackedStringArray("player_camera", "player_head", "maumau_player", "crosshair")]
 script = ExtResource("1_4flbx")
 player_camera = NodePath("Head/Camera3D")
 player_head = NodePath("Head")
-juice = NodePath("Juice")
 maumau_player = NodePath("MauMauPlayer")
 crosshair = NodePath("UI/Crosshair")
 
@@ -48,6 +48,8 @@ crosshair_size = 14.0
 
 [node name="CurrentPlayerLabel" parent="UI" unique_id=1427191879 instance=ExtResource("4_0owmy")]
 anchors_preset = 0
+offset_left = 0.0
+offset_top = 0.0
 
 [node name="MauMauPlayer" type="Node" parent="." unique_id=1609776256 node_paths=PackedStringArray("current_player_label", "current_player_arrow", "juice")]
 script = ExtResource("3_gmlin")
@@ -64,6 +66,10 @@ juice = NodePath("../Juice")
 [node name="CurrentPlayerArrow" parent="." unique_id=1373336316 instance=ExtResource("15_myrg7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 visible = false
+
+[node name="SuitChoice" parent="." unique_id=57904205 node_paths=PackedStringArray("mau_mau_player") instance=ExtResource("16_kvlxm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, -1)
+mau_mau_player = NodePath("../MauMauPlayer")
 
 [node name="Hand" parent="." unique_id=1382204947 node_paths=PackedStringArray("head", "maumau_player") instance=ExtResource("5_hand0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57, -0.5)
