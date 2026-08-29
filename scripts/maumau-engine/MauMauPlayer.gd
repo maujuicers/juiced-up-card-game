@@ -27,7 +27,7 @@ var hand: Array[Card] = []
 var turn_position: int
 var placement: int = -1
 var cheated: bool = false
-var cheat: Cheat
+var cheats: Array[Cheat]
 var cheat_counter: int = 0
 var cheat_accusation: bool = false
 var cheat_penalties: int = 0
@@ -46,6 +46,21 @@ func init_pos(turn: int) -> void:
 func init_current_player_label() -> void:
 	if not autoplay:
 		current_player_label.init_label(self, manager)
+		
+func init_card_played_listener() -> void:
+	if manager != null:
+		manager.connect("card_played", _on_card_played)
+		
+func _on_card_played(player_index: int, card: Card) -> void:
+	if player_index == turn_position:
+		return  
+		
+	print("player %s sees that a move was made")
+	for i in range(cheats.size() - 1, -1, -1):
+		cheats[i].tick_turn()
+		if cheats[i].is_expired():
+			cheats.remove_at(i)
+	cheated = not cheats.is_empty()
 
 func init_current_player_arrow() -> void:
 	current_player_arrow.init_player_arrow(self, manager)
@@ -154,20 +169,10 @@ func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card
 	self.juice.deduct_juice(attempted_cheat.juice_cost)
 	cheat_counter += 1
 	cheated = true
-	cheat = attempted_cheat
+	cheats.append(attempted_cheat)
 	print("Player %s just cheated" %[self.turn_position])
 	
-	_start_cheat_expiration_timer(cheat_counter, cheat.call_timer)
-	
 	return true
-	
-func _start_cheat_expiration_timer(this_call: int, duration: float) -> void:
-	await get_tree().create_timer(duration).timeout
-	# If no new cheat has been performed since this timer started, invalidate it
-	if this_call == cheat_counter:
-		cheated = false
-		cheat = null
-		print("cheat cant be called anymore")
 	
 		
 func call_cheater(cheater: MauMauPlayer, method : Cheat.Method)-> void:
@@ -177,7 +182,7 @@ func call_cheater(cheater: MauMauPlayer, method : Cheat.Method)-> void:
 		AudioManager.play_sfx(angry_meow_sfx_list[randi_range(0, 2)])
 	print(cheater.cheated)
 	cheat_accusation = true
-	if cheater.cheated and method == cheater.cheat.method:
+	if cheater.has_cheat(method):
 		cheater.cheat_accusation = true;
 		print("player %s got called out by player %s for his cheat and has to draw cards" % [cheater.turn_position, self.turn_position])
 		cheater.cheat_penalty()
@@ -193,3 +198,12 @@ func cheat_penalty() -> void:
 	print("player %s received %d penalties now" % [self.turn_position, self.cheat_penalties])
 	self.manager._set_penalty()
 	draw_card()
+	
+func has_cheat(method: Cheat.Method) -> bool:
+	return cheat_index(method) != -1
+
+func cheat_index(method: Cheat.Method) -> int:
+	for i in cheats.size():
+		if cheats[i].method == method:
+			return i
+	return -1

@@ -19,33 +19,48 @@ const JUICE_COSTS := {
 }
 
 const CALL_TIMER :={
-	Method.ONE:   10.0,
-	Method.TWO:   10.0,
-	Method.THREE: 10.0,
-	Method.FOUR:  20.0,
-	Method.FIVE:  20.0,
-	Method.SIX:   40.0,
+	Method.ONE:   1,
+	Method.TWO:   2,
+	Method.THREE: 1,
+	Method.FOUR:  2,
+	Method.FIVE:  2,
+	Method.SIX:   4,
 }
 
 @export var method: Method
 @export var card: Card #only used on cheats, using playing cars (Methods: 1,3,4,5)
 @export var stolen_card: Card #only used on exchange (Method 4)
-var call_timer: float:
+var call_timer: int:
 	get: 
-		return CALL_TIMER.get(method, 0.0)
+		return CALL_TIMER.get(method, 0)
+		
+var remaining_turns: int = 0
 
 var juice_cost: int:
 	get:
 		return JUICE_COSTS.get(method, 0)
 		
+		
+func tick_turn() -> void:
+	if remaining_turns > 0:
+		remaining_turns -= 1
+
+func is_expired() -> bool:
+	return remaining_turns <= 0
+
+##Initialization methods##
 static func init_cheat(m: Method, c: Card = null, s: Card = null) -> Cheat:
+	var ch: Cheat
 	match m:
 		Cheat.Method.ONE or Cheat.Method.SIX:
-			return without_cards(m)
+			ch = without_cards(m)
 		Cheat.Method.FOUR:
-			return exchange_card(c, s)
+			ch = exchange_card(c, s)
 		_:
-			return with_card(m, c)
+			ch = with_card(m, c)
+	
+	ch.remaining_turns = ch.call_timer
+	return ch
 		
 static func without_cards(m: Method) -> Cheat:
 	var ch := Cheat.new()
