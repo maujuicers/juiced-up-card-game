@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cy855ir51yden"
-path.s3tc="res://.godot/imported/JuiceBottleLogo_BootleLabel.jpg-aef8135ac63952fb018f979d7ffd2b28.s3tc.ctex"
+uid="uid://5roy8r0eqrhk"
+path.s3tc="res://.godot/imported/WaiterWithBottles_metal.jpg-458962c4985596589e85b394d054fce8.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "4a7354f0c543ee503e4c5b1d7be061be"
+"md5": "d4195df76b16a675b931c2cf4d26bd0f"
 }
 
 [deps]
 
-source_file="res://assets/3D assets/Bar/JuiceBottleLogo_BootleLabel.jpg"
-dest_files=["res://.godot/imported/JuiceBottleLogo_BootleLabel.jpg-aef8135ac63952fb018f979d7ffd2b28.s3tc.ctex"]
+source_file="res://assets/3D assets/Cats/WaiterWithBottles_metal.jpg"
+dest_files=["res://.godot/imported/WaiterWithBottles_metal.jpg-458962c4985596589e85b394d054fce8.s3tc.ctex"]
 
 [params]
 
