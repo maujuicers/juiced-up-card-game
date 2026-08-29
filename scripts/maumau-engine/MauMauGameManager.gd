@@ -2,16 +2,28 @@ extends Node
 
 class_name MauMauGameManager
 
-#Signals
-signal card_played(player_index: int, card: Card)
-signal turn_changed(new_player_index: int)
-signal effect_triggered(effect: String)
-signal game_over_signal(winner_index: int)
-signal base_card_played(card: Card)
+# Public surface: what every seat may see; broadcasts these.
+## Full public snapshot after every state change; the wire shape is [method MauMauTable.to_dict].
+signal table_changed(table: MauMauTable)
+signal card_played(seat: int, card: Card)
+signal cards_drawn(seat: int, count: int)
+signal turn_changed(seat: int)
+## A Jack is on the pile and this seat owes a suit.
+signal wish_requested(seat: int)
 signal suit_wished(suit: Card.Suit)
+signal effect_triggered(effect: String)
+signal seat_placed(seat: int, placement: int)
+## End of round: the final table, [member MauMauTable.finish_order] complete.
+signal round_over(final: MauMauTable)
+signal base_card_played(card: Card)
+
+# Private surface: one seat's cards, for that seat only; send it with rpc_id.
+signal private_hand_changed(seat: int, card_ids: PackedInt32Array)
 
 @export var npcs: Array[Npc]
 @export var player: PlayerController
+## Participant i sits at marker i; turn order is seat order.
+@export var seat_markers: Array[SeatMarker]
 @export var music: AudioStream
 @export var move_card_sfx_list: Array[AudioStream]
 ## Falls back to [method CardDeck.load_default] when the scene leaves it unset.
@@ -37,6 +49,8 @@ var awaiting_wish: bool = false
 var is_game_over: bool = false
 ## Lets a delayed autoplay action notice its turn is already over.
 var _turn_serial: int = 0
+## The seat whose turn_started went out and whose turn_ended is still owed.
+var _acting_seat: MauMauPlayer
 
 var winners: Array[MauMauPlayer]
 
@@ -73,7 +87,10 @@ func start_turn() -> void:
 		advance_turn()
 		return
 
+	_end_acting_turn()
+	_acting_seat = current_player_node
 	emit_signal("turn_changed", current_player_index)
+	current_player_node.turn_started.emit()
 	has_drawn_this_turn = false
 	awaiting_wish = false
 	_turn_serial += 1
@@ -97,6 +114,7 @@ func start_turn() -> void:
 		"wish_suit":
 			current_effect = "none"
 
+	_publish()
 	# The penalty draw may already have ended this turn (and scheduled the next).
 	if serial == _turn_serial and not is_game_over and current_player_node.autoplay:
 		_schedule_autoplay()
@@ -113,27 +131,35 @@ func advance_turn() -> void:
 func submit_move(seat: MauMauPlayer, card_id: int) -> bool:
 	if not _is_on_turn(seat) or awaiting_wish:
 		return false
-	return _play_card(card_id)
+	var accepted := _play_card(card_id)
+	if accepted:
+		_publish()
+	return accepted
 
 
 func submit_draw(seat: MauMauPlayer) -> bool:
-	if _is_on_turn(seat) or not awaiting_wish or _is_in_cheat_accusation(seat):
-		return _draw_card(seat)
-	return false
+	# An accused (or falsely accusing) seat takes its cheat penalty off turn.
+	if not ((_is_on_turn(seat) and not awaiting_wish) or _is_in_cheat_accusation(seat)):
+		return false
+	var accepted := _draw_card(seat)
+	if accepted:
+		_publish()
+	return accepted
 
 
 func submit_wish(seat: MauMauPlayer, suit: Card.Suit) -> bool:
 	if not _is_on_turn(seat) or not awaiting_wish or suit == Card.Suit.NONE:
 		return false
 	_set_wished_suit(suit)
+	_publish()
 	return true
 
 
 func _is_on_turn(seat: MauMauPlayer) -> bool:
 	return not is_game_over and seat != null and seat == current_player_node
-	
+
 func _is_in_cheat_accusation(seat: MauMauPlayer) -> bool:
-	return seat.cheat_accusation
+	return seat != null and seat.cheat_accusation
 
 func _play_card(card_id: int) -> bool:
 	AudioManager.play_sfx(move_card_sfx_list[randi_range(0, 2)])
@@ -158,6 +184,7 @@ func _play_card(card_id: int) -> bool:
 	if current_player_node.get_hand_size() == 0:
 		winners.append(current_player_node)
 		current_player_node.placement = winners.size()
+		seat_placed.emit(current_player_index, current_player_node.placement)
 		print( "%d won the game and is placed in %d place" % [current_player_index, winners.size()])
 
 		if winners.size() >= turn_order.size() - 1:
@@ -172,8 +199,8 @@ func _play_card(card_id: int) -> bool:
 	if current_effect == "wish_suit":
 		print("player %d played %s, he can now choose a suit" % [current_player_index, card])
 		awaiting_wish = true
-		if not current_player_node.autoplay:
-			current_player_node.suit_choice_node.show()
+		wish_requested.emit(current_player_index)
+		current_player_node.wish_requested.emit()
 		return true
 
 	advance_turn()
@@ -181,28 +208,32 @@ func _play_card(card_id: int) -> bool:
 
 
 func _draw_card(seat: MauMauPlayer) -> bool:
-	if has_drawn_this_turn:
+	# A pending penalty may always be taken instead of countering with a seven;
+	# checked before the pass so an off-turn cheat penalty never passes for the seat on turn.
+	var taking_penalty := current_draw_penalty > 0
+	if not taking_penalty and has_drawn_this_turn:
 		print("Player %d passes" % seat.turn_position)
 		advance_turn()
 		return true
 
-	# A pending penalty may always be taken instead of countering with a seven.
 	#if current_draw_penalty == 0 and MauMauRules.has_valid_move(
 			#current_player_node.hand, discard_pile.back(), wished_suit, current_draw_penalty):
 		#print("Player %d may not draw: a card in hand can be played" % current_player_index)
 		#return false
 
-	var taking_penalty := current_draw_penalty > 0
 	var draw_cards := current_draw_penalty if taking_penalty else 1
 	current_draw_penalty = 0
 
 	var drawn_card: Card
+	var drawn := 0
 	for i in range(draw_cards):
 		drawn_card = _draw_from_pile()
 		if drawn_card == null:
 			break
 		seat.add_card(drawn_card)
+		drawn += 1
 		print("Player %d drew %s" % [seat.turn_position, drawn_card])
+	cards_drawn.emit(seat.turn_position, drawn)
 
 	if taking_penalty:
 		if not cheat_penalty:
@@ -229,7 +260,7 @@ func _set_wished_suit(suit: Card.Suit) -> void:
 func _set_penalty() -> void:
 	current_draw_penalty = cards_drawn_on_cheat
 	cheat_penalty = true
-	
+
 ## null only when both piles are exhausted.
 func _draw_from_pile() -> Card:
 	if draw_pile.is_empty():
@@ -242,6 +273,40 @@ func _draw_from_pile() -> Card:
 		discard_pile.append(top_card)
 		draw_pile.shuffle()
 	return draw_pile.pop_back()
+
+
+#################PUBLIC / PRIVATE PAYLOADS########################
+
+func snapshot() -> MauMauTable:
+	var table := MauMauTable.new()
+	table.top_card = discard_pile.back().id if not discard_pile.is_empty() else -1
+	table.turn = current_player_index
+	table.wished_suit = wished_suit
+	table.draw_penalty = current_draw_penalty
+	table.awaiting_wish = awaiting_wish
+	table.has_drawn = has_drawn_this_turn
+	table.draw_pile_size = draw_pile.size()
+	table.round_over = is_game_over
+	for seat in turn_order:
+		table.hand_counts.append(seat.get_hand_size())
+		table.placements.append(seat.placement)
+	for seat in winners:
+		table.finish_order.append(seat.turn_position)
+	if is_game_over:
+		for seat in turn_order:
+			if seat.placement == -1:
+				table.finish_order.append(seat.turn_position)
+	return table
+
+
+func _publish() -> void:
+	table_changed.emit(snapshot())
+
+
+func _end_acting_turn() -> void:
+	if _acting_seat != null:
+		_acting_seat.turn_ended.emit()
+		_acting_seat = null
 
 
 #################AUTOPLAY########################
@@ -269,8 +334,10 @@ func _autoplay_step() -> void:
 
 func game_over() -> void:
 	is_game_over = true
-	game_over_signal.emit(winners[0].turn_position)
-	print("Game over! Winner is ", winners[0])
+	_end_acting_turn()
+	var final := snapshot()
+	round_over.emit(final)
+	print("Game over! Winner is %s, finish order %s" % [winners[0], final.finish_order])
 
 #################GAME INITIALIZATION########################
 
@@ -298,6 +365,8 @@ func init_player_hands() -> void:
 			player_hand.append(card)
 		seat.init_hand(player_hand)
 
+## Seats participants in order: marker i, turn position i. Phase 4 decides which
+## peer is participant i (the seating shuffle) before this runs.
 func init_player_positions() -> void:
 	turn_order.clear()
 	var participants: Array = [player]
@@ -306,17 +375,18 @@ func init_player_positions() -> void:
 		if participant == null or participant.maumau_player == null:
 			push_error("Participant %s has no MauMauPlayer" % participant)
 			continue
-		participant.maumau_player.move_card_sfx_list = move_card_sfx_list
-		turn_order.append(participant.maumau_player)
-	#turn_order.shuffle()
+		var index := turn_order.size()
+		if index < seat_markers.size() and seat_markers[index] != null:
+			seat_markers[index].occupy(participant, participant == player)
+		else:
+			push_warning("No seat marker for %s; it stays where the scene put it" % participant)
+		var seat: MauMauPlayer = participant.maumau_player
+		seat.move_card_sfx_list = move_card_sfx_list
+		turn_order.append(seat)
+		seat.seat_at(self, index)
+		seat.hand_changed.connect(func(_hand: Array[Card]) -> void:
+			private_hand_changed.emit(index, seat.hand_ids()))
 
-	for i in range(turn_order.size()):
-		turn_order[i].manager = self
-		turn_order[i].init_pos(i)
-		
-		turn_order[i].init_current_player_label()
-		turn_order[i].init_current_player_arrow()
-		turn_order[i].init_card_played_listener()
 #################FUNCTIONS FOR DEBUGGING########################
 
 # Keyboard input for the human seat only; the gate refuses it off turn.

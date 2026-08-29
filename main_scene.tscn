@@ -5,6 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://biqyni0po3e7b" path="res://scenes/maumau-engine/MaumauEngine.tscn" id="2_gyfs4"]
 [ext_resource type="PackedScene" uid="uid://dugrco4ylfn5t" path="res://scenes/npc/npc.tscn" id="3_d5x1h"]
 [ext_resource type="PackedScene" uid="uid://cldy26buiv6t8" path="res://scenes/bar.tscn" id="4_bar01"]
+[ext_resource type="PackedScene" uid="uid://b5s7oteydehn3" path="res://scenes/seat/seat_marker.tscn" id="4_seat0"]
+[ext_resource type="PackedScene" uid="uid://bon71ikyoiyf0" path="res://assets/3D assets/Cats/YellowCatBody.glb" id="4_ycb"]
+[ext_resource type="PackedScene" uid="uid://bnw52wvj7s63a" path="res://assets/3D assets/Cats/YellowCatHead.glb" id="4_ych"]
+[ext_resource type="PackedScene" uid="uid://df2tykbhx5ccl" path="res://assets/3D assets/Cats/OrangeCatBody.glb" id="4_ocb"]
+[ext_resource type="PackedScene" uid="uid://bm22aly8746bp" path="res://assets/3D assets/Cats/OrangeCatHead.glb" id="4_och"]
+[ext_resource type="PackedScene" uid="uid://bafjr32ptyo1r" path="res://assets/3D assets/Cats/GrayCatBody.glb" id="4_gcb"]
+[ext_resource type="PackedScene" uid="uid://buikmfht0a2q5" path="res://assets/3D assets/Cats/GrayCatHead.glb" id="4_gch"]
+[ext_resource type="PackedScene" uid="uid://ds8ke7oawkri2" path="res://assets/3D assets/Cats/BlackCatBody.glb" id="4_bcb"]
+[ext_resource type="PackedScene" uid="uid://gjtsal36t5vo" path="res://assets/3D assets/Cats/BlackCatHead.glb" id="4_bch"]
 [ext_resource type="AudioStream" uid="uid://bjxov8cxpkada" path="res://audio/sfx/card/card-moved-1.wav" id="5_u0ygc"]
 [ext_resource type="AudioStream" uid="uid://00whfxsu63x0" path="res://audio/sfx/card/card-moved-2.wav" id="6_7th4q"]
 [ext_resource type="PackedScene" uid="uid://dpji0gao78poo" path="res://scenes/ui/pause_menu.tscn" id="6_hq1ik"]
@@ -31,14 +40,56 @@ settings_menu = NodePath("SettingsMenu")
 [node name="Ceiling" parent="Bar" index="1" unique_id=973510017]
 transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 4.164683, 0)
 
-[node name="YellowCatHead" parent="Bar/Gathering/YellowCat" parent_id_path=PackedInt32Array(1497321058, 39755458) index="0" unique_id=1060222907]
-visible = false
+[node name="Seats" type="Node3D" parent="." unique_id=1720433955]
 
-[node name="BlackCatBody" parent="Bar/Gathering/BlackCat" parent_id_path=PackedInt32Array(1497321058, 1833370294) index="1" unique_id=744630522]
-transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 0, 0, 0)
+[node name="Seat0" parent="Seats" unique_id=1053628102 node_paths=PackedStringArray("head", "body") instance=ExtResource("4_seat0")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.14, 0.63, 0)
+head = NodePath("YellowCatHead")
+body = NodePath("YellowCatBody")
+
+[node name="YellowCatHead" parent="Seats/Seat0" unique_id=1060222907 instance=ExtResource("4_ych")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0.7613467, 0.019990325)
+
+[node name="YellowCatBody" parent="Seats/Seat0" unique_id=1483088055 instance=ExtResource("4_ycb")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, -0.63, -1.14)
+
+[node name="Seat1" parent="Seats" unique_id=1298720564 node_paths=PackedStringArray("head", "body") instance=ExtResource("4_seat0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.63, 1.14)
+head = NodePath("OrangeCatHead")
+body = NodePath("OrangeCatBody")
+
+[node name="OrangeCatHead" parent="Seats/Seat1" unique_id=2011536089 instance=ExtResource("4_och")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0.7796402, 0.015641332)
+
+[node name="OrangeCatBody" parent="Seats/Seat1" unique_id=1407330369 instance=ExtResource("4_ocb")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, -0.63, -1.14)
+
+[node name="Seat2" parent="Seats" unique_id=1836945217 node_paths=PackedStringArray("head", "body") instance=ExtResource("4_seat0")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -1.14, 0.63, 0)
+head = NodePath("GrayCatHead")
+body = NodePath("GrayCatBody")
+
+[node name="GrayCatHead" parent="Seats/Seat2" unique_id=781677368 instance=ExtResource("4_gch")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0.7689626, 0.010151625)
+
+[node name="GrayCatBody" parent="Seats/Seat2" unique_id=336561744 instance=ExtResource("4_gcb")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, -0.63, -1.14)
+
+[node name="Seat3" parent="Seats" unique_id=1462130790 node_paths=PackedStringArray("head", "body") instance=ExtResource("4_seat0")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.63, -1.14)
+head = NodePath("BlackCatHead")
+body = NodePath("BlackCatBody")
+
+[node name="BlackCatHead" parent="Seats/Seat3" unique_id=1131930883 instance=ExtResource("4_bch")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 0.7447518, 0.036620736)
+
+[node name="Sphere_046" parent="Seats/Seat3/BlackCatHead" index="7" unique_id=228756440]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019911274, 0.014530018, 0)
+
+[node name="BlackCatBody" parent="Seats/Seat3" unique_id=744630522 instance=ExtResource("4_bcb")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, -0.63, -1.14)
 
 [node name="Player" parent="." unique_id=50830596 instance=ExtResource("1_0f027")]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.14, 0.63, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=470046891]
 visible = false
@@ -46,21 +97,19 @@ visible = false
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=294795548]
 environment = SubResource("Environment_04g65")
 
-[node name="MaumauEngine" parent="." unique_id=1722475892 node_paths=PackedStringArray("npcs", "player") instance=ExtResource("2_gyfs4")]
+[node name="MaumauEngine" parent="." unique_id=1722475892 node_paths=PackedStringArray("npcs", "player", "seat_markers") instance=ExtResource("2_gyfs4")]
 npcs = [NodePath("../Npc3"), NodePath("../Npc2"), NodePath("../Npc")]
 player = NodePath("../Player")
+seat_markers = [NodePath("../Seats/Seat0"), NodePath("../Seats/Seat1"), NodePath("../Seats/Seat2"), NodePath("../Seats/Seat3")]
 move_card_sfx_list = Array[AudioStream]([ExtResource("5_u0ygc"), ExtResource("6_7th4q"), ExtResource("7_6jybn")])
 
 [node name="Npc" parent="." unique_id=676701979 instance=ExtResource("3_d5x1h")]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.63, -1.14)
 neutral_meow_sfx_list = Array[AudioStream]([ExtResource("6_qwutr"), ExtResource("7_671wp")])
 
 [node name="Npc2" parent="." unique_id=357456118 instance=ExtResource("3_d5x1h")]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -1.14, 0.63, 0)
 neutral_meow_sfx_list = Array[AudioStream]([ExtResource("8_671wp"), ExtResource("9_42l1d")])
 
 [node name="Npc3" parent="." unique_id=1846873257 instance=ExtResource("3_d5x1h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.63, 1.14)
 neutral_meow_sfx_list = Array[AudioStream]([ExtResource("10_2jcla")])
 
 [node name="LastPlayedCard" parent="." unique_id=1222789218 node_paths=PackedStringArray("manager", "player") instance=ExtResource("8_7ycvg")]
@@ -77,13 +126,13 @@ settings_menu = NodePath("../SettingsMenu")
 visible = false
 
 [editable path="Bar"]
-[editable path="Bar/Gathering/YellowCat/YellowCatHead"]
-[editable path="Bar/Gathering/YellowCat/YellowCatBody"]
-[editable path="Bar/Gathering/OrangeCat/OrangeCatHead"]
-[editable path="Bar/Gathering/OrangeCat/OrangeCatBody"]
-[editable path="Bar/Gathering/GrayCat/GrayCatHead"]
-[editable path="Bar/Gathering/GrayCat/GrayCatBody"]
-[editable path="Bar/Gathering/BlackCat/BlackCatHead"]
-[editable path="Bar/Gathering/BlackCat/BlackCatBody"]
 [editable path="Bar/WaiterWithBottles"]
 [editable path="Bar/WaiterWithoutBottles"]
+[editable path="Seats/Seat0/YellowCatHead"]
+[editable path="Seats/Seat0/YellowCatBody"]
+[editable path="Seats/Seat1/OrangeCatHead"]
+[editable path="Seats/Seat1/OrangeCatBody"]
+[editable path="Seats/Seat2/GrayCatHead"]
+[editable path="Seats/Seat2/GrayCatBody"]
+[editable path="Seats/Seat3/BlackCatHead"]
+[editable path="Seats/Seat3/BlackCatBody"]
