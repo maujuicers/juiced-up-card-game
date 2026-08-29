@@ -84,3 +84,5 @@ visible = false
 [editable path="Bar/Gathering/GrayCat/GrayCatBody"]
 [editable path="Bar/Gathering/BlackCat/BlackCatHead"]
 [editable path="Bar/Gathering/BlackCat/BlackCatBody"]
+[editable path="Bar/WaiterWithBottles"]
+[editable path="Bar/WaiterWithoutBottles"]

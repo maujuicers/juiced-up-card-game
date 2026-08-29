@@ -7,7 +7,6 @@ class_name PlayerController
 
 @export var player_camera: Camera3D
 @export var player_head: Node3D
-@export var juice: Juice
 @export var maumau_player: MauMauPlayer
 @export var crosshair: Control
 

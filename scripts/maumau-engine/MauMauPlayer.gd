@@ -17,6 +17,8 @@ signal hand_changed(hand: Array[Card])
 @export var current_player_label: CurrentPlayerLabel
 @export var current_player_arrow: CurrentPlayerArrow
 
+@export var juice: Juice
+
 var move_card_sfx_list: Array[AudioStream]
 var neutral_meow_sfx_list: Array[AudioStream]
 var hand: Array[Card] = []
@@ -27,7 +29,6 @@ var cheat: Cheat
 var cheat_counter: int = 0
 var cheat_accusation: bool = false
 var cheat_penalties: int = 0
-var juice: Juice
 ## The MauMauGameManager that placed this seat; whether the seat may act is its call.
 ## Typed as Node: the manager names this class, and the cycle breaks the parser.
 var manager: Node
@@ -35,7 +36,6 @@ var manager: Node
 
 func init_hand(first_hand: Array[Card]) -> void:
 	self.hand = first_hand
-	self.juice = Juice.new()
 	hand_changed.emit(hand)
 
 func init_pos(turn: int) -> void:
@@ -137,10 +137,10 @@ func spike_drink(player: MauMauPlayer) -> void:
 func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> bool:
 	#check if player has enough juice first
 	var attempted_cheat = Cheat.init_cheat(method, card, exchanged_card)
-	if(juice.current_juice < attempted_cheat.juice_cost):
+	if(self.juice.current_juice < attempted_cheat.juice_cost):
 		return false
 		
-	juice.current_juice -= attempted_cheat.juice_cost
+	self.juice.current_juice -= attempted_cheat.juice_cost
 	
 	if autoplay:
 		npc_audio.play_random(cheat_meow_sfx_list)
