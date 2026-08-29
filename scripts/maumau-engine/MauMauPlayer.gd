@@ -49,50 +49,6 @@ func try_play_card_by_id(card_id: int) -> bool:
 		AudioManager.play_ui(click_sfx, -5.0)
 	return manager != null and manager.submit_move(self, card_id)
 	
-func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> void:
-	if autoplay:
-		npc_audio.play_random(cheat_meow_sfx_list)
-	else:
-		AudioManager.play_sfx(cheat_meow_sfx_list[randi_range(0, 1)])
-		
-	# set all cheat variable for player
-	cheat_counter += 1
-	cheated = true
-	cheat = Cheat.init_cheat(method, card, exchanged_card)
-	print("Player %s just cheated" %[self.turn_position])
-	
-	# after timer runs out cheat isnt callable anymore
-	var this_call := cheat_counter
-	var duration :float = cheat.call_timer
-	await get_tree().create_timer(duration).timeout
-	if this_call == cheat_counter:
-		cheated = false
-		cheat = null
-		print("cheat cant be called anymore")
-		
-func call_cheater(cheater: MauMauPlayer)-> void:
-	if autoplay:
-		npc_audio.play_random(angry_meow_sfx_list)
-	else:
-		AudioManager.play_sfx(angry_meow_sfx_list[randi_range(0, 2)])
-	print(cheater.cheated)
-	cheat_accusation = true
-	if cheater.cheated:
-		cheater.cheat_accusation = true;
-		print("player %s got called out by player %s for his cheat and has to draw cards" % [cheater.turn_position, self.turn_position])
-		cheater.cheat_penalty()
-	else:
-		print("player %s didnt cheat so player %s has to draw cards, for calling him out" % [cheater.turn_position, self.turn_position])
-		cheat_penalty()
-		
-	cheat_accusation = false
-	cheater.cheat_accusation = false
-
-func cheat_penalty() -> void:
-	cheat_penalties += 1
-	print("player %s received %d penalties now" % [self.turn_position, self.cheat_penalties])
-	self.manager._set_penalty()
-	draw_card()
 
 func draw_card() -> bool:
 	if autoplay:
@@ -147,3 +103,50 @@ func get_hand_size() -> int:
 func _to_string() -> String:
 	var owner_name := get_parent().name if get_parent() != null else name
 	return "%s (seat %d)" % [owner_name, turn_position]
+	
+	
+############ Cheat Functions ###########
+func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> void:
+	if autoplay:
+		npc_audio.play_random(cheat_meow_sfx_list)
+	else:
+		AudioManager.play_sfx(cheat_meow_sfx_list[randi_range(0, 1)])
+		
+	# set all cheat variable for player
+	cheat_counter += 1
+	cheated = true
+	cheat = Cheat.init_cheat(method, card, exchanged_card)
+	print("Player %s just cheated" %[self.turn_position])
+	
+	# after timer runs out cheat isnt callable anymore
+	var this_call := cheat_counter
+	var duration :float = cheat.call_timer
+	await get_tree().create_timer(duration).timeout
+	if this_call == cheat_counter:
+		cheated = false
+		cheat = null
+		print("cheat cant be called anymore")
+		
+func call_cheater(cheater: MauMauPlayer)-> void:
+	if autoplay:
+		npc_audio.play_random(angry_meow_sfx_list)
+	else:
+		AudioManager.play_sfx(angry_meow_sfx_list[randi_range(0, 2)])
+	print(cheater.cheated)
+	cheat_accusation = true
+	if cheater.cheated:
+		cheater.cheat_accusation = true;
+		print("player %s got called out by player %s for his cheat and has to draw cards" % [cheater.turn_position, self.turn_position])
+		cheater.cheat_penalty()
+	else:
+		print("player %s didnt cheat so player %s has to draw cards, for calling him out" % [cheater.turn_position, self.turn_position])
+		cheat_penalty()
+		
+	cheat_accusation = false
+	cheater.cheat_accusation = false
+
+func cheat_penalty() -> void:
+	cheat_penalties += 1
+	print("player %s received %d penalties now" % [self.turn_position, self.cheat_penalties])
+	self.manager._set_penalty()
+	draw_card()
