@@ -6,6 +6,7 @@ signal hand_changed(hand: Array[Card])
 
 ## Only set true for AI players
 @export var autoplay: bool = false
+@export var click_sfx: AudioStream
 
 var hand: Array[Card] = []
 var turn_position: int
@@ -36,6 +37,7 @@ func try_play_card(selected_card_pos: int) -> bool:
 
 
 func try_play_card_by_id(card_id: int) -> bool:
+	AudioManager.play_ui(click_sfx, -5.0)
 	return manager != null and manager.submit_move(self, card_id)
 	
 func trigger_cheat(duration: float, method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> void:

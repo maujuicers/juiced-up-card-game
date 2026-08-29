@@ -35,10 +35,11 @@ func play_music(stream: AudioStream, volume_db: float = 0.0) -> void:
 func stop_music() -> void:
 	music_player.stop()
 
-func play_ui(stream: AudioStream) -> void:
+func play_ui(stream: AudioStream, volume_db: float = 0.0) -> void:
 	if not stream:
 		return
 	ui_player.stream = stream
+	ui_player.volume_db = volume_db
 	ui_player.play()
 
 func play_sfx(stream: AudioStream, volume_db: float = 0.0, pitch_randomness: float = 0.0) -> void:

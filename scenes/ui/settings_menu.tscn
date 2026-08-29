@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b3i1t231b1ky4" path="res://scripts/ui/settings_menu.gd" id="1_0b1cv"]
 [ext_resource type="Shader" uid="uid://c0a6612cwmsjp" path="res://scripts/ui/settings_menu_background.gdshader" id="1_qwcqe"]
+[ext_resource type="AudioStream" uid="uid://bnscx14oaui1x" path="res://audio/sfx/card/card-select.wav" id="2_ywggk"]
 [ext_resource type="Texture2D" uid="uid://clrkughhlu81h" path="res://assets/2D assets/cat_icon.png" id="3_0b1cv"]
 [ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="3_x3vyp"]
 [ext_resource type="Texture2D" uid="uid://c46ulvrnaf031" path="res://assets/2D assets/cat_icon2.png" id="4_yu862"]
@@ -33,6 +34,7 @@ mouse_sensitivity_slider = NodePath("SettingsButtons/ControlSettingsContainer/Sl
 fullscreen_button = NodePath("SettingsButtons/VideoSettingsContainer/FullscreenButton")
 settings_saved_label = NodePath("SettingsSavedLabel")
 save_settings_question = NodePath("SaveSettingsQuestion")
+click_sfx = ExtResource("2_ywggk")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1275824452]
 layout_mode = 1

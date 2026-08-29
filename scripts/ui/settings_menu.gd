@@ -26,6 +26,7 @@ signal mouse_sensitivity_changed(sensitivity: float)
 @export var fullscreen_button: CheckButton
 @export var settings_saved_label: Label
 @export var save_settings_question: Control
+@export var click_sfx: AudioStream
 
 var save_button_was_pressed: bool = true
 
@@ -77,12 +78,14 @@ func load_settings_config() -> void:
 		fullscreen_button.button_pressed = false
 
 func _on_close_button_pressed() -> void:
+	AudioManager.play_ui(click_sfx)
 	if(save_button_was_pressed):
 		self.hide()
 	else:
 		save_settings_question.show()
 
 func _on_fullscreen_button_toggled(toggled_on: bool) -> void:
+	AudioManager.play_ui(click_sfx)
 	if toggled_on == true:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
@@ -90,6 +93,7 @@ func _on_fullscreen_button_toggled(toggled_on: bool) -> void:
 	save_button_was_pressed = false
 
 func _on_save_button_pressed() -> void:
+	AudioManager.play_ui(click_sfx)
 	var new_config = ConfigFile.new()
 	
 	save_button_was_pressed = true
@@ -130,11 +134,13 @@ func _on_mouse_sensitivity_slider_value_changed(value: float) -> void:
 	save_button_was_pressed = false
 
 func _on_yes_button_pressed() -> void:
+	AudioManager.play_ui(click_sfx)
 	_on_save_button_pressed()
 	save_settings_question.hide()
 	self.hide()
 
 func _on_no_button_pressed() -> void:
+	AudioManager.play_ui(click_sfx)
 	load_settings_config()
 	save_button_was_pressed = false
 	save_settings_question.hide()

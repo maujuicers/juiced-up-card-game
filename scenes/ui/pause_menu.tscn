@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bgm8ec6d6d1tb" path="res://scripts/ui/pause_menu.gd" id="1_0lmf7"]
 [ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="1_6tw0m"]
+[ext_resource type="AudioStream" uid="uid://bnscx14oaui1x" path="res://audio/sfx/card/card-select.wav" id="2_f6eus"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0lmf7"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -23,6 +24,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0lmf7")
+click_sfx = ExtResource("2_f6eus")
 
 [node name="Background" type="ColorRect" parent="." unique_id=1951694139]
 layout_mode = 1
