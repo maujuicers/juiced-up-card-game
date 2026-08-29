@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b7h006o1i54pe"
-path="res://.godot/imported/JuiceBottleLogo.glb-2c502c08f08956dfcdd8e4975ddf3b3c.scn"
+uid="uid://b40os8m4vwi5y"
+path="res://.godot/imported/JuiceBottle.glb-4b957603e20dcd0a78743f43d4ec4bf2.scn"
 
 [deps]
 
-source_file="res://assets/3D assets/Bar/JuiceBottleLogo.glb"
-dest_files=["res://.godot/imported/JuiceBottleLogo.glb-2c502c08f08956dfcdd8e4975ddf3b3c.scn"]
+source_file="res://assets/3D assets/Bar/JuiceBottle.glb"
+dest_files=["res://.godot/imported/JuiceBottle.glb-4b957603e20dcd0a78743f43d4ec4bf2.scn"]
 
 [params]
 

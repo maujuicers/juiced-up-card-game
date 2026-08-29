@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://fv586iu6e01y"
-path="res://.godot/imported/JuiceBottle.fbx-8ff1336d6666ae744d5ae90a1095116b.scn"
+uid="uid://duksgkluxbu05"
+path="res://.godot/imported/WaterBottle.glb-947a1c6da5e52c36e58ac39727c4b2ca.scn"
 
 [deps]
 
-source_file="res://assets/3D assets/Bar/JuiceBottle.fbx"
-dest_files=["res://.godot/imported/JuiceBottle.fbx-8ff1336d6666ae744d5ae90a1095116b.scn"]
+source_file="res://assets/3D assets/Bar/WaterBottle.glb"
+dest_files=["res://.godot/imported/WaterBottle.glb-947a1c6da5e52c36e58ac39727c4b2ca.scn"]
 
 [params]
 
@@ -32,7 +32,7 @@ meshes/force_disable_compression=false
 skins/use_named_skins=true
 animation/import=true
 animation/fps=30
-animation/trimming=true
+animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
@@ -40,7 +40,6 @@ materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
 _subresources={}
-fbx/importer=0
-fbx/allow_geometry_helper_nodes=false
-fbx/embedded_image_handling=1
-fbx/naming_version=2
+gltf/naming_version=2
+gltf/embedded_image_handling=1
+gltf/texture_map_mode=1
