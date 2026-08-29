@@ -309,6 +309,7 @@ func init_player_positions() -> void:
 	for i in range(turn_order.size()):
 		turn_order[i].manager = self
 		turn_order[i].init_pos(i)
+		turn_order[i].init_current_player_label()
 
 #################FUNCTIONS FOR DEBUGGING########################
 

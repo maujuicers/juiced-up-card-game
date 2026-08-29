@@ -39,9 +39,9 @@ func init_hand(first_hand: Array[Card]) -> void:
 
 func init_pos(turn: int) -> void:
 	self.turn_position = turn
-	
+
+func init_current_player_label() -> void:
 	if not autoplay:
-		print("Not autoplay and calling init_label")
 		current_player_label.init_label(self, manager)
 
 ## The three intents. Each returns whether the manager accepted the action.
