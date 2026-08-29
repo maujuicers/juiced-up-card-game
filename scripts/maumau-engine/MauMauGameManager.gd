@@ -143,8 +143,8 @@ func _play_card(card_id: int) -> bool:
 
 	var legal := MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty)
 	print("player %d tried to play %s. The move is %s." % [current_player_index, card, legal])
-	if not legal:
-		current_player_node.trigger_cheat(Cheat.Method.ONE, card)
+	if not legal and not current_player_node.trigger_cheat(Cheat.Method.ONE, card):
+		return false
 
 	if current_player_node.remove_card(card_id) == null:
 		push_warning("Player %d does not hold %s" % [current_player_index, card])

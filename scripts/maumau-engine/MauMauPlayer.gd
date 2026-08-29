@@ -23,6 +23,7 @@ var cheat_counter: int = 0
 var cheat_accusation: bool = false
 var cheat_penalties: int = 0
 var current_player_label: CurrentPlayerLabel
+var juice: Juice
 ## The MauMauGameManager that placed this seat; whether the seat may act is its call.
 ## Typed as Node: the manager names this class, and the cycle breaks the parser.
 var manager: Node
@@ -30,6 +31,7 @@ var manager: Node
 
 func init_hand(first_hand: Array[Card]) -> void:
 	self.hand = first_hand
+	self.juice = Juice.new()
 	hand_changed.emit(hand)
 
 func init_pos(turn: int) -> void:
@@ -106,26 +108,52 @@ func _to_string() -> String:
 	
 	
 ############ Cheat Functions ###########
-func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> void:
+func peek(player: MauMauPlayer) -> void:
+	trigger_cheat(Cheat.Method.TWO)
+	
+func play_fixed_card(card: Card) -> void:
+	trigger_cheat(Cheat.Method.THREE, card)
+	
+func exchange_card(player: MauMauPlayer, given_card: Card, stolen_card: Card) -> void:
+	trigger_cheat(Cheat.Method.FOUR, given_card, stolen_card)
+	
+func slip_card(player: MauMauPlayer, given_card: Card) -> void:
+	trigger_cheat(Cheat.Method.FIVE, given_card)
+	
+func spike_drink(player: MauMauPlayer) -> void:
+	trigger_cheat(Cheat.Method.SIX)
+
+func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> bool:
+	#check if player has enough juice first
+	var attempted_cheat = Cheat.init_cheat(method, card, exchanged_card)
+	if(juice.current_juice < attempted_cheat.juice_cost):
+		return false
+		
+	juice.current_juice -= attempted_cheat.juice_cost
+	
 	if autoplay:
 		npc_audio.play_random(cheat_meow_sfx_list)
 	else:
 		AudioManager.play_sfx(cheat_meow_sfx_list[randi_range(0, 1)])
 		
-	# set all cheat variable for player
+	# set all cheat variables for player
 	cheat_counter += 1
 	cheated = true
-	cheat = Cheat.init_cheat(method, card, exchanged_card)
+	cheat = attempted_cheat
 	print("Player %s just cheated" %[self.turn_position])
 	
-	# after timer runs out cheat isnt callable anymore
-	var this_call := cheat_counter
-	var duration :float = cheat.call_timer
+	_start_cheat_expiration_timer(cheat_counter, cheat.call_timer)
+	
+	return true
+	
+func _start_cheat_expiration_timer(this_call: int, duration: float) -> void:
 	await get_tree().create_timer(duration).timeout
+	# If no new cheat has been performed since this timer started, invalidate it
 	if this_call == cheat_counter:
 		cheated = false
 		cheat = null
 		print("cheat cant be called anymore")
+	
 		
 func call_cheater(cheater: MauMauPlayer)-> void:
 	if autoplay:
