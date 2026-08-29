@@ -49,16 +49,21 @@ func try_play_card_by_id(card_id: int) -> bool:
 		AudioManager.play_ui(click_sfx, -5.0)
 	return manager != null and manager.submit_move(self, card_id)
 	
-func trigger_cheat(duration: float, method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> void:
+func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> void:
 	if autoplay:
 		npc_audio.play_random(cheat_meow_sfx_list)
 	else:
 		AudioManager.play_sfx(cheat_meow_sfx_list[randi_range(0, 1)])
+		
+	# set all cheat variable for player
 	cheat_counter += 1
 	cheated = true
-	cheat = Cheat.with_card(Cheat.Method.ONE, card)
-	print("I just cheated hehe")
+	cheat = Cheat.init_cheat(method, card, exchanged_card)
+	print("Player %s just cheated" %[self.turn_position])
+	
+	# after timer runs out cheat isnt callable anymore
 	var this_call := cheat_counter
+	var duration :float = cheat.call_timer
 	await get_tree().create_timer(duration).timeout
 	if this_call == cheat_counter:
 		cheated = false

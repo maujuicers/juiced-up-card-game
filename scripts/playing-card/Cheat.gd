@@ -18,13 +18,34 @@ const JUICE_COSTS := {
 	Method.SIX:   30,
 }
 
+const CALL_TIMER :={
+	Method.ONE:   10.0,
+	Method.TWO:   10.0,
+	Method.THREE: 10.0,
+	Method.FOUR:  20.0,
+	Method.FIVE:  20.0,
+	Method.SIX:   40.0,
+}
+
 @export var method: Method
 @export var card: Card #only used on cheats, using playing cars (Methods: 1,3,4,5)
 @export var stolen_card: Card #only used on exchange (Method 4)
+var call_timer: float:
+	get: 
+		return CALL_TIMER.get(method, 0.0)
 
 var juice_cost: int:
 	get:
 		return JUICE_COSTS.get(method, 0)
+		
+static func init_cheat(m: Method, c: Card = null, s: Card = null) -> Cheat:
+	match m:
+		Cheat.Method.ONE or Cheat.Method.SIX:
+			return without_cards(m)
+		Cheat.Method.FOUR:
+			return exchange_card(c, s)
+		_:
+			return with_card(m, c)
 		
 static func without_cards(m: Method) -> Cheat:
 	var ch := Cheat.new()
@@ -34,9 +55,12 @@ static func without_cards(m: Method) -> Cheat:
 static func with_card(m: Method, c: Card) ->Cheat:
 	var ch := Cheat.new()
 	ch.method = m
+	ch.card = c
 	return ch
 	
 static func exchange_card(c: Card, s: Card)-> Cheat:
 	var ch := Cheat.new()
 	ch.method = Method.FOUR
+	ch.card = c
+	ch.stolen_card = s
 	return ch

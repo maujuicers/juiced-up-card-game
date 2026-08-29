@@ -16,7 +16,6 @@ signal base_card_played(card: Card)
 ## Falls back to [method CardDeck.load_default] when the scene leaves it unset.
 @export var deck: CardDeck
 @export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 1.0
-@export_range(5.0, 25.0, 0.5, "suffix:s") var cheat_call_duration: float = 10.0
 @export_range(1, 5, 1, "suffix:c") var cards_drawn_on_cheat: int = 2
 
 #Game state
@@ -145,7 +144,7 @@ func _play_card(card_id: int) -> bool:
 	var legal := MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty)
 	print("player %d tried to play %s. The move is %s." % [current_player_index, card, legal])
 	if not legal:
-		current_player_node.trigger_cheat(cheat_call_duration, Cheat.Method.ONE, card)
+		current_player_node.trigger_cheat(Cheat.Method.ONE, card)
 
 	if current_player_node.remove_card(card_id) == null:
 		push_warning("Player %d does not hold %s" % [current_player_index, card])
