@@ -30,3 +30,6 @@ func _on_timeout() -> void:
 	if not drain_enabled:
 		return
 	set_juice(current_juice - 1)
+	
+func deduct_juice(amount: int) -> void:
+	current_juice -= amount

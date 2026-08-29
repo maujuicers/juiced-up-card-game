@@ -140,7 +140,6 @@ func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card
 	if(self.juice.current_juice < attempted_cheat.juice_cost):
 		return false
 		
-	self.juice.current_juice -= attempted_cheat.juice_cost
 	
 	if autoplay:
 		npc_audio.play_random(cheat_meow_sfx_list)
@@ -148,6 +147,7 @@ func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card
 		AudioManager.play_sfx(cheat_meow_sfx_list[randi_range(0, 1)])
 		
 	# set all cheat variables for player
+	self.juice.deduct_juice(attempted_cheat.juice_cost)
 	cheat_counter += 1
 	cheated = true
 	cheat = attempted_cheat
