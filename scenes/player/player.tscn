@@ -8,13 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://cs7gmt5qdkqld" path="res://scenes/playing-card/hand.tscn" id="5_hand0"]
 [ext_resource type="PackedScene" uid="uid://b1ygc6dacv7n6" path="res://scenes/ui/crosshair.tscn" id="6_cr0ss"]
 [ext_resource type="AudioStream" uid="uid://bnscx14oaui1x" path="res://audio/sfx/card/card-select.wav" id="6_qek5x"]
-[ext_resource type="AudioStream" uid="uid://bengq2igp2ogj" path="res://audio/sfx/npc/losing-meow-1.wav" id="12_fcs02"]
-[ext_resource type="AudioStream" uid="uid://burydh3qfm7cv" path="res://audio/sfx/npc/losing-meow-2.wav" id="13_kvlxm"]
+[ext_resource type="AudioStream" uid="uid://d3fkntk5dey6b" path="res://audio/sfx/npc/losing-meow-1.wav" id="12_fcs02"]
+[ext_resource type="AudioStream" uid="uid://crkq1o5skla7p" path="res://audio/sfx/npc/losing-meow-2.wav" id="13_kvlxm"]
 [ext_resource type="AudioStream" uid="uid://ckghw2tnmw7ub" path="res://audio/sfx/npc/cheat-meow-1.wav" id="13_myrg7"]
-[ext_resource type="AudioStream" uid="uid://dv34oxac8e0k5" path="res://audio/sfx/npc/cheat-meow-2.wav" id="14_kvlxm"]
-[ext_resource type="AudioStream" uid="uid://cmgbeukhlswnm" path="res://audio/sfx/npc/upset-meow-1.wav" id="15_lgqa7"]
-[ext_resource type="AudioStream" uid="uid://b27emo3wp8ydd" path="res://audio/sfx/npc/upset-meow-2.wav" id="16_8ydkj"]
-[ext_resource type="AudioStream" uid="uid://cc0shbkl5wcn1" path="res://audio/sfx/npc/upset-meow-3.wav" id="17_3j4b4"]
+[ext_resource type="AudioStream" uid="uid://diotbw63l0k0b" path="res://audio/sfx/npc/cheat-meow-2.wav" id="14_kvlxm"]
+[ext_resource type="AudioStream" uid="uid://batvmlw3u5ouc" path="res://audio/sfx/npc/upset-meow-1.wav" id="15_lgqa7"]
+[ext_resource type="AudioStream" uid="uid://b3084un18hscv" path="res://audio/sfx/npc/upset-meow-2.wav" id="16_8ydkj"]
+[ext_resource type="AudioStream" uid="uid://brms3w1q1jxgl" path="res://audio/sfx/npc/upset-meow-3.wav" id="17_3j4b4"]
 
 [node name="Player" type="Node3D" unique_id=1662220489 node_paths=PackedStringArray("player_camera", "player_head", "juice", "maumau_player", "crosshair")]
 script = ExtResource("1_4flbx")
@@ -33,6 +33,12 @@ current = true
 [node name="UI" type="CanvasLayer" parent="." unique_id=1143690964]
 
 [node name="JuiceMeter" parent="UI" unique_id=626850414 node_paths=PackedStringArray("juice") instance=ExtResource("2_dovo2")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_right = 0.0
+grow_horizontal = 0
 juice = NodePath("../../Juice")
 
 [node name="Crosshair" parent="UI" unique_id=1198549079 instance=ExtResource("6_cr0ss")]
@@ -41,12 +47,13 @@ crosshair_size = 14.0
 
 [node name="CurrentPlayerLabel" parent="UI" unique_id=1427191879 instance=ExtResource("4_0owmy")]
 
-[node name="MauMauPlayer" type="Node" parent="." unique_id=1609776256]
+[node name="MauMauPlayer" type="Node" parent="." unique_id=1609776256 node_paths=PackedStringArray("current_player_label")]
 script = ExtResource("3_gmlin")
 click_sfx = ExtResource("6_qek5x")
 cheat_meow_sfx_list = Array[AudioStream]([ExtResource("13_myrg7"), ExtResource("14_kvlxm")])
 angry_meow_sfx_list = Array[AudioStream]([ExtResource("15_lgqa7"), ExtResource("16_8ydkj"), ExtResource("17_3j4b4")])
 sad_meow_sfx_list = Array[AudioStream]([ExtResource("12_fcs02"), ExtResource("13_kvlxm")])
+current_player_label = NodePath("../UI/CurrentPlayerLabel")
 
 [node name="Juice" parent="." unique_id=1555947057 instance=ExtResource("4_lvxji")]
 

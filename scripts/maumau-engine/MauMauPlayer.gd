@@ -6,11 +6,15 @@ signal hand_changed(hand: Array[Card])
 
 ## Only set true for AI players
 @export var autoplay: bool = false
+
+## Audio
 @export var click_sfx: AudioStream
 @export var cheat_meow_sfx_list: Array[AudioStream]
 @export var angry_meow_sfx_list: Array[AudioStream]
 @export var sad_meow_sfx_list: Array[AudioStream]
 @export var npc_audio: EntityAudio
+
+@export var current_player_label: CurrentPlayerLabel
 
 var move_card_sfx_list: Array[AudioStream]
 var neutral_meow_sfx_list: Array[AudioStream]
@@ -22,7 +26,6 @@ var cheat: Cheat
 var cheat_counter: int = 0
 var cheat_accusation: bool = false
 var cheat_penalties: int = 0
-var current_player_label: CurrentPlayerLabel
 var juice: Juice
 ## The MauMauGameManager that placed this seat; whether the seat may act is its call.
 ## Typed as Node: the manager names this class, and the cycle breaks the parser.
@@ -36,6 +39,10 @@ func init_hand(first_hand: Array[Card]) -> void:
 
 func init_pos(turn: int) -> void:
 	self.turn_position = turn
+	
+	if not autoplay:
+		print("Not autoplay and calling init_label")
+		current_player_label.init_label(self, manager)
 
 ## The three intents. Each returns whether the manager accepted the action.
 func try_play_card(selected_card_pos: int) -> bool:
