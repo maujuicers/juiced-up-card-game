@@ -8,6 +8,7 @@ signal turn_changed(new_player_index: int)
 signal effect_triggered(effect: String)
 signal game_over_signal(winner_index: int)
 signal base_card_played(card: Card)
+signal suit_wished(suit: Card.Suit)
 
 @export var npcs: Array[Npc]
 @export var player: PlayerController
@@ -218,7 +219,7 @@ func _draw_card(seat: MauMauPlayer) -> bool:
 
 
 func _set_wished_suit(suit: Card.Suit) -> void:
-	current_player_node.suit_choice_node.hide()
+	suit_wished.emit(suit)
 	awaiting_wish = false
 	wished_suit = suit
 	print("%s was wished" % Card.suit_name(suit))
@@ -314,6 +315,7 @@ func init_player_positions() -> void:
 		
 		turn_order[i].init_current_player_label()
 		turn_order[i].init_current_player_arrow()
+		turn_order[i].suit_choice_node.init_suit_choice()
 
 #################FUNCTIONS FOR DEBUGGING########################
 

@@ -4,10 +4,23 @@ class_name SuitChoiceNode
 
 @export var interactive: bool = true
 @export var mau_mau_player: MauMauPlayer
+@export var current_wished_suit_node: Node3D
+@export var wished_suit_sprite: Sprite3D
+@export var heart_sprite: Texture
+@export var club_sprite: Texture
+@export var spade_sprite: Texture
+@export var diamond_sprite: Texture
 
 const PICK_RAY_LENGTH := 2.0
 
 var _aimed: SuitChoiceVisual = null
+
+func init_suit_choice() -> void:
+	current_wished_suit_node.hide()
+	mau_mau_player.manager.suit_wished.connect(translate_suit_to_sprite)
+	mau_mau_player.manager.suit_wished.connect(self.hide)
+	# Hides the sprite every time a card is played after wish; TODO: maybe modify for wrong card cheat
+	mau_mau_player.manager.card_played.connect(current_wished_suit_node.hide)
 
 func _physics_process(_delta: float) -> void:
 	if not interactive:
@@ -62,3 +75,14 @@ func _suit_choice_at(screen_pos: Vector2) -> SuitChoiceVisual:
 	if node != null and node.get_parent() == self and not node.is_queued_for_deletion():
 		return node as SuitChoiceVisual
 	return null
+
+func translate_suit_to_sprite(suit: Card.Suit) -> void:
+	match suit:
+		Card.Suit.HEARTS:
+			wished_suit_sprite.texture = heart_sprite
+		Card.Suit.DIAMONDS:
+			wished_suit_sprite.texture = diamond_sprite
+		Card.Suit.CLUBS:
+			wished_suit_sprite.texture = club_sprite
+		Card.Suit.SPADES:
+			wished_suit_sprite.texture = spade_sprite
