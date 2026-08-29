@@ -3,26 +3,28 @@
 [ext_resource type="Script" uid="uid://dxwbl0u1jrf06" path="res://scripts/npc/npc.gd" id="1_sspvn"]
 [ext_resource type="Script" uid="uid://diiwj638m4uix" path="res://scripts/maumau-engine/MauMauPlayer.gd" id="2_pcwmf"]
 [ext_resource type="PackedScene" uid="uid://cs7gmt5qdkqld" path="res://scenes/playing-card/hand.tscn" id="3_hand0"]
-[ext_resource type="AudioStream" uid="uid://bengq2igp2ogj" path="res://audio/sfx/npc/losing-meow-1.wav" id="8_cbmue"]
+[ext_resource type="AudioStream" uid="uid://d3fkntk5dey6b" path="res://audio/sfx/npc/losing-meow-1.wav" id="8_cbmue"]
 [ext_resource type="AudioStream" uid="uid://ckghw2tnmw7ub" path="res://audio/sfx/npc/cheat-meow-1.wav" id="9_1duk3"]
-[ext_resource type="AudioStream" uid="uid://burydh3qfm7cv" path="res://audio/sfx/npc/losing-meow-2.wav" id="9_1owdj"]
-[ext_resource type="AudioStream" uid="uid://dv34oxac8e0k5" path="res://audio/sfx/npc/cheat-meow-2.wav" id="10_1owdj"]
+[ext_resource type="AudioStream" uid="uid://crkq1o5skla7p" path="res://audio/sfx/npc/losing-meow-2.wav" id="9_1owdj"]
+[ext_resource type="AudioStream" uid="uid://diotbw63l0k0b" path="res://audio/sfx/npc/cheat-meow-2.wav" id="10_1owdj"]
 [ext_resource type="Script" uid="uid://c70d07lpl0quv" path="res://scenes/npc/npc_audio.gd" id="10_hlwrr"]
-[ext_resource type="AudioStream" uid="uid://cmgbeukhlswnm" path="res://audio/sfx/npc/upset-meow-1.wav" id="11_atglx"]
-[ext_resource type="AudioStream" uid="uid://b27emo3wp8ydd" path="res://audio/sfx/npc/upset-meow-2.wav" id="12_sjvbi"]
-[ext_resource type="AudioStream" uid="uid://cc0shbkl5wcn1" path="res://audio/sfx/npc/upset-meow-3.wav" id="13_fv38m"]
+[ext_resource type="AudioStream" uid="uid://batvmlw3u5ouc" path="res://audio/sfx/npc/upset-meow-1.wav" id="11_atglx"]
+[ext_resource type="PackedScene" uid="uid://bm8cybph3ugw0" path="res://scenes/player/current_player_arrow.tscn" id="12_1duk3"]
+[ext_resource type="AudioStream" uid="uid://b3084un18hscv" path="res://audio/sfx/npc/upset-meow-2.wav" id="12_sjvbi"]
+[ext_resource type="AudioStream" uid="uid://brms3w1q1jxgl" path="res://audio/sfx/npc/upset-meow-3.wav" id="13_fv38m"]
 
 [node name="Npc" type="Node3D" unique_id=1173207771 node_paths=PackedStringArray("maumau_player")]
 script = ExtResource("1_sspvn")
 maumau_player = NodePath("MauMauPlayer")
 
-[node name="MauMauPlayer" type="Node" parent="." unique_id=987309261 node_paths=PackedStringArray("npc_audio")]
+[node name="MauMauPlayer" type="Node" parent="." unique_id=987309261 node_paths=PackedStringArray("npc_audio", "current_player_arrow")]
 script = ExtResource("2_pcwmf")
 autoplay = true
 cheat_meow_sfx_list = Array[AudioStream]([ExtResource("9_1duk3"), ExtResource("10_1owdj")])
 angry_meow_sfx_list = Array[AudioStream]([ExtResource("11_atglx"), ExtResource("12_sjvbi"), ExtResource("13_fv38m")])
 sad_meow_sfx_list = Array[AudioStream]([ExtResource("8_cbmue"), ExtResource("9_1owdj")])
 npc_audio = NodePath("../NpcAudio")
+current_player_arrow = NodePath("../CurrentPlayerArrow")
 
 [node name="Hand" parent="." unique_id=1382204948 node_paths=PackedStringArray("maumau_player") instance=ExtResource("3_hand0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.58, -0.32)
@@ -31,3 +33,7 @@ maumau_player = NodePath("../MauMauPlayer")
 
 [node name="NpcAudio" type="AudioStreamPlayer3D" parent="." unique_id=1908936959]
 script = ExtResource("10_hlwrr")
+
+[node name="CurrentPlayerArrow" parent="." unique_id=1373336316 instance=ExtResource("12_1duk3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+visible = false

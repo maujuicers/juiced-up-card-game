@@ -15,6 +15,7 @@ signal hand_changed(hand: Array[Card])
 @export var npc_audio: EntityAudio
 
 @export var current_player_label: CurrentPlayerLabel
+@export var current_player_arrow: CurrentPlayerArrow
 
 var move_card_sfx_list: Array[AudioStream]
 var neutral_meow_sfx_list: Array[AudioStream]
@@ -43,6 +44,9 @@ func init_pos(turn: int) -> void:
 func init_current_player_label() -> void:
 	if not autoplay:
 		current_player_label.init_label(self, manager)
+
+func init_current_player_arrow() -> void:
+	current_player_arrow.init_player_arrow(self, manager)
 
 ## The three intents. Each returns whether the manager accepted the action.
 func try_play_card(selected_card_pos: int) -> bool:

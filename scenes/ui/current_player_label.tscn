@@ -5,13 +5,14 @@
 
 [node name="CurrentPlayerLabel" type="Control" unique_id=1427191879 node_paths=PackedStringArray("label")]
 layout_mode = 3
-anchors_preset = 0
+offset_left = 20.0
+offset_top = 20.0
 script = ExtResource("1_1vci3")
 label = NodePath("Label")
 
 [node name="Label" type="Label" parent="." unique_id=1694641329]
 layout_mode = 1
-offset_right = 20.0
+offset_right = 1.0
 offset_bottom = 48.0
 theme_override_fonts/font = ExtResource("2_8g0jb")
 theme_override_font_sizes/font_size = 40

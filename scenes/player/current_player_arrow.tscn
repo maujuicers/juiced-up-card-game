@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bm8cybph3ugw0"]
+
+[ext_resource type="Script" uid="uid://dnr6gx3ve1p2g" path="res://scripts/player/current_player_arrow.gd" id="1_j1qm6"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_nt6xt"]
+top_radius = 0.0
+bottom_radius = 0.1
+height = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_71avi"]
+albedo_color = Color(0.31284463, 0.62526935, 0, 1)
+
+[node name="CurrentPlayerArrow" type="Node3D" unique_id=1373336316]
+script = ExtResource("1_j1qm6")
+
+[node name="ArrowPointer" type="MeshInstance3D" parent="." unique_id=1042156530]
+transform = Transform3D(1, 0, 0, 0, -1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_nt6xt")
+surface_material_override/0 = SubResource("StandardMaterial3D_71avi")
