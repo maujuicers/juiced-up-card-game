@@ -351,7 +351,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_4, KEY_KP_4: key_index = 3
 
 	if key_index != -1:
-		seat.call_cheater(turn_order[key_index])
+		seat.call_cheater(turn_order[key_index], Cheat.Method.ONE)
 
 func log_gamestate() -> void:
 	print("\n--- PLAYER HANDS INITIALIZED ---")

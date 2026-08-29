@@ -166,14 +166,14 @@ func _start_cheat_expiration_timer(this_call: int, duration: float) -> void:
 		print("cheat cant be called anymore")
 	
 		
-func call_cheater(cheater: MauMauPlayer)-> void:
+func call_cheater(cheater: MauMauPlayer, method : Cheat.Method)-> void:
 	if autoplay:
 		npc_audio.play_random(angry_meow_sfx_list)
 	else:
 		AudioManager.play_sfx(angry_meow_sfx_list[randi_range(0, 2)])
 	print(cheater.cheated)
 	cheat_accusation = true
-	if cheater.cheated:
+	if cheater.cheated and method == cheater.cheat.method:
 		cheater.cheat_accusation = true;
 		print("player %s got called out by player %s for his cheat and has to draw cards" % [cheater.turn_position, self.turn_position])
 		cheater.cheat_penalty()
