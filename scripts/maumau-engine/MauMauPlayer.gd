@@ -8,6 +8,7 @@ signal hand_changed(hand: Array[Card])
 @export var autoplay: bool = false
 @export var click_sfx: AudioStream
 @export var neutral_meow_sfx_list: Array[AudioStream]
+@export var cheat_meow_sfx_list: Array[AudioStream]
 @export var npc_audio: EntityAudio
 
 var hand: Array[Card] = []
@@ -46,6 +47,10 @@ func try_play_card_by_id(card_id: int) -> bool:
 	return manager != null and manager.submit_move(self, card_id)
 	
 func trigger_cheat(duration: float, method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> void:
+	if autoplay:
+		npc_audio.play_random(cheat_meow_sfx_list)
+	else:
+		AudioManager.play_sfx(cheat_meow_sfx_list[randi_range(0, 1)])
 	cheat_counter += 1
 	cheated = true
 	cheat = Cheat.with_card(Cheat.Method.ONE, card)

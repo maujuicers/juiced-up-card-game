@@ -9,6 +9,8 @@
 [ext_resource type="AudioStream" uid="uid://cuywsdi1l8iar" path="res://audio/sfx/npc/meow-neutral-4.wav" id="6_1duk3"]
 [ext_resource type="AudioStream" uid="uid://dpk68r2e21kxv" path="res://audio/sfx/npc/meow-neutral-5.wav" id="7_1owdj"]
 [ext_resource type="AudioStream" uid="uid://bossxjs2o484a" path="res://audio/sfx/npc/meow-neutral-6.wav" id="8_wcgwu"]
+[ext_resource type="AudioStream" uid="uid://ckghw2tnmw7ub" path="res://audio/sfx/npc/cheat-meow-1.wav" id="9_1duk3"]
+[ext_resource type="AudioStream" uid="uid://dv34oxac8e0k5" path="res://audio/sfx/npc/cheat-meow-2.wav" id="10_1owdj"]
 [ext_resource type="Script" uid="uid://c70d07lpl0quv" path="res://scenes/npc/npc_audio.gd" id="10_hlwrr"]
 
 [node name="Npc" type="Node3D" unique_id=1173207771 node_paths=PackedStringArray("maumau_player")]
@@ -19,6 +21,7 @@ maumau_player = NodePath("MauMauPlayer")
 script = ExtResource("2_pcwmf")
 autoplay = true
 neutral_meow_sfx_list = Array[AudioStream]([ExtResource("3_lvnn6"), ExtResource("4_hlwrr"), ExtResource("5_cbmue"), ExtResource("6_1duk3"), ExtResource("7_1owdj"), ExtResource("8_wcgwu")])
+cheat_meow_sfx_list = Array[AudioStream]([ExtResource("9_1duk3"), ExtResource("10_1owdj")])
 npc_audio = NodePath("../NpcAudio")
 
 [node name="Hand" parent="." unique_id=1382204948 node_paths=PackedStringArray("maumau_player") instance=ExtResource("3_hand0")]

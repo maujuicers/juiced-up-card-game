@@ -8,6 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://cs7gmt5qdkqld" path="res://scenes/playing-card/hand.tscn" id="5_hand0"]
 [ext_resource type="PackedScene" uid="uid://b1ygc6dacv7n6" path="res://scenes/ui/crosshair.tscn" id="6_cr0ss"]
 [ext_resource type="AudioStream" uid="uid://bnscx14oaui1x" path="res://audio/sfx/card/card-select.wav" id="6_qek5x"]
+[ext_resource type="AudioStream" uid="uid://c38ee7i88dshq" path="res://audio/sfx/npc/meow-neutral-1.wav" id="7_ugbui"]
+[ext_resource type="AudioStream" uid="uid://drqup6gdy8ww8" path="res://audio/sfx/npc/meow-neutral-2.wav" id="8_fcs02"]
+[ext_resource type="AudioStream" uid="uid://bynq1vropnahq" path="res://audio/sfx/npc/meow-neutral-3.wav" id="9_myrg7"]
+[ext_resource type="AudioStream" uid="uid://cuywsdi1l8iar" path="res://audio/sfx/npc/meow-neutral-4.wav" id="10_kvlxm"]
+[ext_resource type="AudioStream" uid="uid://dpk68r2e21kxv" path="res://audio/sfx/npc/meow-neutral-5.wav" id="11_uf5tr"]
+[ext_resource type="AudioStream" uid="uid://bossxjs2o484a" path="res://audio/sfx/npc/meow-neutral-6.wav" id="12_lgqa7"]
+[ext_resource type="AudioStream" uid="uid://ckghw2tnmw7ub" path="res://audio/sfx/npc/cheat-meow-1.wav" id="13_myrg7"]
+[ext_resource type="AudioStream" uid="uid://dv34oxac8e0k5" path="res://audio/sfx/npc/cheat-meow-2.wav" id="14_kvlxm"]
 
 [node name="Player" type="Node3D" unique_id=1662220489 node_paths=PackedStringArray("player_camera", "player_head", "juice", "maumau_player", "crosshair")]
 script = ExtResource("1_4flbx")
@@ -37,6 +45,8 @@ crosshair_size = 14.0
 [node name="MauMauPlayer" type="Node" parent="." unique_id=1609776256]
 script = ExtResource("3_gmlin")
 click_sfx = ExtResource("6_qek5x")
+neutral_meow_sfx_list = Array[AudioStream]([ExtResource("7_ugbui"), ExtResource("8_fcs02"), ExtResource("9_myrg7"), ExtResource("10_kvlxm"), ExtResource("11_uf5tr"), ExtResource("12_lgqa7")])
+cheat_meow_sfx_list = Array[AudioStream]([ExtResource("13_myrg7"), ExtResource("14_kvlxm")])
 
 [node name="Juice" parent="." unique_id=1555947057 instance=ExtResource("4_lvxji")]
 
