@@ -27,9 +27,20 @@ shader_parameter/inner_fade = 0.0012
 [sub_resource type="BoxShape3D" id="BoxShape3D_kewkp"]
 size = Vector3(6, 6.5, 0.002)
 
-[node name="SuitChoice" type="Node3D" unique_id=57904205]
+[node name="SuitChoice" type="Node3D" unique_id=57904205 node_paths=PackedStringArray("current_wished_suit_node", "wished_suit_sprite")]
 script = ExtResource("1_jnk5x")
-interactive = null
+current_wished_suit_node = NodePath("Current_Wished_Suit")
+wished_suit_sprite = NodePath("Current_Wished_Suit/Wished_Suit_Sprite")
+heart_sprite = ExtResource("3_h6oim")
+club_sprite = ExtResource("5_aym7e")
+spade_sprite = ExtResource("6_6gdhe")
+diamond_sprite = ExtResource("7_w445v")
+
+[node name="Current_Wished_Suit" type="Node3D" parent="." unique_id=2031911830]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.25, 0)
+visible = false
+
+[node name="Wished_Suit_Sprite" type="Sprite3D" parent="Current_Wished_Suit" unique_id=1879580521]
 
 [node name="Heart" type="Node3D" parent="." unique_id=703372172 node_paths=PackedStringArray("suit_sprite", "pick_area", "outline_mesh")]
 transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.3, 0)

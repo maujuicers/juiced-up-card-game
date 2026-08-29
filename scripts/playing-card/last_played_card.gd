@@ -37,7 +37,7 @@ func show_base_card(card: Card) -> void:
 func show_last_card(_player_index: int, card: Card) -> void:
 	for child in get_children():
 		child.queue_free()
-		
+	
 	if not card_scene:
 		return
 	
