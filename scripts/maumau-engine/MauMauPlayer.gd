@@ -7,10 +7,11 @@ signal hand_changed(hand: Array[Card])
 ## Only set true for AI players
 @export var autoplay: bool = false
 @export var click_sfx: AudioStream
-@export var neutral_meow_sfx_list: Array[AudioStream]
 @export var cheat_meow_sfx_list: Array[AudioStream]
+@export var angry_meow_sfx_list: Array[AudioStream]
 @export var npc_audio: EntityAudio
 
+var neutral_meow_sfx_list: Array[AudioStream]
 var hand: Array[Card] = []
 var turn_position: int
 var placement: int = -1
@@ -63,6 +64,10 @@ func trigger_cheat(duration: float, method: Cheat.Method, card: Card = null, exc
 		print("cheat cant be called anymore")
 		
 func call_cheater(cheater: MauMauPlayer)-> void:
+	if autoplay:
+		npc_audio.play_random(angry_meow_sfx_list)
+	else:
+		AudioManager.play_sfx(angry_meow_sfx_list[randi_range(0, 2)])
 	print(cheater.cheated)
 	cheat_accusation = true
 	if cheater.cheated:
