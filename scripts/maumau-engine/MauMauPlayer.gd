@@ -182,7 +182,7 @@ func call_cheater(cheater: MauMauPlayer, method : Cheat.Method)-> void:
 		AudioManager.play_sfx(angry_meow_sfx_list[randi_range(0, 2)])
 	print(cheater.cheated)
 	cheat_accusation = true
-	if cheater.has_cheat(method):
+	if cheater.remove_cheat(method):
 		cheater.cheat_accusation = true;
 		print("player %s got called out by player %s for his cheat and has to draw cards" % [cheater.turn_position, self.turn_position])
 		cheater.cheat_penalty()
@@ -199,8 +199,13 @@ func cheat_penalty() -> void:
 	self.manager._set_penalty()
 	draw_card()
 	
-func has_cheat(method: Cheat.Method) -> bool:
-	return cheat_index(method) != -1
+func remove_cheat(method: Cheat.Method) -> bool:
+	var index := cheat_index(method)
+	if index == -1:
+		return false
+	cheats.remove_at(index)
+	cheated = not cheats.is_empty()
+	return true
 
 func cheat_index(method: Cheat.Method) -> int:
 	for i in cheats.size():

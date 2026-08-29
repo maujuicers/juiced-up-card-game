@@ -16,7 +16,7 @@ signal suit_wished(suit: Card.Suit)
 @export var move_card_sfx_list: Array[AudioStream]
 ## Falls back to [method CardDeck.load_default] when the scene leaves it unset.
 @export var deck: CardDeck
-@export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 1.0
+@export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 5.0
 @export_range(1, 5, 1, "suffix:c") var cards_drawn_on_cheat: int = 2
 
 #Game state
@@ -172,7 +172,8 @@ func _play_card(card_id: int) -> bool:
 	if current_effect == "wish_suit":
 		print("player %d played %s, he can now choose a suit" % [current_player_index, card])
 		awaiting_wish = true
-		current_player_node.suit_choice_node.show()
+		if not current_player_node.autoplay:
+			current_player_node.suit_choice_node.show()
 		return true
 
 	advance_turn()
@@ -315,7 +316,7 @@ func init_player_positions() -> void:
 		
 		turn_order[i].init_current_player_label()
 		turn_order[i].init_current_player_arrow()
-
+		turn_order[i].init_card_played_listener()
 #################FUNCTIONS FOR DEBUGGING########################
 
 # Keyboard input for the human seat only; the gate refuses it off turn.
@@ -354,7 +355,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_4, KEY_KP_4: key_index = 3
 
 	if key_index != -1:
-		seat.call_cheater(turn_order[key_index], Cheat.Method.ONE)
+		npcs[1].maumau_player.call_cheater(turn_order[key_index], Cheat.Method.ONE)
 
 func log_gamestate() -> void:
 	print("\n--- PLAYER HANDS INITIALIZED ---")
