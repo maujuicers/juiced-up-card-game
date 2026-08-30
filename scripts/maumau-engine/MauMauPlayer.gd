@@ -207,13 +207,16 @@ func _to_string() -> String:
 	return "%s (seat %d)" % [owner_name, turn_position]
 	
 func call_waiter() -> void:
-	if juice_bottle.is_empty():
-		var ordered_juice = JuiceBottle.new()
-		juice_bottle = ordered_juice
+	if not juice_bottle.is_empty():
+		return
+		
+	var ordered_juice = JuiceBottle.new()
+	juice_bottle = ordered_juice
 		
 func drink() -> void:
 	if juice_bottle != null and not juice_bottle.is_empty():
 		is_drinking = true
+		juice_bottle.drink()
 		juice_bottle.juice_empty.connect(stop_drinking)
 		juice_bottle.sip_taken.connect(_on_bottle_sip_taken)
 
@@ -222,15 +225,17 @@ func stop_drinking()-> void:
 		juice_bottle.juice_empty.disconnect(stop_drinking)
 		juice_bottle.sip_taken.disconnect(_on_bottle_sip_taken)
 		is_drinking = false
+		juice_bottle.stop_drinking()
 		if juice_bottle != null:
 			juice_bottle.stop_drinking()
 		
 func _on_bottle_sip_taken(amount: int) -> void:
+	print(juice_bottle.current_juice_content)
 	if self.juice != null:
 		self.juice.set_juice(self.juice.current_juice + amount)
 		print("Player drank juice! Juice level is now: ", self.juice.current_juice)
 		
-		if self.juice.current_juice >= self.juice.mac_juice:
+		if self.juice.current_juice >= self.juice.max_juice:
 			print("Juice meter is full! Automatically stopping.")
 			stop_drinking()
 	

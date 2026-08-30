@@ -53,6 +53,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			else:
 				# Right click was just released
 				maumau_player.stop_drinking()
+				
+	# Handle Calling the Waiter (Press Q)
+	if event is InputEventKey and event.keycode == KEY_Q:
+		# event.pressed ensures it triggers on press, not release
+		# not event.echo ensures it doesn't spam if the player holds the key down
+		if event.pressed and not event.echo:
+			if maumau_player != null:
+				maumau_player.call_waiter()
+				print("Called the waiter for a new juice bottle!")
 
 func _rotate_view(relative: Vector2) -> void:
 	player_head.rotate_y(-relative.x * look_sensitivity)
