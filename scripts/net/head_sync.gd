@@ -134,7 +134,7 @@ func _clamp_pitch(value: float) -> float:
 
 
 func _send_local_look() -> void:
-	var seat := Net.my_seat()
+	var seat: int = Net.my_seat()
 	if seat < 0 or manager.player == null:
 		return
 	var angles := manager.player.look_angles()

@@ -206,7 +206,7 @@ func _apply_table(table: MauMauTable) -> void:
 		pile.append(top)
 	manager.discard_pile = pile
 
-	var my_seat := Net.my_seat()
+	var my_seat: int = Net.my_seat()
 	var seats := mini(mini(table.hand_counts.size(), table.placements.size()), manager.turn_order.size())
 	for i in seats:
 		manager.turn_order[i].placement = table.placements[i]
