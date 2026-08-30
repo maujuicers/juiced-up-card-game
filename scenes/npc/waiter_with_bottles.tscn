@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://drcrkb08ushxd"]
+
+[ext_resource type="PackedScene" uid="uid://bc463pdunsays" path="res://assets/3D assets/Cats/WaiterWithBottles.glb" id="1_segmm"]
+[ext_resource type="Script" uid="uid://0jhk2yiyt1mb" path="res://scripts/npc/waiter.gd" id="2_anhb4"]
+
+[node name="WaiterWithBottles" unique_id=707626549 node_paths=PackedStringArray("animation_player") instance=ExtResource("1_segmm")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+script = ExtResource("2_anhb4")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="Skeleton3D" parent="Armature_027" parent_id_path=PackedInt32Array(1137977202) index="0" unique_id=1509731010]
+bones/0/position = Vector3(-3.836167e-08, 4.606605e-09, -1.5543122e-15)
+bones/0/rotation = Quaternion(4.0858235e-15, -5.9241636e-08, 0.20760705, 0.97821236)
+bones/0/scale = Vector3(1.0842309, 1.0842309, 1.0842305)
+bones/1/rotation = Quaternion(7.549792e-08, -1.5395283e-15, -1.4901161e-08, 1)
+bones/1/scale = Vector3(1, 1, 1.0000001)
+
+[node name="Skeleton3D" parent="Armature_028" parent_id_path=PackedInt32Array(1317467675) index="0" unique_id=2082886832]
+bones/0/position = Vector3(4.3070935e-15, 0, 0)
+bones/0/rotation = Quaternion(-9.35708e-10, 7.539494e-08, -0.26254082, 0.964921)
+bones/0/scale = Vector3(1, 1, 1)
+bones/1/rotation = Quaternion(7.963663e-08, -4.440892e-15, -3.3597477e-22, 1)
+bones/2/rotation = Quaternion(4.3436412e-08, -4.3436415e-08, 0.7071068, 0.7071068)
+
+[node name="Skeleton3D" parent="Armature_029" parent_id_path=PackedInt32Array(396892244) index="0" unique_id=1646471859]
+bones/0/rotation = Quaternion(-0.041196406, -0.036392633, 0.1186163, 0.9914175)
+bones/0/scale = Vector3(1, 0.99999994, 1)
+bones/1/rotation = Quaternion(0.40625492, -0.025730247, 0.11399577, 0.90625596)
