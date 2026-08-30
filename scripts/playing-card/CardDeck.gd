@@ -8,17 +8,19 @@ const DEFAULT_UID := "uid://cmfvknwcvgqj5"
 
 ## playingCards_Mat_baseColor.png (4096²): one row per suit, one column per
 ## rank Ace..King, backs in the top half. Faces are stored mirrored, so the
-## sprite flips horizontally.
-const ATLAS_CELL := Vector2i(255, 383)
-const ATLAS_FIRST_COLUMN_X := 65
-const ATLAS_COLUMN_STEP := 309
+## sprite flips horizontally. The cards were laid out by hand, so the column
+## pitch wanders (299–332 px) and each left edge is listed explicitly.
+const ATLAS_CELL := Vector2i(259, 387)
+const ATLAS_COLUMN_X: Array[int] = [
+	64, 370, 675, 989, 1298, 1608, 1917, 2216, 2518, 2820, 3119, 3439, 3771,
+]
 const ATLAS_ROW_Y := {
-	Card.Suit.SPADES: 2372,
+	Card.Suit.SPADES: 2370,
 	Card.Suit.CLUBS: 2808,
-	Card.Suit.DIAMONDS: 3237,
-	Card.Suit.HEARTS: 3662,
+	Card.Suit.DIAMONDS: 3235,
+	Card.Suit.HEARTS: 3660,
 }
-const ATLAS_BACK := Rect2i(85, 72, 255, 383)
+const ATLAS_BACK := Rect2i(85, 72, 259, 387)
 
 ## SEVEN = 32-card deck, SIX = 36.
 @export var lowest_rank: Card.Rank = Card.Rank.SEVEN
@@ -100,7 +102,7 @@ func validate() -> bool:
 	return ok
 
 
-## Keeps existing instances (and their textures); only missing ones are created.
+## Keeps existing instances; see [method _is_own_cut] for which textures survive.
 func rebuild() -> void:
 	var keep: Dictionary[int, Card] = {}
 	for c in cards:
@@ -114,10 +116,10 @@ func rebuild() -> void:
 			c.suit = Card.suit_of(a_id)
 			c.rank = Card.rank_of(a_id)
 		c.resource_name = str(c)
-		if c.texture == null and atlas != null:
+		if atlas != null and _is_own_cut(c.texture):
 			c.texture = _cut(atlas_face_region(c.suit, c.rank), str(c))
 		rebuilt.append(c)
-	if back_texture == null and atlas != null:
+	if atlas != null and _is_own_cut(back_texture):
 		back_texture = _cut(ATLAS_BACK, "card back")
 	cards = rebuilt
 	_by_id.clear()
@@ -126,8 +128,13 @@ func rebuild() -> void:
 
 static func atlas_face_region(a_suit: Card.Suit, a_rank: Card.Rank) -> Rect2i:
 	var column := 0 if a_rank == Card.Rank.ACE else a_rank - 1
-	var x := ATLAS_FIRST_COLUMN_X + column * ATLAS_COLUMN_STEP
-	return Rect2i(Vector2i(x, ATLAS_ROW_Y[a_suit]), ATLAS_CELL)
+	return Rect2i(Vector2i(ATLAS_COLUMN_X[column], ATLAS_ROW_Y[a_suit]), ATLAS_CELL)
+
+
+## Only hand-assigned textures survive a rebuild; regions cut from the deck's
+## own atlas are re-derived so a constant change reaches deck.tres.
+func _is_own_cut(tex: Texture2D) -> bool:
+	return tex == null or (tex is AtlasTexture and (tex as AtlasTexture).atlas == atlas)
 
 
 func _cut(region: Rect2i, name: String) -> AtlasTexture:

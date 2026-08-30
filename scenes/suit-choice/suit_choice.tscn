@@ -21,7 +21,7 @@ shader_parameter/card_size = Vector2(0.070125, 0.105325)
 shader_parameter/outline_width = 0.0035
 shader_parameter/glow_range = 0.013
 shader_parameter/glow_strength = 0.9
-shader_parameter/corner_radius = 0.003
+shader_parameter/corner_radius = 0.0035
 shader_parameter/inner_fade = 0.0012
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kewkp"]

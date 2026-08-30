@@ -2,7 +2,7 @@
 extends Node3D
 class_name PlayingCardVisual
 
-@export var card_sprite: Sprite3D
+@export var face_mesh: MeshInstance3D
 @export var pick_area: Area3D
 @export var outline_mesh: MeshInstance3D
 
@@ -84,9 +84,21 @@ func _push_outline_params() -> void:
 
 
 func _update_graphics() -> void:
-	if card_sprite == null:
+	if face_mesh == null:
 		return
+	var material := face_mesh.get_surface_override_material(0) as ShaderMaterial
+	if material == null:
+		return
+	var texture := back_texture
 	if face_up and card_data != null and card_data.texture != null:
-		card_sprite.texture = card_data.texture
-	else:
-		card_sprite.texture = back_texture
+		texture = card_data.texture
+	# The shader samples the atlas itself; an AtlasTexture only tells it where.
+	var region := Rect2(0.0, 0.0, 1.0, 1.0)
+	var atlas := texture as AtlasTexture
+	if atlas != null and atlas.atlas != null:
+		var atlas_size := atlas.atlas.get_size()
+		region = Rect2(atlas.region.position / atlas_size, atlas.region.size / atlas_size)
+		texture = atlas.atlas
+	material.set_shader_parameter("face", texture)
+	material.set_shader_parameter("region",
+			Vector4(region.position.x, region.position.y, region.size.x, region.size.y))
