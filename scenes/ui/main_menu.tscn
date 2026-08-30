@@ -168,7 +168,7 @@ offset_bottom = -56.0
 grow_vertical = 0
 theme_override_constants/separation = 40
 
-[node name="StartGameButton" type="Button" parent="Buttons" unique_id=1463848762]
+[node name="SinglePlayerButton" type="Button" parent="Buttons" unique_id=1463848762]
 custom_maximum_size = Vector2(270, -1)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -182,7 +182,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
 theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
-text = "Start Game"
+text = "Single Player"
 
 [node name="TutorialButton" type="Button" parent="Buttons" unique_id=2044979883]
 custom_maximum_size = Vector2(220, -1)
@@ -417,7 +417,7 @@ text = "Leave"
 [node name="SettingsMenu" parent="." unique_id=1175825677 instance=ExtResource("7_btxxm")]
 visible = false
 
-[connection signal="pressed" from="Buttons/StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="pressed" from="Buttons/SinglePlayerButton" to="." method="_on_single_player_button_pressed"]
 [connection signal="pressed" from="Buttons/TutorialButton" to="." method="_on_tutorial_button_pressed"]
 [connection signal="pressed" from="Buttons/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Buttons/QuitButton" to="." method="_on_quit_button_pressed"]

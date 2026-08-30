@@ -119,8 +119,11 @@ func _on_server_url_changed(url: String) -> void:
 		return
 	_connect_to_server()
 
-func _on_start_game_button_pressed() -> void:
+# A solo round is offline: the lobby dialled the server in _ready, and a
+# connected peer would load main_scene as a client that waits to be dealt.
+func _on_single_player_button_pressed() -> void:
 	AudioManager.play_ui(click_sfx)
+	Net.leave()
 	get_tree().change_scene_to_packed(MAIN_SCENE)
 
 

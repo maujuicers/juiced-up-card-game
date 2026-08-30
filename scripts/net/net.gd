@@ -478,7 +478,8 @@ func _watch_round(room: NetRoom) -> void:
 # Godot addresses an RPC by node path and two rooms cannot share one, so every
 # table message goes through these three instead of @rpc on the table.
 # Methods: "table" [dict] · "hand" [ids] · "event" [name, args] · "client_ready" []
-# (server ← client) · "submit_move" [card_id] · "submit_draw" [] · "submit_wish" [suit].
+# (server ← client) · "submit_move" [card_id] · "submit_draw" [] · "submit_wish" [suit]
+# · "look" [yaw, pitch] up, [seat, yaw, pitch] down.
 
 
 ## Client → its room's table on the server.

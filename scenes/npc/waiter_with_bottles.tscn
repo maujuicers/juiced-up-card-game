@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://drcrkb08ushxd"]
+
+[ext_resource type="PackedScene" uid="uid://bc463pdunsays" path="res://assets/3D assets/Cats/WaiterWithBottles.glb" id="1_segmm"]
+[ext_resource type="Script" uid="uid://0jhk2yiyt1mb" path="res://scripts/npc/waiter.gd" id="2_anhb4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_segmm"]
+
+[node name="WaiterWithBottles" unique_id=1119092057 node_paths=PackedStringArray("nav_agent", "animation_player") instance=ExtResource("1_segmm")]
+script = ExtResource("2_anhb4")
+nav_agent = NodePath("NavigationAgent3D")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="Skeleton3D" parent="Armature_028" parent_id_path=PackedInt32Array(606271910) index="0" unique_id=789213468]
+bones/0/position = Vector3(-1.7216538e-16, 0, 0)
+bones/0/rotation = Quaternion(-1.8527013e-09, -3.4606067e-09, 0.010111623, 0.99994886)
+bones/0/scale = Vector3(0.9999884, 0.9741366, 1)
+bones/1/rotation = Quaternion(7.963663e-08, -2.2204459e-16, -8.6736174e-19, 1)
+bones/2/rotation = Quaternion(4.343642e-08, -4.3436422e-08, 0.7071068, 0.7071068)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="35" unique_id=1813386340]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.43616116, 1.0606562, 0)
+shape = SubResource("CapsuleShape3D_segmm")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." index="36" unique_id=623320547]

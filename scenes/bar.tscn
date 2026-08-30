@@ -7,14 +7,15 @@
 [ext_resource type="PackedScene" uid="uid://bi4g6yddn2mn3" path="res://assets/3D assets/Bar/Chair.glb" id="2_x848m"]
 [ext_resource type="PackedScene" uid="uid://b40os8m4vwi5y" path="res://assets/3D assets/Bar/JuiceBottle.glb" id="13_i5gm6"]
 [ext_resource type="PackedScene" uid="uid://duksgkluxbu05" path="res://assets/3D assets/Bar/WaterBottle.glb" id="14_7uitc"]
-[ext_resource type="PackedScene" uid="uid://bc463pdunsays" path="res://assets/3D assets/Cats/WaiterWithBottles.glb" id="15_8y7uo"]
-[ext_resource type="PackedScene" uid="uid://b3rmgdphskyr3" path="res://assets/3D assets/Cats/WaiterWithoutBottles.glb" id="16_b7mdb"]
 [ext_resource type="PackedScene" uid="uid://curp8336pddcc" path="res://assets/3D assets/Cats/BackgroundCat.glb" id="16_pbi2s"]
+[ext_resource type="PackedScene" uid="uid://drcrkb08ushxd" path="res://scenes/npc/waiter_with_bottles.tscn" id="17_b7mdb"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_kewkp"]
+vertices = PackedVector3Array(-2.9938612, 0.019703478, -5.6902237, -2.7438612, 0.019703478, -4.9402237, -1.7438612, 0.019703478, -4.6902237, 1.2561388, 0.019703478, -4.4402237, 2.7561388, 0.019703478, -4.9402237, 3.0061388, 0.019703478, -5.6902237, -5.493861, 0.019703478, 3.0597763, -4.993861, 0.019703478, 2.8097763, -4.743861, 0.019703478, 1.5597763, -4.493861, 0.019703478, -1.4402237, -5.493861, 0.019703478, -2.9402237, 3.5061388, 0.019703478, -1.6902237, 2.7561388, 0.019703478, -2.9402237, 2.0061388, 0.019703478, -2.9402237, 0.5061388, 0.019703478, -2.6902237, 1.0061388, 0.019703478, -1.1902237, 2.7561388, 0.019703478, -0.1902237, 1.2561388, 0.019703478, -3.6902237, -3.7438612, 0.019703478, 1.3097763, -2.7438612, 0.019703478, 0.3097763, -2.4938612, 0.019703478, -0.6902237, -3.4938612, 0.019703478, -1.4402237, -1.7438612, 0.019703478, -3.1902237, -2.9938612, 0.019703478, -2.6902237, -0.9938612, 0.019703478, -1.1902237, -0.4938612, 0.019703478, -2.6902237, -5.493861, 0.019703478, -5.6902237, -5.493861, 0.019703478, -4.9402237, -4.993861, 0.019703478, -5.1902237, -4.993861, 0.019703478, -5.6902237, 5.256139, 0.019703478, -4.9402237, 6.006139, 0.019703478, -4.9402237, 6.006139, 0.019703478, -5.6902237, 5.006139, 0.019703478, -5.6902237, -1.9938612, 0.019703478, 5.0597763, -2.7438612, 0.019703478, 5.0597763, -2.9938612, 0.019703478, 5.8097763, 3.0061388, 0.019703478, 5.8097763, 2.7561388, 0.019703478, 5.0597763, 1.7561388, 0.019703478, 4.8097763, -1.9938612, 0.019703478, 1.0597763, 4.756139, 0.019703478, 1.8097763, 5.006139, 0.019703478, 2.8097763, 6.006139, 0.019703478, 3.0597763, 6.256139, 0.019703478, 0.3097763, 6.006139, 0.019703478, -2.9402237, 5.006139, 0.019703478, -2.6902237, 4.756139, 0.019703478, -1.6902237, 3.2561388, 0.019703478, 1.8097763, 2.0061388, 0.019703478, 1.0597763, 1.0061388, 0.019703478, 1.3097763, 0.5061388, 0.019703478, 2.5597763, 1.7561388, 0.019703478, 3.3097763, 2.7561388, 0.019703478, 3.0597763, -0.4938612, 0.019703478, 2.5597763, -1.2438612, 0.019703478, 1.0597763, -2.7438612, 0.019703478, 3.0597763, -1.2438612, 0.019703478, 3.5597763, -1.2438612, 0.019703478, 4.3097763, 3.5061388, 0.9897034, 3.5597763, 3.5061388, 0.9897034, 4.5597763, 4.006139, 0.9897034, 4.5597763, 4.256139, 0.9897034, 3.5597763, -5.493861, 0.019703478, 5.0597763, -5.493861, 0.019703478, 5.8097763, -4.993861, 0.019703478, 5.8097763, 5.006139, 0.019703478, 5.3097763, 5.006139, 0.019703478, 5.8097763, 6.006139, 0.019703478, 5.8097763, 6.006139, 0.019703478, 5.0597763)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(4, 0, 5), PackedInt32Array(7, 6, 8), PackedInt32Array(8, 6, 9), PackedInt32Array(9, 6, 10), PackedInt32Array(12, 11, 13), PackedInt32Array(13, 11, 16), PackedInt32Array(13, 16, 15), PackedInt32Array(13, 15, 14), PackedInt32Array(17, 13, 14), PackedInt32Array(20, 19, 21), PackedInt32Array(21, 19, 9), PackedInt32Array(9, 19, 18), PackedInt32Array(9, 18, 8), PackedInt32Array(21, 23, 20), PackedInt32Array(20, 23, 22), PackedInt32Array(20, 22, 24), PackedInt32Array(24, 22, 25), PackedInt32Array(17, 14, 3), PackedInt32Array(3, 14, 25), PackedInt32Array(3, 25, 22), PackedInt32Array(3, 22, 2), PackedInt32Array(29, 28, 26), PackedInt32Array(26, 28, 27), PackedInt32Array(31, 30, 32), PackedInt32Array(32, 30, 33), PackedInt32Array(36, 35, 34), PackedInt32Array(38, 37, 39), PackedInt32Array(39, 37, 34), PackedInt32Array(34, 37, 36), PackedInt32Array(18, 19, 40), PackedInt32Array(42, 41, 43), PackedInt32Array(43, 41, 44), PackedInt32Array(46, 45, 47), PackedInt32Array(47, 45, 44), PackedInt32Array(53, 52, 48), PackedInt32Array(48, 52, 49), PackedInt32Array(49, 52, 50), PackedInt32Array(50, 52, 51), PackedInt32Array(55, 54, 40), PackedInt32Array(40, 54, 57), PackedInt32Array(40, 57, 56), PackedInt32Array(40, 56, 18), PackedInt32Array(49, 16, 48), PackedInt32Array(57, 54, 58), PackedInt32Array(58, 54, 51), PackedInt32Array(58, 51, 52), PackedInt32Array(58, 52, 39), PackedInt32Array(11, 47, 16), PackedInt32Array(16, 47, 48), PackedInt32Array(48, 47, 41), PackedInt32Array(41, 47, 44), PackedInt32Array(34, 58, 39), PackedInt32Array(60, 59, 61), PackedInt32Array(61, 59, 62), PackedInt32Array(65, 64, 63), PackedInt32Array(67, 66, 68), PackedInt32Array(68, 66, 69)]
+cell_height = 0.01
 
 [node name="Bar" type="Node3D" unique_id=1303346349]
-
-[node name="Floor" parent="." unique_id=2074607792 instance=ExtResource("1_bwlfd")]
-transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 0, 0)
 
 [node name="Ceiling" parent="." unique_id=973510017 instance=ExtResource("1_bwlfd")]
 transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 3.3498797, 0)
@@ -88,158 +89,140 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
 light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
 shadow_enabled = true
 
-[node name="Wall" parent="." unique_id=984812684 instance=ExtResource("2_efgdo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20847344, 0, 0.01211071)
-
-[node name="Wall2" parent="." unique_id=1227274620 instance=ExtResource("2_efgdo")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.20847344, 0, 0.01211071)
-
-[node name="Wall3" parent="." unique_id=356409017 instance=ExtResource("2_efgdo")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.20847344, 0, 0.01211071)
-
-[node name="Wall4" parent="." unique_id=267799203 instance=ExtResource("2_efgdo")]
-transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0.20847344, 0, 0.01211071)
-
-[node name="Gathering" type="Node3D" parent="." unique_id=1472809557]
-
-[node name="Table" parent="Gathering" unique_id=1662445682 instance=ExtResource("2_qdsxc")]
-
-[node name="Chair1" parent="Gathering" unique_id=2047824859 instance=ExtResource("2_x848m")]
-
-[node name="Chair2" parent="Gathering" unique_id=1765154555 instance=ExtResource("2_x848m")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Chair3" parent="Gathering" unique_id=207146100 instance=ExtResource("2_x848m")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Chair4" parent="Gathering" unique_id=437812636 instance=ExtResource("2_x848m")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="JuiceBottle" parent="Gathering" unique_id=1558012997 instance=ExtResource("13_i5gm6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5759887, 1.0949593, -0.60724384)
-
-[node name="WaterBottle" parent="Gathering" unique_id=1436832197 instance=ExtResource("14_7uitc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.40796852, 1.0858938, -0.40661454)
-
-[node name="Gathering2" type="Node3D" parent="." unique_id=1405353681]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
-
-[node name="Table" parent="Gathering2" unique_id=1546821829 instance=ExtResource("2_qdsxc")]
-
-[node name="Chair1" parent="Gathering2" unique_id=439709067 instance=ExtResource("2_x848m")]
-
-[node name="Chair2" parent="Gathering2" unique_id=1101639931 instance=ExtResource("2_x848m")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Chair3" parent="Gathering2" unique_id=1232190085 instance=ExtResource("2_x848m")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Chair4" parent="Gathering2" unique_id=1001281363 instance=ExtResource("2_x848m")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="BackgroundCat" parent="Gathering2" unique_id=2139266702 instance=ExtResource("16_pbi2s")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="BackgroundCat2" parent="Gathering2" unique_id=777464837 instance=ExtResource("16_pbi2s")]
-transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
-
-[node name="Gathering3" type="Node3D" parent="." unique_id=455027951]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
-
-[node name="Table" parent="Gathering3" unique_id=1297237537 instance=ExtResource("2_qdsxc")]
-
-[node name="Chair1" parent="Gathering3" unique_id=1342134946 instance=ExtResource("2_x848m")]
-
-[node name="Chair2" parent="Gathering3" unique_id=843730394 instance=ExtResource("2_x848m")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Chair3" parent="Gathering3" unique_id=445448263 instance=ExtResource("2_x848m")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Chair4" parent="Gathering3" unique_id=691951852 instance=ExtResource("2_x848m")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="BackgroundCat" parent="Gathering3" unique_id=1564413860 instance=ExtResource("16_pbi2s")]
-
-[node name="BackgroundCat2" parent="Gathering3" unique_id=1533266401 instance=ExtResource("16_pbi2s")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="BackgroundCat3" parent="Gathering3" unique_id=1920670243 instance=ExtResource("16_pbi2s")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Gathering4" type="Node3D" parent="." unique_id=1594497949]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
-
-[node name="Table" parent="Gathering4" unique_id=1724026802 instance=ExtResource("2_qdsxc")]
-
-[node name="Chair1" parent="Gathering4" unique_id=1689494544 instance=ExtResource("2_x848m")]
-
-[node name="Chair2" parent="Gathering4" unique_id=1503306585 instance=ExtResource("2_x848m")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Chair3" parent="Gathering4" unique_id=523614381 instance=ExtResource("2_x848m")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Chair4" parent="Gathering4" unique_id=1208602604 instance=ExtResource("2_x848m")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="BackgroundCat" parent="Gathering4" unique_id=1625280880 instance=ExtResource("16_pbi2s")]
-
-[node name="Gathering5" type="Node3D" parent="." unique_id=118417921]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
-
-[node name="Table" parent="Gathering5" unique_id=1569388066 instance=ExtResource("2_qdsxc")]
-
-[node name="Chair1" parent="Gathering5" unique_id=1180452257 instance=ExtResource("2_x848m")]
-
-[node name="Chair2" parent="Gathering5" unique_id=642177301 instance=ExtResource("2_x848m")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Chair3" parent="Gathering5" unique_id=1258782993 instance=ExtResource("2_x848m")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Chair4" parent="Gathering5" unique_id=1596887115 instance=ExtResource("2_x848m")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="BackgroundCat" parent="Gathering5" unique_id=964525593 instance=ExtResource("16_pbi2s")]
-
-[node name="BackgroundCat2" parent="Gathering5" unique_id=1675042062 instance=ExtResource("16_pbi2s")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="BackgroundCat3" parent="Gathering5" unique_id=314616726 instance=ExtResource("16_pbi2s")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="BackgroundCat4" parent="Gathering5" unique_id=1270862153 instance=ExtResource("16_pbi2s")]
-transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
-
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1214693491]
 transform = Transform3D(0.99988055, -4.656613e-10, -0.015457209, 0.0057619708, 0.9279241, 0.37272462, 0.014343117, -0.3727691, 0.92781323, -0.011304498, 1.519163, 0.8353487)
 visible = false
 
-[node name="WaiterWithBottles" parent="." unique_id=799500631 instance=ExtResource("15_8y7uo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9099889, 0, -3.4971933)
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1457972702]
+navigation_mesh = SubResource("NavigationMesh_kewkp")
 
-[node name="WaiterWithoutBottles" parent="." unique_id=1978903181 instance=ExtResource("16_b7mdb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8604524, 0, -2.247115)
+[node name="Floor" parent="NavigationRegion3D" unique_id=2074607792 instance=ExtResource("1_bwlfd")]
+transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 0, 0)
 
-[node name="Skeleton3D" parent="WaiterWithoutBottles/Armature_027" parent_id_path=PackedInt32Array(1978903181, 65796842) index="0" unique_id=1753929114]
-bones/0/position = Vector3(-3.836167e-08, 4.606605e-09, -1.5543122e-15)
-bones/0/rotation = Quaternion(4.0858235e-15, -5.9241632e-08, 0.20760703, 0.9782123)
-bones/0/scale = Vector3(1.0842309, 1.0842309, 1.0842305)
-bones/1/rotation = Quaternion(7.549792e-08, -1.5395283e-15, -1.4901161e-08, 1)
-bones/1/scale = Vector3(1, 1, 1.0000001)
+[node name="Wall" parent="NavigationRegion3D" unique_id=984812684 instance=ExtResource("2_efgdo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20847344, 0, 0.01211071)
 
-[node name="Skeleton3D" parent="WaiterWithoutBottles/Armature_028" parent_id_path=PackedInt32Array(1978903181, 586873072) index="0" unique_id=794651220]
-bones/0/position = Vector3(0.006331423, -0.12605123, -5.91022e-08)
-bones/0/rotation = Quaternion(-7.581474e-09, 0.119262, -0.14145078, 0.9827351)
-bones/0/scale = Vector3(1, 1, 1)
-bones/1/rotation = Quaternion(-0.007601904, -0.024539713, -0.064808816, 0.99756694)
-bones/2/rotation = Quaternion(4.2942503e-08, -4.2448594e-08, 0.7071068, 0.7071068)
+[node name="Wall2" parent="NavigationRegion3D" unique_id=1227274620 instance=ExtResource("2_efgdo")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.20847344, 0, 0.01211071)
 
-[node name="Skeleton3D" parent="WaiterWithoutBottles/Armature_029" parent_id_path=PackedInt32Array(1978903181, 863046871) index="0" unique_id=1062470454]
-bones/0/rotation = Quaternion(4.0858235e-15, -5.9241632e-08, 0.20760703, 0.9782123)
-bones/0/scale = Vector3(1.0842309, 1.0842309, 1.0842305)
-bones/1/rotation = Quaternion(0.39549893, 1.0559326e-07, 3.7357324e-08, 0.91846645)
+[node name="Wall3" parent="NavigationRegion3D" unique_id=356409017 instance=ExtResource("2_efgdo")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.20847344, 0, 0.01211071)
 
-[editable path="WaiterWithBottles"]
-[editable path="WaiterWithoutBottles"]
+[node name="Wall4" parent="NavigationRegion3D" unique_id=267799203 instance=ExtResource("2_efgdo")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0.20847344, 0, 0.01211071)
+
+[node name="Gathering" type="Node3D" parent="NavigationRegion3D" unique_id=1472809557]
+
+[node name="Table" parent="NavigationRegion3D/Gathering" unique_id=1662445682 instance=ExtResource("2_qdsxc")]
+
+[node name="Chair1" parent="NavigationRegion3D/Gathering" unique_id=2047824859 instance=ExtResource("2_x848m")]
+
+[node name="Chair2" parent="NavigationRegion3D/Gathering" unique_id=1765154555 instance=ExtResource("2_x848m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="NavigationRegion3D/Gathering" unique_id=207146100 instance=ExtResource("2_x848m")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="NavigationRegion3D/Gathering" unique_id=437812636 instance=ExtResource("2_x848m")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="JuiceBottle" parent="NavigationRegion3D/Gathering" unique_id=1558012997 instance=ExtResource("13_i5gm6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5759887, 1.0949593, -0.60724384)
+
+[node name="WaterBottle" parent="NavigationRegion3D/Gathering" unique_id=1436832197 instance=ExtResource("14_7uitc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.40796852, 1.0858938, -0.40661454)
+
+[node name="Gathering2" type="Node3D" parent="NavigationRegion3D" unique_id=1405353681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
+
+[node name="Table" parent="NavigationRegion3D/Gathering2" unique_id=1546821829 instance=ExtResource("2_qdsxc")]
+
+[node name="Chair1" parent="NavigationRegion3D/Gathering2" unique_id=439709067 instance=ExtResource("2_x848m")]
+
+[node name="Chair2" parent="NavigationRegion3D/Gathering2" unique_id=1101639931 instance=ExtResource("2_x848m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="NavigationRegion3D/Gathering2" unique_id=1232190085 instance=ExtResource("2_x848m")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="NavigationRegion3D/Gathering2" unique_id=1001281363 instance=ExtResource("2_x848m")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="NavigationRegion3D/Gathering2" unique_id=2139266702 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat2" parent="NavigationRegion3D/Gathering2" unique_id=777464837 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
+
+[node name="Gathering3" type="Node3D" parent="NavigationRegion3D" unique_id=455027951]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
+
+[node name="Table" parent="NavigationRegion3D/Gathering3" unique_id=1297237537 instance=ExtResource("2_qdsxc")]
+
+[node name="Chair1" parent="NavigationRegion3D/Gathering3" unique_id=1342134946 instance=ExtResource("2_x848m")]
+
+[node name="Chair2" parent="NavigationRegion3D/Gathering3" unique_id=843730394 instance=ExtResource("2_x848m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="NavigationRegion3D/Gathering3" unique_id=445448263 instance=ExtResource("2_x848m")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="NavigationRegion3D/Gathering3" unique_id=691951852 instance=ExtResource("2_x848m")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="NavigationRegion3D/Gathering3" unique_id=1564413860 instance=ExtResource("16_pbi2s")]
+
+[node name="BackgroundCat2" parent="NavigationRegion3D/Gathering3" unique_id=1533266401 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat3" parent="NavigationRegion3D/Gathering3" unique_id=1920670243 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Gathering4" type="Node3D" parent="NavigationRegion3D" unique_id=1594497949]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="Table" parent="NavigationRegion3D/Gathering4" unique_id=1724026802 instance=ExtResource("2_qdsxc")]
+
+[node name="Chair1" parent="NavigationRegion3D/Gathering4" unique_id=1689494544 instance=ExtResource("2_x848m")]
+
+[node name="Chair2" parent="NavigationRegion3D/Gathering4" unique_id=1503306585 instance=ExtResource("2_x848m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="NavigationRegion3D/Gathering4" unique_id=523614381 instance=ExtResource("2_x848m")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="NavigationRegion3D/Gathering4" unique_id=1208602604 instance=ExtResource("2_x848m")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="NavigationRegion3D/Gathering4" unique_id=1625280880 instance=ExtResource("16_pbi2s")]
+
+[node name="Gathering5" type="Node3D" parent="NavigationRegion3D" unique_id=118417921]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
+
+[node name="Table" parent="NavigationRegion3D/Gathering5" unique_id=1569388066 instance=ExtResource("2_qdsxc")]
+
+[node name="Chair1" parent="NavigationRegion3D/Gathering5" unique_id=1180452257 instance=ExtResource("2_x848m")]
+
+[node name="Chair2" parent="NavigationRegion3D/Gathering5" unique_id=642177301 instance=ExtResource("2_x848m")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="NavigationRegion3D/Gathering5" unique_id=1258782993 instance=ExtResource("2_x848m")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="NavigationRegion3D/Gathering5" unique_id=1596887115 instance=ExtResource("2_x848m")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="NavigationRegion3D/Gathering5" unique_id=964525593 instance=ExtResource("16_pbi2s")]
+
+[node name="BackgroundCat2" parent="NavigationRegion3D/Gathering5" unique_id=1675042062 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat3" parent="NavigationRegion3D/Gathering5" unique_id=314616726 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="BackgroundCat4" parent="NavigationRegion3D/Gathering5" unique_id=1270862153 instance=ExtResource("16_pbi2s")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
+
+[node name="WaiterWithBottles" parent="." unique_id=1119092057 node_paths=PackedStringArray("nav_mesh") instance=ExtResource("17_b7mdb")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, -4.757837)
+nav_mesh = NodePath("../NavigationRegion3D")

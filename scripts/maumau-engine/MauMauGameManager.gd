@@ -30,7 +30,7 @@ signal private_hand_changed(seat: int, card_ids: PackedInt32Array)
 @export var deck: CardDeck
 ## Carries both payload surfaces over the wire; inert offline.
 @export var net_sync: MauMauNetSync
-@export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 5.0
+@export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 1.0
 @export_range(1, 5, 1, "suffix:c") var cards_drawn_on_cheat: int = 2
 
 #Game state

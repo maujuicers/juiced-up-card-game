@@ -11,7 +11,7 @@ nix run .#server-image | ssh ozoromo@meowmau.game.ozoromo.com podman load
 
 ```sh
 rsync -a deploy/ ozoromo@meowmau.game.ozoromo.com:meowmau/   # after edits
-./up.sh          # podman-compose up -d, then arms the health-on-failure action
+./up.sh          # brings the stack up (safe to re-run), then arms health-on-failure
 ./status.sh      # health of game1..3 and of the balancer
 ./restart.sh 2   # restart one instance by hand (its rooms are lost)
 ```
