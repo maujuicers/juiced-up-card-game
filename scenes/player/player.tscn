@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://bitftgnosio2x" path="res://scenes/player/juice.tscn" id="4_lvxji"]
 [ext_resource type="PackedScene" uid="uid://cs7gmt5qdkqld" path="res://scenes/playing-card/hand.tscn" id="5_hand0"]
 [ext_resource type="PackedScene" uid="uid://b1ygc6dacv7n6" path="res://scenes/ui/crosshair.tscn" id="6_cr0ss"]
+[ext_resource type="PackedScene" uid="uid://cq7v3xj8n2wbo" path="res://scenes/ui/accusation_banner.tscn" id="7_accbn"]
+[ext_resource type="Script" uid="uid://sveoc3b5jqde" path="res://scripts/player/accuser.gd" id="8_accus"]
+[ext_resource type="PackedScene" uid="uid://cig13lbwk518g" path="res://scenes/ui/key_hints.tscn" id="9_khint"]
 [ext_resource type="AudioStream" uid="uid://bnscx14oaui1x" path="res://audio/sfx/card/card-select.wav" id="6_qek5x"]
 [ext_resource type="AudioStream" uid="uid://d3fkntk5dey6b" path="res://audio/sfx/npc/losing-meow-1.wav" id="12_fcs02"]
 [ext_resource type="AudioStream" uid="uid://crkq1o5skla7p" path="res://audio/sfx/npc/losing-meow-2.wav" id="13_kvlxm"]
@@ -46,6 +49,14 @@ juice = NodePath("../../Juice")
 layout_mode = 3
 crosshair_size = 14.0
 
+[node name="AccusationBanner" parent="UI" unique_id=1517311010 instance=ExtResource("7_accbn")]
+layout_mode = 3
+
+[node name="KeyHints" parent="UI" unique_id=1745120060 node_paths=PackedStringArray("maumau_player", "accuser") instance=ExtResource("9_khint")]
+layout_mode = 3
+maumau_player = NodePath("../../MauMauPlayer")
+accuser = NodePath("../../Accuser")
+
 [node name="CurrentPlayerLabel" parent="UI" unique_id=1427191879 instance=ExtResource("4_0owmy")]
 anchors_preset = 0
 offset_left = 0.0
@@ -78,3 +89,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57, -0.5)
 head = NodePath("../Head")
 maumau_player = NodePath("../MauMauPlayer")
 interactive = true
+
+[node name="Accuser" type="Node" parent="." unique_id=1517311011 node_paths=PackedStringArray("maumau_player", "player_camera", "banner")]
+script = ExtResource("8_accus")
+maumau_player = NodePath("../MauMauPlayer")
+player_camera = NodePath("../Head/Camera3D")
+banner = NodePath("../UI/AccusationBanner")

@@ -1,0 +1,236 @@
+[gd_scene format=3 uid="uid://cig13lbwk518g"]
+
+[ext_resource type="Script" uid="uid://bvkpxeweiqy8j" path="res://scripts/ui/key_hints.gd" id="1_khnts"]
+[ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="2_khfnt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khpnl"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+bg_color = Color(0, 0, 0, 0.36)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khchp"]
+content_margin_left = 9.0
+content_margin_top = 1.0
+content_margin_right = 9.0
+content_margin_bottom = 1.0
+bg_color = Color(0.07, 0.07, 0.09, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.95, 0.85, 0.22)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="KeyHints" type="Control" unique_id=1745120001 node_paths=PackedStringArray("play_row", "draw_row", "accuse_row")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_khnts")
+play_row = NodePath("Panel/Rows/PlayRow")
+draw_row = NodePath("Panel/Rows/DrawRow")
+accuse_row = NodePath("Panel/Rows/AccuseRow")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1745120002]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -472.0
+offset_top = 56.0
+offset_right = -20.0
+offset_bottom = 56.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_khpnl")
+
+[node name="Rows" type="VBoxContainer" parent="Panel" unique_id=1745120003]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="PlayRow" type="HBoxContainer" parent="Panel/Rows" unique_id=1745120010]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Key" type="PanelContainer" parent="Panel/Rows/PlayRow" unique_id=1745120011]
+custom_minimum_size = Vector2(174, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_khchp")
+
+[node name="Label" type="Label" parent="Panel/Rows/PlayRow/Key" unique_id=1745120012]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.97, 0.92, 1)
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Left click"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc" type="Label" parent="Panel/Rows/PlayRow" unique_id=1745120013]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Play the card you look at"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="DrawRow" type="HBoxContainer" parent="Panel/Rows" unique_id=1745120020]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Key" type="PanelContainer" parent="Panel/Rows/DrawRow" unique_id=1745120021]
+custom_minimum_size = Vector2(174, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_khchp")
+
+[node name="Label" type="Label" parent="Panel/Rows/DrawRow/Key" unique_id=1745120022]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.97, 0.92, 1)
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Space"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc" type="Label" parent="Panel/Rows/DrawRow" unique_id=1745120023]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Draw a card / pass"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="DrinkRow" type="HBoxContainer" parent="Panel/Rows" unique_id=1745120030]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Key" type="PanelContainer" parent="Panel/Rows/DrinkRow" unique_id=1745120031]
+custom_minimum_size = Vector2(174, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_khchp")
+
+[node name="Label" type="Label" parent="Panel/Rows/DrinkRow/Key" unique_id=1745120032]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.97, 0.92, 1)
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Hold right click"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc" type="Label" parent="Panel/Rows/DrinkRow" unique_id=1745120033]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Drink"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="OrderRow" type="HBoxContainer" parent="Panel/Rows" unique_id=1745120040]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Key" type="PanelContainer" parent="Panel/Rows/OrderRow" unique_id=1745120041]
+custom_minimum_size = Vector2(174, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_khchp")
+
+[node name="Label" type="Label" parent="Panel/Rows/OrderRow/Key" unique_id=1745120042]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.97, 0.92, 1)
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Q"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc" type="Label" parent="Panel/Rows/OrderRow" unique_id=1745120043]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Order a new bottle"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AccuseRow" type="HBoxContainer" parent="Panel/Rows" unique_id=1745120050]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Key" type="PanelContainer" parent="Panel/Rows/AccuseRow" unique_id=1745120051]
+custom_minimum_size = Vector2(174, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_khchp")
+
+[node name="Label" type="Label" parent="Panel/Rows/AccuseRow/Key" unique_id=1745120052]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.97, 0.92, 1)
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "E"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc" type="Label" parent="Panel/Rows/AccuseRow" unique_id=1745120053]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Accuse the cat you look at"
+horizontal_alignment = 2
+vertical_alignment = 1

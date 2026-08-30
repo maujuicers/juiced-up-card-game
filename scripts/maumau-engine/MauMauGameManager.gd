@@ -16,9 +16,19 @@ signal seat_placed(seat: int, placement: int)
 ## End of round: the final table, [member MauMauTable.finish_order] complete.
 signal round_over(final: MauMauTable)
 signal base_card_played(card: Card)
+## An accusation was judged: `accused` (guilty) or `accuser` (false alarm) drew its penalty.
+## `method` is a Cheat.Method.
+signal accusation_resolved(accuser: int, accused: int, method: int, guilty: bool)
 
 # Private surface: one seat's cards, for that seat only; send it with rpc_id.
 signal private_hand_changed(seat: int, card_ids: PackedInt32Array)
+## This seat's juice level and what is left in its bottle (-1 for none); the
+## authority owns both, the seat's own peer mirrors them.
+signal private_juice_changed(seat: int, current: int, bottle_content: int)
+## A cheat this seat just paid for, so its own client can list what it can be caught at.
+signal private_cheat_charged(seat: int, method: int, cost: int)
+## A cheat this seat could not afford; its own client shakes the meter.
+signal private_cheat_refused(seat: int, method: int, cost: int)
 
 @export var npcs: Array[Npc]
 @export var player: PlayerController
@@ -41,7 +51,6 @@ var turn_order: Array[MauMauPlayer] = []
 var current_player_index: int
 var current_player_node: MauMauPlayer
 var wished_suit: Card.Suit = Card.Suit.NONE
-var cheat_penalty: bool = false
 var current_draw_penalty: int = 0
 var current_effect: String = "none"
 ## After the regular draw a second draw request means "pass".
@@ -55,6 +64,8 @@ var _turn_serial: int = 0
 var _acting_seat: MauMauPlayer
 
 var winners: Array[MauMauPlayer]
+## Seat -> the last (juice, bottle) pair that went out, so a sip sends one message.
+var _published_juice: Dictionary = {}
 
 
 func _ready() -> void:
@@ -91,6 +102,11 @@ func _start_round() -> void:
 ## A client seats the participants and then only mirrors what NetSync receives.
 func _client_ready() -> void:
 	init_player_positions()
+	# The authority runs the drain for every seat and pushes the level; a client
+	# that drained too would count down twice.
+	var seat: MauMauPlayer = player.maumau_player if player != null else null
+	if seat != null and seat.juice != null:
+		seat.juice.drain_enabled = false
 	AudioManager.play_music(music)
 
 func start_game() -> void:
@@ -172,19 +188,82 @@ func submit_move(seat: MauMauPlayer, card_id: int) -> bool:
 
 
 func submit_draw(seat: MauMauPlayer) -> bool:
-	# An accused (or falsely accusing) seat takes its cheat penalty off turn.
-	var allowed := (_is_on_turn(seat) and not awaiting_wish) or _is_in_cheat_accusation(seat)
 	if Net.is_client():
-		if not _is_local_seat(seat) or not allowed:
+		if not _is_local_seat(seat) or not _is_on_turn(seat) or awaiting_wish:
 			return false
 		Net.to_server("submit_draw", [])
 		return true
-	if not allowed:
+	if not _is_on_turn(seat) or awaiting_wish:
 		return false
 	var accepted := _draw_card(seat)
 	if accepted:
 		_publish()
 	return accepted
+
+
+## Accusing is the one intent a seat may raise off turn.
+func submit_accuse(accuser: MauMauPlayer, accused: MauMauPlayer, method: Cheat.Method) -> bool:
+	if not _may_accuse(accuser, accused, method):
+		return false
+	if Net.is_client():
+		if not _is_local_seat(accuser):
+			return false
+		Net.to_server("submit_accuse", [accused.turn_position, method])
+		return true
+
+	accuser.on_accusation_made()
+	var caught := accused.take_cheat(method)
+	var guilty := caught != null
+	if guilty:
+		if method == Cheat.Method.ONE:
+			_take_back_card(accused, caught.card)
+		accused.on_caught_cheating()
+		_deal_penalty(accused, cards_drawn_on_cheat)
+	else:
+		_deal_penalty(accuser, cards_drawn_on_cheat)
+	print("Seat %d accused seat %d: %s" % [
+		accuser.turn_position, accused.turn_position, "guilty" if guilty else "false alarm"])
+	accusation_resolved.emit(accuser.turn_position, accused.turn_position, method, guilty)
+	_publish()
+	return true
+
+
+func _may_accuse(accuser: MauMauPlayer, accused: MauMauPlayer, method: Cheat.Method) -> bool:
+	if is_game_over or accuser == null or accused == null or accuser == accused:
+		return false
+	if not turn_order.has(accuser) or not turn_order.has(accused):
+		return false
+	return Cheat.Method.find_key(method) != null
+
+
+## Drinking runs off turn: what a seat does with its bottle is nobody's turn.
+func submit_drink(seat: MauMauPlayer, drinking: bool) -> bool:
+	if not _may_refresh(seat):
+		return false
+	if Net.is_client():
+		if not _is_local_seat(seat):
+			return false
+		Net.to_server("submit_drink", [drinking])
+		return true
+	return seat.begin_drinking() if drinking else seat.end_drinking()
+
+
+func submit_waiter(seat: MauMauPlayer) -> bool:
+	if not _may_refresh(seat):
+		return false
+	# Refused rather than queued: the seat asks again once the bottle is done.
+	if seat.juice_bottle != null and not seat.juice_bottle.is_empty():
+		return false
+	if Net.is_client():
+		if not _is_local_seat(seat):
+			return false
+		Net.to_server("submit_waiter", [])
+		return true
+	return seat.order_bottle()
+
+
+func _may_refresh(seat: MauMauPlayer) -> bool:
+	return not is_game_over and seat != null and turn_order.has(seat)
 
 
 func submit_wish(seat: MauMauPlayer, suit: Card.Suit) -> bool:
@@ -215,7 +294,8 @@ var seating: PackedInt32Array = []
 
 
 ## Server: an intent relayed by Net for `peer` ("submit_move" [card_id],
-## "submit_draw" [], "submit_wish" [suit]). Replaces the @rpc _rpc_submit_* trio.
+## "submit_draw" [], "submit_wish" [suit], "submit_drink" [drinking],
+## "submit_waiter" []). Replaces the @rpc _rpc_submit_* trio.
 func submit_from_peer(peer: int, method: String, args: Array) -> void:
 	if not Net.is_server():
 		return
@@ -231,6 +311,17 @@ func submit_from_peer(peer: int, method: String, args: Array) -> void:
 			submit_move(seat, args[0])
 		"submit_draw":
 			submit_draw(seat)
+		"submit_drink":
+			if args.size() != 1 or typeof(args[0]) != TYPE_BOOL:
+				push_warning("Ignoring submit_drink from peer %d: bad arguments %s" % [peer, args])
+				return
+			submit_drink(seat, args[0])
+		"submit_waiter":
+			submit_waiter(seat)
+		"submit_accuse":
+			var accused := _accused_seat_arg(peer, args)
+			if accused >= 0:
+				submit_accuse(seat, turn_order[accused], args[1] as Cheat.Method)
 		"submit_wish":
 			if not _has_int_arg(method, peer, args):
 				return
@@ -241,6 +332,17 @@ func submit_from_peer(peer: int, method: String, args: Array) -> void:
 			submit_wish(seat, args[0] as Card.Suit)
 		_:
 			push_warning("Ignoring unknown intent '%s' from peer %d" % [method, peer])
+
+
+## The seat an accusation names, -1 when the payload is not a seat and a method.
+func _accused_seat_arg(peer: int, args: Array) -> int:
+	if args.size() != 2 or typeof(args[0]) != TYPE_INT or typeof(args[1]) != TYPE_INT:
+		push_warning("Ignoring submit_accuse from peer %d: bad arguments %s" % [peer, args])
+		return -1
+	if args[0] < 0 or args[0] >= turn_order.size() or Cheat.Method.find_key(args[1]) == null:
+		push_warning("Ignoring submit_accuse from peer %d: no such seat or method %s" % [peer, args])
+		return -1
+	return args[0]
 
 
 ## The arguments come off the wire, so nothing about them is given.
@@ -331,9 +433,6 @@ func _is_local_seat(seat: MauMauPlayer) -> bool:
 func _is_on_turn(seat: MauMauPlayer) -> bool:
 	return not is_game_over and seat != null and seat == current_player_node
 
-func _is_in_cheat_accusation(seat: MauMauPlayer) -> bool:
-	return seat != null and seat.cheat_accusation
-
 func _play_card(card_id: int) -> bool:
 	# A server-side table has no sound at all; indexing the empty list aborts the move.
 	if not move_card_sfx_list.is_empty():
@@ -349,8 +448,12 @@ func _play_card(card_id: int) -> bool:
 
 	var legal := MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty)
 	print("player %d tried to play %s. The move is %s." % [current_player_index, card, legal])
-	if not legal and not current_player_node.trigger_cheat(Cheat.Method.ONE, card):
-		return false
+	if not legal:
+		var cost: int = Cheat.JUICE_COSTS.get(Cheat.Method.ONE, 0)
+		if not current_player_node.trigger_cheat(Cheat.Method.ONE, card):
+			private_cheat_refused.emit(current_player_index, Cheat.Method.ONE, cost)
+			return false
+		private_cheat_charged.emit(current_player_index, Cheat.Method.ONE, cost)
 
 	current_player_node.remove_card(card_id)
 	discard_pile.append(card)
@@ -412,9 +515,7 @@ func _draw_card(seat: MauMauPlayer) -> bool:
 	cards_drawn.emit(seat.turn_position, drawn)
 
 	if taking_penalty:
-		if not cheat_penalty:
-			advance_turn()
-		cheat_penalty = false
+		advance_turn()
 		return true
 
 	# House rule: a drawn card that fits may be played right away.
@@ -433,9 +534,67 @@ func _set_wished_suit(suit: Card.Suit) -> void:
 	print("%s was wished" % Card.suit_name(suit))
 	advance_turn()
 
-func _set_penalty() -> void:
-	current_draw_penalty = cards_drawn_on_cheat
-	cheat_penalty = true
+## A cheat penalty is dealt straight into the seat: it is not the pending draw
+## penalty (a seven stack the seat on turn still owes), does not end anyone's turn
+## and does not count as this turn's draw.
+func _deal_penalty(seat: MauMauPlayer, count: int) -> void:
+	seat.cheat_penalties += 1
+	var drawn := 0
+	for i in count:
+		var card := _draw_from_pile()
+		if card == null:
+			break
+		seat.add_card(card)
+		drawn += 1
+	print("Seat %d drew %d cards as a cheat penalty" % [seat.turn_position, drawn])
+	if drawn > 0:
+		cards_drawn.emit(seat.turn_position, drawn)
+
+
+## An upheld Method.ONE: the illegally played card goes back to the cheater and
+## whatever of its effect is not spent yet is undone. What the next seat already
+## paid stands — a taken draw_two, a served skip_next — because that seat's turn
+## is over by the time anyone can accuse.
+func _take_back_card(cheater: MauMauPlayer, card: Card) -> void:
+	if card == null:
+		return
+	var index := -1
+	for i in range(discard_pile.size() - 1, -1, -1):
+		if discard_pile[i] == card:
+			index = i
+			break
+	# Gone means the pile was reshuffled around it; the penalty still stands.
+	if index == -1:
+		return
+	discard_pile.remove_at(index)
+	cheater.add_card(card)
+	if not discard_pile.is_empty():
+		# The signal LastPlayedCard already reads as "the pile shows this now".
+		base_card_played.emit(discard_pile.back())
+
+	if cheater.placement > -1:
+		_unplace(cheater)
+	if awaiting_wish and current_player_node == cheater:
+		# The wish was owed for this very Jack, so nobody owes one now.
+		awaiting_wish = false
+		current_effect = "none"
+		advance_turn()
+	elif card.rank == Card.Rank.JACK and wished_suit != Card.Suit.NONE:
+		wished_suit = Card.Suit.NONE
+
+
+## The seat did not go out after all; the seats behind it move up.
+func _unplace(seat: MauMauPlayer) -> void:
+	var index := winners.find(seat)
+	if index != -1:
+		winners.remove_at(index)
+	seat.placement = -1
+	seat_placed.emit(seat.turn_position, -1)
+	for i in winners.size():
+		if winners[i].placement != i + 1:
+			winners[i].placement = i + 1
+			seat_placed.emit(winners[i].turn_position, winners[i].placement)
+
 
 ## null only when both piles are exhausted.
 func _draw_from_pile() -> Card:
@@ -565,6 +724,22 @@ func init_player_positions() -> void:
 		seat.seat_at(self, index)
 		seat.hand_changed.connect(func(_hand: Array[Card]) -> void:
 			private_hand_changed.emit(index, seat.hand_ids()))
+		if seat.juice != null:
+			seat.juice.juice_changed.connect(func(_current: int) -> void:
+				_publish_juice(index, seat))
+		seat.bottle_changed.connect(func(_content: int) -> void:
+			_publish_juice(index, seat))
+
+
+## Juice and bottle travel together: one message carries this seat's whole meter.
+## A sip changes both, so the two signals behind it would say the same thing twice.
+func _publish_juice(index: int, seat: MauMauPlayer) -> void:
+	var current: int = seat.juice.current_juice if seat.juice != null else 0
+	var meter := Vector2i(current, seat.bottle_content())
+	if _published_juice.get(index) == meter:
+		return
+	_published_juice[index] = meter
+	private_juice_changed.emit(index, current, seat.bottle_content())
 
 
 func _participants() -> Array:
@@ -611,8 +786,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_3, KEY_KP_3: key_index = 2
 		KEY_4, KEY_KP_4: key_index = 3
 
-	if key_index != -1:
-		npcs[1].maumau_player.call_cheater(turn_order[key_index], Cheat.Method.ONE)
+	if key_index != -1 and key_index < turn_order.size():
+		seat.try_accuse(turn_order[key_index], Cheat.Method.ONE)
 
 func log_gamestate() -> void:
 	print("\n--- PLAYER HANDS INITIALIZED ---")

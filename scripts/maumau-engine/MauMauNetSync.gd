@@ -22,6 +22,9 @@ const EVENT_ARITY := {
 	"seat_placed": 2,
 	"base_card_played": 1,
 	"round_over": 1,
+	"accusation_resolved": 4,
+	"cheat_charged": 3,
+	"cheat_refused": 3,
 }
 
 @export var manager: MauMauGameManager
@@ -75,7 +78,8 @@ func _receive_as_server(peer: int, method: String, args: Array) -> void:
 		"client_ready":
 			send_full_state(peer)
 			manager.peer_ready(peer)
-		"submit_move", "submit_draw", "submit_wish":
+		"submit_move", "submit_draw", "submit_wish", "submit_accuse", \
+		"submit_drink", "submit_waiter":
 			manager.submit_from_peer(peer, method, args)
 		_:
 			push_warning("NetSync (server) ignoring '%s' from peer %d" % [method, peer])
@@ -94,6 +98,11 @@ func _receive_as_client(method: String, args: Array) -> void:
 				_drop_malformed(method, args)
 				return
 			_apply_hand(ids)
+		"juice":
+			if args.size() < 2 or typeof(args[0]) != TYPE_INT or typeof(args[1]) != TYPE_INT:
+				_drop_malformed(method, args)
+				return
+			_apply_juice(args[0], args[1])
 		"event":
 			if args.size() < 2 or not (args[0] is String) or not (args[1] is Array):
 				_drop_malformed(method, args)
@@ -144,6 +153,14 @@ func _forward_manager_signals() -> void:
 		_send_event("base_card_played", [card.id]))
 	manager.round_over.connect(func(final: MauMauTable) -> void:
 		_send_event("round_over", [final.to_dict()]))
+	manager.accusation_resolved.connect(func(accuser: int, accused: int, method: int, guilty: bool) -> void:
+		_send_event("accusation_resolved", [accuser, accused, method, guilty]))
+	manager.private_juice_changed.connect(func(seat: int, current: int, bottle: int) -> void:
+		_send_private(seat, "juice", [current, bottle]))
+	manager.private_cheat_charged.connect(func(seat: int, method: int, cost: int) -> void:
+		_send_private(seat, "event", ["cheat_charged", [seat, method, cost]]))
+	manager.private_cheat_refused.connect(func(seat: int, method: int, cost: int) -> void:
+		_send_private(seat, "event", ["cheat_refused", [seat, method, cost]]))
 
 
 func _send_event(event: String, args: Array) -> void:
@@ -160,15 +177,20 @@ func _broadcast(method: String, args: Array) -> void:
 
 
 func _send_hand(seat: int, card_ids: PackedInt32Array) -> void:
+	_send_private(seat, "hand", [card_ids])
+
+
+## To the one peer that plays this seat. 0 is an NPC seat, and the server already
+## holds everything about its own.
+func _send_private(seat: int, method: String, args: Array) -> void:
 	var target := room
 	if target == null:
-		push_warning("NetSync cannot send a hand: this table has no room")
+		push_warning("NetSync cannot send '%s': this table has no room" % method)
 		return
 	var peer := target.peer_for_seat(seat)
-	# 0 is an NPC seat; the server already holds its own seat's cards.
 	if peer == 0 or peer == Net.SERVER_PEER:
 		return
-	Net.to_peer(peer, "hand", [card_ids])
+	Net.to_peer(peer, method, args)
 
 
 ## Server: the full public table plus the private hand of the seat this peer plays.
@@ -183,7 +205,11 @@ func send_full_state(peer: int) -> void:
 		return
 	var seat := target.seat_for_peer(peer)
 	if seat >= 0 and seat < manager.turn_order.size():
-		Net.to_peer(peer, "hand", [manager.turn_order[seat].hand_ids()])
+		var seated: MauMauPlayer = manager.turn_order[seat]
+		Net.to_peer(peer, "hand", [seated.hand_ids()])
+		var juice: Juice = seated.juice
+		if juice != null:
+			Net.to_peer(peer, "juice", [juice.current_juice, seated.bottle_content()])
 
 
 #################CLIENT########################
@@ -215,6 +241,23 @@ func _apply_table(table: MauMauTable) -> void:
 			manager.turn_order[i].set_hand_count(table.hand_counts[i])
 
 	manager.table_changed.emit(table)
+
+
+## The server owns every seat's meter, so both halves are applied, never checked.
+## The bottle is mirrored for show only: a client never runs the sip loop.
+func _apply_juice(current: int, bottle_content: int) -> void:
+	var seat := _seat(Net.my_seat())
+	if seat == null:
+		return
+	if seat.juice != null:
+		seat.juice.set_juice(current)
+	seat.set_bottle_content(bottle_content)
+
+
+## The Juice of the seat this peer plays, null when it plays none.
+func _own_juice() -> Juice:
+	var seat := _seat(Net.my_seat())
+	return seat.juice if seat != null else null
 
 
 func _apply_hand(card_ids: PackedInt32Array) -> void:
@@ -266,6 +309,32 @@ func _apply_event(event: String, args: Array) -> void:
 		"round_over":
 			_end_acting_turn()
 			manager.round_over.emit(MauMauTable.from_dict(args[0]))
+		"accusation_resolved":
+			_apply_accusation(args[0], args[1], args[2], args[3])
+		"cheat_charged":
+			# Only the cheating seat's own peer is told, so it can show what it
+			# can still be caught at; the juice itself arrives as "juice".
+			var seat := _seat(args[0])
+			if seat != null:
+				seat.cheats.append(Cheat.init_cheat(args[1] as Cheat.Method))
+			manager.private_cheat_charged.emit(args[0], args[1], args[2])
+		"cheat_refused":
+			var juice := _own_juice()
+			if juice != null:
+				juice.juice_insufficient.emit(args[2])
+			manager.private_cheat_refused.emit(args[0], args[1], args[2])
+
+
+func _apply_accusation(accuser: int, accused: int, method: int, guilty: bool) -> void:
+	var pointing := _seat(accuser)
+	if pointing != null:
+		pointing.on_accusation_made()
+	if guilty:
+		var caught := _seat(accused)
+		if caught != null:
+			caught.take_cheat(method as Cheat.Method)
+			caught.on_caught_cheating()
+	manager.accusation_resolved.emit(accuser, accused, method, guilty)
 
 
 # Mirrors MauMauGameManager.start_turn: the seat on turn is set before the

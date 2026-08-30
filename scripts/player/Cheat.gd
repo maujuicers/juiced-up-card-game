@@ -52,9 +52,9 @@ func is_expired() -> bool:
 static func init_cheat(m: Method, c: Card = null, s: Card = null) -> Cheat:
 	var ch: Cheat
 	match m:
-		Cheat.Method.ONE or Cheat.Method.SIX:
+		Method.TWO, Method.SIX:
 			ch = without_cards(m)
-		Cheat.Method.FOUR:
+		Method.FOUR:
 			ch = exchange_card(c, s)
 		_:
 			ch = with_card(m, c)

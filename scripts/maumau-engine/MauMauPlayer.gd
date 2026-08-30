@@ -8,6 +8,8 @@ signal hand_changed(hand: Array[Card])
 signal turn_started
 signal turn_ended
 signal wish_requested
+## This seat's bottle: how much is left, -1 for no bottle at all.
+signal bottle_changed(content: int)
 
 ## Only set true for AI players
 @export var autoplay: bool = false
@@ -40,13 +42,17 @@ var _filler: Card
 var cheated: bool = false
 var cheats: Array[Cheat]
 var cheat_counter: int = 0
-var cheat_accusation: bool = false
 var cheat_penalties: int = 0
 
 # variables for drinking
+const SIP_INTERVAL := 1.0
+const SIP_AMOUNT := 10
+
 @export var juice: Juice
 var juice_bottle: JuiceBottle
-var is_drinking: bool
+## Authority only: whether the sip timer is running.
+var is_drinking: bool = false
+var _sip_timer: Timer
 
 
 func init_hand(first_hand: Array[Card]) -> void:
@@ -55,6 +61,7 @@ func init_hand(first_hand: Array[Card]) -> void:
 
 func init_juice_bottle() -> void:
 	juice_bottle = JuiceBottle.new()
+	bottle_changed.emit(bottle_content())
 
 func seat_at(game_manager: Node, index: int) -> void:
 	manager = game_manager
@@ -73,9 +80,8 @@ func init_card_played_listener() -> void:
 
 func _on_card_played(player_index: int, card: Card) -> void:
 	if player_index == turn_position:
-		return  
-		
-	print("player %s sees that a move was made")
+		return
+
 	for i in range(cheats.size() - 1, -1, -1):
 		cheats[i].tick_turn()
 		if cheats[i].is_expired():
@@ -133,7 +139,7 @@ func _face_down_filler() -> Card:
 	return _filler
 
 
-## The three intents. Each returns whether the manager accepted the action.
+## The four intents. Each returns whether the manager accepted the action.
 func try_play_card(selected_card_pos: int) -> bool:
 	if selected_card_pos < 0 or selected_card_pos >= hand.size():
 		return false
@@ -142,8 +148,7 @@ func try_play_card(selected_card_pos: int) -> bool:
 
 func try_play_card_by_id(card_id: int) -> bool:
 	if autoplay:
-		if npc_audio != null:
-			npc_audio.play_random(neutral_meow_sfx_list)
+		_play_meow(neutral_meow_sfx_list)
 	else:
 		AudioManager.play_ui(click_sfx, -5.0)
 	return manager != null and manager.submit_move(self, card_id)
@@ -152,18 +157,18 @@ func try_choosing_suit(suit: Card.Suit) -> bool:
 	return manager != null and manager.submit_wish(self, suit)
 
 func draw_card() -> bool:
-	if autoplay:
-		if npc_audio != null:
-			npc_audio.play_random(sad_meow_sfx_list)
-			npc_audio.play_random(move_card_sfx_list)
-	else:
-		AudioManager.play_sfx(sad_meow_sfx_list[randi_range(0, 1)])
-		AudioManager.play_sfx(move_card_sfx_list[randi_range(0, 2)])
+	_play_meow(sad_meow_sfx_list)
+	_play_meow(move_card_sfx_list)
 	return manager != null and manager.submit_draw(self)
 
 
 func select_suit(suit: Card.Suit) -> bool:
 	return manager != null and manager.submit_wish(self, suit)
+
+
+## Accuse another seat of a cheat; the manager's gate decides and penalises.
+func try_accuse(target: MauMauPlayer, method: Cheat.Method = Cheat.Method.ONE) -> bool:
+	return manager != null and manager.submit_accuse(self, target, method)
 
 
 func add_card(card: Card) -> void:
@@ -206,44 +211,91 @@ func _to_string() -> String:
 	var owner_name := get_parent().name if get_parent() != null else name
 	return "%s (seat %d)" % [owner_name, turn_position]
 	
-func call_waiter() -> void:
-	if not juice_bottle.is_empty():
-		return
-		
-	var ordered_juice = JuiceBottle.new()
-	juice_bottle = ordered_juice
-		
-func drink() -> void:
-	if juice_bottle != null and not juice_bottle.is_empty():
-		is_drinking = true
-		juice_bottle.drink()
-		juice_bottle.juice_empty.connect(stop_drinking)
-		juice_bottle.sip_taken.connect(_on_bottle_sip_taken)
+## Three more intents, all off turn; the gate decides, the authority acts.
+func drink() -> bool:
+	return manager != null and manager.submit_drink(self, true)
 
-func stop_drinking()-> void:
-	if self.is_drinking:
-		juice_bottle.juice_empty.disconnect(_on_bottle_empty)
-		juice_bottle.sip_taken.disconnect(_on_bottle_sip_taken)
-		is_drinking = false
-		juice_bottle.stop_drinking()
-		if juice_bottle != null:
-			juice_bottle.stop_drinking()
-		
-func _on_bottle_sip_taken(amount: int) -> void:
-	print(juice_bottle.current_juice_content)
-	if self.juice != null:
-		self.juice.set_juice(self.juice.current_juice + amount)
-		print("Player drank juice! Juice level is now: ", self.juice.current_juice)
-		
-		if self.juice.current_juice >= self.juice.max_juice:
-			print("Juice meter is full! Automatically stopping.")
-			stop_drinking()
-			
-func _on_bottle_empty() -> void:
-	stop_drinking()
-	self.juice_bottle = null
-	
-	
+
+func stop_drinking() -> bool:
+	return manager != null and manager.submit_drink(self, false)
+
+
+func call_waiter() -> bool:
+	return manager != null and manager.submit_waiter(self)
+
+
+## How much is left to drink, -1 when the seat holds no bottle.
+func bottle_content() -> int:
+	return juice_bottle.current_juice_content if juice_bottle != null else -1
+
+
+## Authority only. Already drinking is accepted and changes nothing, so a
+## second press cannot double the sip rate.
+func begin_drinking() -> bool:
+	if is_drinking:
+		return true
+	if juice_bottle == null or juice_bottle.is_empty():
+		return false
+	if juice == null or juice.current_juice >= juice.max_juice:
+		return false
+	is_drinking = true
+	_sips().start(SIP_INTERVAL)
+	return true
+
+
+## Authority only.
+func end_drinking() -> bool:
+	if not is_drinking:
+		return false
+	is_drinking = false
+	if _sip_timer != null:
+		_sip_timer.stop()
+	return true
+
+
+## Authority only: the waiter brings a bottle only when there is none to finish.
+func order_bottle() -> bool:
+	if juice_bottle != null and not juice_bottle.is_empty():
+		return false
+	juice_bottle = JuiceBottle.new()
+	bottle_changed.emit(bottle_content())
+	return true
+
+
+## The mirror of the authority's bottle on this seat's own client, which never sips.
+func set_bottle_content(content: int) -> void:
+	if content < 0:
+		juice_bottle = null
+	else:
+		if juice_bottle == null:
+			juice_bottle = JuiceBottle.new()
+		juice_bottle.current_juice_content = content
+	bottle_changed.emit(bottle_content())
+
+
+func _sips() -> Timer:
+	if _sip_timer == null:
+		_sip_timer = Timer.new()
+		_sip_timer.timeout.connect(_on_sip)
+		add_child(_sip_timer)
+	return _sip_timer
+
+
+func _on_sip() -> void:
+	if juice_bottle == null:
+		end_drinking()
+		return
+	var amount := juice_bottle.take_sip(SIP_AMOUNT)
+	if amount > 0 and juice != null:
+		juice.set_juice(juice.current_juice + amount)
+	if juice_bottle.is_empty():
+		juice_bottle = null
+		end_drinking()
+	elif juice != null and juice.current_juice >= juice.max_juice:
+		end_drinking()
+	bottle_changed.emit(bottle_content())
+
+
 ############ Cheat Functions ###########
 func peek(player: MauMauPlayer) -> void:
 	trigger_cheat(Cheat.Method.TWO)
@@ -262,59 +314,53 @@ func spike_drink(player: MauMauPlayer) -> void:
 
 func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card = null) -> bool:
 	#check if player has enough juice first
-	var attempted_cheat = Cheat.init_cheat(method, card, exchanged_card)
-	if(self.juice.current_juice < attempted_cheat.juice_cost):
+	var attempted_cheat := Cheat.init_cheat(method, card, exchanged_card)
+	if juice == null or not juice.deduct_juice(attempted_cheat.juice_cost):
 		return false
-		
-	
-	if autoplay:
-		if npc_audio != null:
-			npc_audio.play_random(cheat_meow_sfx_list)
-	else:
-		AudioManager.play_sfx(cheat_meow_sfx_list[randi_range(0, 1)])
-		
-	# set all cheat variables for player
-	self.juice.deduct_juice(attempted_cheat.juice_cost)
+
+	_play_meow(cheat_meow_sfx_list)
 	cheat_counter += 1
 	cheated = true
 	cheats.append(attempted_cheat)
 	print("Player %s just cheated" %[self.turn_position])
-	
+
 	return true
-	
-		
-func call_cheater(cheater: MauMauPlayer, method : Cheat.Method)-> void:
+
+
+## Flavour only: this seat pointed the finger. The manager judged it already.
+func on_accusation_made() -> void:
+	_play_meow(angry_meow_sfx_list)
+
+
+## Flavour only: this seat was caught.
+func on_caught_cheating() -> void:
+	_play_meow(cheat_meow_sfx_list)
+
+
+## A server-side table has no sound at all, so an empty list must not be indexed.
+func _play_meow(sounds: Array[AudioStream]) -> void:
+	if sounds.is_empty():
+		return
 	if autoplay:
 		if npc_audio != null:
-			npc_audio.play_random(angry_meow_sfx_list)
+			npc_audio.play_random(sounds)
 	else:
-		AudioManager.play_sfx(angry_meow_sfx_list[randi_range(0, 2)])
-	print(cheater.cheated)
-	cheat_accusation = true
-	if cheater.remove_cheat(method):
-		cheater.cheat_accusation = true;
-		print("player %s got called out by player %s for his cheat and has to draw cards" % [cheater.turn_position, self.turn_position])
-		cheater.cheat_penalty()
-	else:
-		print("player %s didnt cheat so player %s has to draw cards, for calling him out" % [cheater.turn_position, self.turn_position])
-		cheat_penalty()
-		
-	cheat_accusation = false
-	cheater.cheat_accusation = false
+		AudioManager.play_sfx(sounds.pick_random())
 
-func cheat_penalty() -> void:
-	cheat_penalties += 1
-	print("player %s received %d penalties now" % [self.turn_position, self.cheat_penalties])
-	self.manager._set_penalty()
-	draw_card()
-	
-func remove_cheat(method: Cheat.Method) -> bool:
+
+## Removes this seat's pending cheat of that method and returns it, null for none.
+func take_cheat(method: Cheat.Method) -> Cheat:
 	var index := cheat_index(method)
 	if index == -1:
-		return false
+		return null
+	var caught: Cheat = cheats[index]
 	cheats.remove_at(index)
 	cheated = not cheats.is_empty()
-	return true
+	return caught
+
+
+func remove_cheat(method: Cheat.Method) -> bool:
+	return take_cheat(method) != null
 
 func cheat_index(method: Cheat.Method) -> int:
 	for i in cheats.size():
