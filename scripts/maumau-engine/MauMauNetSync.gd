@@ -26,6 +26,8 @@ const EVENT_ARITY := {
 	"card_slipped": 2,
 	"waiter_dispatched": 1,
 	"waiter_delivered": 1,
+	"seat_bottle": 2,
+	"seat_drinking": 2,
 	"cheat_charged": 3,
 	"cheat_refused": 3,
 }
@@ -164,6 +166,10 @@ func _forward_manager_signals() -> void:
 		_send_event("waiter_dispatched", [seat]))
 	manager.waiter_delivered.connect(func(seat: int) -> void:
 		_send_event("waiter_delivered", [seat]))
+	manager.seat_bottle.connect(func(seat: int, present: bool) -> void:
+		_send_event("seat_bottle", [seat, present]))
+	manager.seat_drinking.connect(func(seat: int, drinking: bool) -> void:
+		_send_event("seat_drinking", [seat, drinking]))
 	manager.private_juice_changed.connect(func(seat: int, current: int, bottle: int) -> void:
 		_send_private(seat, "juice", [current, bottle]))
 	manager.private_cheat_charged.connect(func(seat: int, method: int, cost: int) -> void:
@@ -208,6 +214,12 @@ func send_full_state(peer: int) -> void:
 		return
 	Net.to_peer(peer, "event", ["base_card_played", [manager.discard_pile.back().id]])
 	Net.to_peer(peer, "table", [manager.snapshot().to_dict()])
+	# Every seat's bottle, present or not: a late arrival has an empty table.
+	for i in manager.turn_order.size():
+		var at_seat: MauMauPlayer = manager.turn_order[i]
+		Net.to_peer(peer, "event", ["seat_bottle", [i, at_seat.bottle_content() > 0]])
+		if at_seat.is_drinking:
+			Net.to_peer(peer, "event", ["seat_drinking", [i, true]])
 	var target := room
 	if target == null:
 		push_warning("NetSync cannot send a hand: this table has no room")
@@ -327,6 +339,10 @@ func _apply_event(event: String, args: Array) -> void:
 			manager.waiter_dispatched.emit(args[0])
 		"waiter_delivered":
 			manager.waiter_delivered.emit(args[0])
+		"seat_bottle":
+			manager.seat_bottle.emit(args[0], args[1])
+		"seat_drinking":
+			manager.seat_drinking.emit(args[0], args[1])
 		"cheat_charged":
 			# Only the cheating seat's own peer is told, so it can show what it
 			# can still be caught at; the juice itself arrives as "juice".

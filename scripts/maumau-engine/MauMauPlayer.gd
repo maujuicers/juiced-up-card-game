@@ -10,6 +10,8 @@ signal turn_ended
 signal wish_requested
 ## This seat's bottle: how much is left, -1 for no bottle at all.
 signal bottle_changed(content: int)
+## This seat started or stopped its sip loop.
+signal drinking_changed(drinking: bool)
 
 ## Only set true for AI players
 @export var autoplay: bool = false
@@ -245,6 +247,7 @@ func begin_drinking() -> bool:
 		return false
 	is_drinking = true
 	_sips().start(SIP_INTERVAL)
+	drinking_changed.emit(true)
 	return true
 
 
@@ -255,6 +258,7 @@ func end_drinking() -> bool:
 	is_drinking = false
 	if _sip_timer != null:
 		_sip_timer.stop()
+	drinking_changed.emit(false)
 	return true
 
 

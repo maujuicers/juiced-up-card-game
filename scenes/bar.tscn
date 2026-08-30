@@ -5,8 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://btdb0a0csat1v" path="res://assets/3D assets/Bar/Wall.glb" id="2_efgdo"]
 [ext_resource type="PackedScene" uid="uid://c10euy7a04m6x" path="res://assets/3D assets/Bar/Table.glb" id="2_qdsxc"]
 [ext_resource type="PackedScene" uid="uid://bi4g6yddn2mn3" path="res://assets/3D assets/Bar/Chair.glb" id="2_x848m"]
-[ext_resource type="PackedScene" uid="uid://b40os8m4vwi5y" path="res://assets/3D assets/Bar/JuiceBottle.glb" id="13_i5gm6"]
-[ext_resource type="PackedScene" uid="uid://duksgkluxbu05" path="res://assets/3D assets/Bar/WaterBottle.glb" id="14_7uitc"]
 [ext_resource type="PackedScene" uid="uid://curp8336pddcc" path="res://assets/3D assets/Cats/BackgroundCat.glb" id="16_pbi2s"]
 [ext_resource type="PackedScene" uid="uid://drcrkb08ushxd" path="res://scenes/npc/waiter.tscn" id="17_b7mdb"]
 [ext_resource type="NavigationMesh" uid="uid://dic20nbn23qun" path="res://scenes/bar_navmesh.tres" id="18_navms"]
@@ -117,12 +115,6 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0
 
 [node name="Chair4" parent="NavigationRegion3D/Gathering" unique_id=437812636 instance=ExtResource("2_x848m")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="JuiceBottle" parent="NavigationRegion3D/Gathering" unique_id=1558012997 instance=ExtResource("13_i5gm6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5759887, 1.0949593, -0.60724384)
-
-[node name="WaterBottle" parent="NavigationRegion3D/Gathering" unique_id=1436832197 instance=ExtResource("14_7uitc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.40796852, 1.0858938, -0.40661454)
 
 [node name="Gathering2" type="Node3D" parent="NavigationRegion3D" unique_id=1405353681]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)

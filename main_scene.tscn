@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://c5ek0fsypmit6" path="res://scenes/ui/settings_menu.tscn" id="7_nfk4m"]
 [ext_resource type="PackedScene" uid="uid://pjtartsbd0xr" path="res://scenes/playing-card/last_played_card.tscn" id="8_7ycvg"]
 [ext_resource type="PackedScene" uid="uid://cdgrvsecxh78o" path="res://scenes/playing-card/card_slip.tscn" id="8_cslip"]
+[ext_resource type="PackedScene" uid="uid://xiywdaehj1kx" path="res://scenes/seat/table_bottles.tscn" id="8_tbotl"]
 [ext_resource type="AudioStream" uid="uid://bndbxqqwj0buo" path="res://audio/sfx/npc/meow-neutral-3.wav" id="8_671wp"]
 [ext_resource type="AudioStream" uid="uid://b2e67cwkg3lwc" path="res://audio/sfx/npc/meow-neutral-4.wav" id="9_42l1d"]
 [ext_resource type="PackedScene" uid="uid://bbu748peiij0q" path="res://scenes/playing-card/playing_card.tscn" id="9_wr18j"]
@@ -124,6 +125,9 @@ player = NodePath("../Player")
 manager = NodePath("../MaumauEngine")
 card_scene = ExtResource("9_wr18j")
 player = NodePath("../Player")
+
+[node name="TableBottles" parent="." unique_id=1222789244 node_paths=PackedStringArray("manager") instance=ExtResource("8_tbotl")]
+manager = NodePath("../MaumauEngine")
 
 [node name="PauseMenu" parent="." unique_id=2080118311 node_paths=PackedStringArray("settings_menu") instance=ExtResource("6_hq1ik")]
 visible = false

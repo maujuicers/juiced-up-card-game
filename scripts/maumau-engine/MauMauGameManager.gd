@@ -26,6 +26,10 @@ signal card_slipped(giver: int, receiver: int)
 signal waiter_dispatched(seat: int)
 ## The waiter reached this seat and its bottle is on the table.
 signal waiter_delivered(seat: int)
+## Whether this seat has a bottle standing in front of it. How full it is stays private.
+signal seat_bottle(seat: int, present: bool)
+## This seat has the bottle at its mouth, so it is not on the table right now.
+signal seat_drinking(seat: int, drinking: bool)
 
 # Private surface: one seat's cards, for that seat only; send it with rpc_id.
 signal private_hand_changed(seat: int, card_ids: PackedInt32Array)
@@ -76,6 +80,8 @@ var _acting_seat: MauMauPlayer
 var winners: Array[MauMauPlayer]
 ## Seat -> the last (juice, bottle) pair that went out, so a sip sends one message.
 var _published_juice: Dictionary = {}
+## Seat -> whether a bottle stood there last time, so a sip that leaves some is silent.
+var _bottle_present: Dictionary = {}
 
 
 func _ready() -> void:
@@ -808,6 +814,7 @@ func init_player_hands() -> void:
 ## the local human's Player node takes Net.my_seat() and the Npc nodes fill the rest.
 func init_player_positions() -> void:
 	turn_order.clear()
+	_bottle_present.clear()
 	for participant in _participants():
 		if participant == null or participant.maumau_player == null:
 			push_error("Participant %s has no MauMauPlayer" % participant)
@@ -831,6 +838,13 @@ func init_player_positions() -> void:
 				_publish_juice(index, seat))
 		seat.bottle_changed.connect(func(_content: int) -> void:
 			_publish_juice(index, seat))
+		# A client mirrors both of these off the wire; emitting them here too
+		# would let its own seat contradict the authority.
+		if not Net.is_client():
+			seat.bottle_changed.connect(func(_content: int) -> void:
+				_publish_bottle(index, seat))
+			seat.drinking_changed.connect(func(drinking: bool) -> void:
+				seat_drinking.emit(index, drinking))
 
 
 ## Juice and bottle travel together: one message carries this seat's whole meter.
@@ -842,6 +856,15 @@ func _publish_juice(index: int, seat: MauMauPlayer) -> void:
 		return
 	_published_juice[index] = meter
 	private_juice_changed.emit(index, current, seat.bottle_content())
+
+
+## Only the presence of a bottle is public, so the sips in between say nothing.
+func _publish_bottle(index: int, seat: MauMauPlayer) -> void:
+	var present := seat.bottle_content() > 0
+	if _bottle_present.get(index) == present:
+		return
+	_bottle_present[index] = present
+	seat_bottle.emit(index, present)
 
 
 func _participants() -> Array:
