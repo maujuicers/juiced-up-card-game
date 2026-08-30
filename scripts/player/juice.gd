@@ -10,6 +10,8 @@ var drain_enabled: bool = true
 
 signal juice_changed(current: int)
 signal juice_empty
+## A cheat was refused because it costs more than is left.
+signal juice_insufficient(amount: int)
 
 func _ready() -> void:
 	timer.timeout.connect(_on_timeout)
@@ -21,6 +23,9 @@ func set_juice(amount: int) -> void:
 	if current_juice < 1:
 		timer.stop()
 		juice_empty.emit()
+	elif timer.is_stopped():
+		# The drain gives up at empty; the drink that refills is what restarts it.
+		timer.start()
 
 func reset() -> void:
 	set_juice(max_juice)
@@ -31,5 +36,10 @@ func _on_timeout() -> void:
 		return
 	set_juice(current_juice - 1)
 	
-func deduct_juice(amount: int) -> void:
-	current_juice -= amount
+## False, and [signal juice_insufficient], when there is not enough left to pay.
+func deduct_juice(amount: int) -> bool:
+	if current_juice < amount:
+		juice_insufficient.emit(amount)
+		return false
+	set_juice(current_juice - amount)
+	return true

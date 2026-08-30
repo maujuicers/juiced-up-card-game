@@ -51,26 +51,14 @@ func _input(event: InputEvent) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _look_enabled and event is InputEventMouseMotion:
 		_rotate_view(event.relative)
-		
-	# Handle Drinking (Right Click Hold)
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
-		# Make sure we actually have a reference to the maumau_player
-		if maumau_player != null:
-			if event.pressed:
-				# Right click was just pressed down
-				maumau_player.drink()
-			else:
-				# Right click was just released
-				maumau_player.stop_drinking()
-				
-	# Handle Calling the Waiter (Press Q)
-	if event is InputEventKey and event.keycode == KEY_Q:
-		# event.pressed ensures it triggers on press, not release
-		# not event.echo ensures it doesn't spam if the player holds the key down
-		if event.pressed and not event.echo:
-			if maumau_player != null:
-				maumau_player.call_waiter()
-				print("Called the waiter for a new juice bottle!")
+	if maumau_player == null:
+		return
+	if event.is_action_pressed("drink"):
+		maumau_player.drink()
+	elif event.is_action_released("drink"):
+		maumau_player.stop_drinking()
+	elif event.is_action_pressed("call_waiter"):
+		maumau_player.call_waiter()
 
 func _rotate_view(relative: Vector2) -> void:
 	player_head.rotate_y(-relative.x * look_sensitivity)
