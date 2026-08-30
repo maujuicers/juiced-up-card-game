@@ -540,6 +540,7 @@ func init_player_hands() -> void:
 				break
 			player_hand.append(card)
 		seat.init_hand(player_hand)
+		seat.init_juice_bottle()
 
 ## Seats participants in order: marker i, turn position i. Online, the seating
 ## (decided by the server before the scene loaded) says which seat is a human;

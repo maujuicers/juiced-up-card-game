@@ -22,7 +22,6 @@ signal wish_requested
 @export var current_player_label: CurrentPlayerLabel
 @export var current_player_arrow: CurrentPlayerArrow
 
-@export var juice: Juice
 
 @export var suit_choice_node: SuitChoiceNode
 
@@ -31,21 +30,31 @@ var neutral_meow_sfx_list: Array[AudioStream]
 var hand: Array[Card] = []
 var turn_position: int
 var placement: int = -1
+
+## The MauMauGameManager that placed this seat; whether the seat may act is its call.
+## Typed as Node: the manager names this class, and the cycle breaks the parser.
+var manager: Node
+var _filler: Card
+
+# Cheat Variables
 var cheated: bool = false
 var cheats: Array[Cheat]
 var cheat_counter: int = 0
 var cheat_accusation: bool = false
 var cheat_penalties: int = 0
-## The MauMauGameManager that placed this seat; whether the seat may act is its call.
-## Typed as Node: the manager names this class, and the cycle breaks the parser.
-var manager: Node
-var _filler: Card
+
+# variables for drinking
+@export var juice: Juice
 var juice_bottle: JuiceBottle
+var is_drinking: bool
 
 
 func init_hand(first_hand: Array[Card]) -> void:
 	self.hand = first_hand
 	hand_changed.emit(hand)
+
+func init_juice_bottle() -> void:
+	juice_bottle = JuiceBottle.new()
 
 func seat_at(game_manager: Node, index: int) -> void:
 	manager = game_manager
@@ -198,9 +207,28 @@ func _to_string() -> String:
 	return "%s (seat %d)" % [owner_name, turn_position]
 	
 func call_waiter() -> void:
-	var ordered_juice = JuiceBottle.new()
-	juice_bottle = ordered_juice
-	
+	if juice_bottle.is_empty():
+		var ordered_juice = JuiceBottle.new()
+		juice_bottle = ordered_juice
+		
+func drink() -> void:
+	if juice_bottle != null and not juice_bottle.is_empty():
+		is_drinking = true
+		juice_bottle.juice_empty.connect(stop_drinking)
+		juice_bottle.sip_taken.connect(_on_bottle_sip_taken)
+
+func stop_drinking()-> void:
+	if self.is_drinking:
+		juice_bottle.juice_empty.disconnect(stop_drinking)
+		juice_bottle.sip_taken.disconnect(_on_bottle_sip_taken)
+		is_drinking = false
+		if juice_bottle != null:
+			juice_bottle.stop_drinking()
+		
+func _on_bottle_sip_taken(amount: int) -> void:
+	if self.juice != null:
+		self.juice.set_juice(self.juice.current_juice + amount)
+		print("Player drank juice! Juice level is now: ", self.juice.current_juice)
 	
 ############ Cheat Functions ###########
 func peek(player: MauMauPlayer) -> void:
