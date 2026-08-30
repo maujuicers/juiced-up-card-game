@@ -38,6 +38,15 @@ func set_look_enabled(enabled: bool) -> void:
 func look_angles() -> Vector2:
 	return Vector2(player_head.rotation.y, player_camera.rotation.x)
 
+# So we can capture the mouse in the browser builds as well
+func _input(event: InputEvent) -> void:
+	if not _look_enabled or Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		return
+	if (event is InputEventMouseButton or event is InputEventKey) and event.is_pressed():
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		if event is InputEventMouseButton:
+			get_viewport().set_input_as_handled()
+
 # Clicks are left for Hand.
 func _unhandled_input(event: InputEvent) -> void:
 	if _look_enabled and event is InputEventMouseMotion:
