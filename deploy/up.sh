@@ -2,7 +2,8 @@
 # Start the stack. With Podman, also make an unhealthy game container restart
 # itself: compose has no key for that, `up` recreates containers without it,
 # and the `kill` action would count as a manual stop that no restart policy
-# undoes. After loading a new image run `podman-compose down` first.
+# undoes. A freshly loaded image is picked up: containers still on the
+# previous image are recreated.
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -14,10 +15,17 @@ if command -v podman > /dev/null; then
 		podman container exists "$c" || missing=1
 	done
 	if [ "$missing" -eq 0 ]; then
-		# podman-compose 1.3.0 reads --no-recreate as "skip the teardown", not
-		# "skip the create", so on a stack that is already up it fails once per
-		# container with "name already in use" and carries on. Nothing is wrong
-		# in that case, so don't ask it: start is a no-op on a running container.
+		wanted=$(podman image inspect --format '{{.Id}}' localhost/meowmau-server:latest)
+		for n in 1 2 3; do
+			if [ "$(podman container inspect --format '{{.Image}}' "meowmau-game$n")" != "$wanted" ]; then
+				echo "meowmau-game$n runs an older image; recreating the stack."
+				podman-compose down
+				missing=1
+				break
+			fi
+		done
+	fi
+	if [ "$missing" -eq 0 ]; then
 		podman start "${CONTAINERS[@]}" > /dev/null
 		echo "Stack already present; started anything that was down."
 	else
