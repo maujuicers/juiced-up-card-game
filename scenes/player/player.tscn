@@ -3,9 +3,11 @@
 [ext_resource type="Script" uid="uid://lxbur8whq6m5" path="res://scripts/player/player_controller.gd" id="1_4flbx"]
 [ext_resource type="PackedScene" uid="uid://bmqw2yeu6jwuj" path="res://scenes/ui/juice_meter.tscn" id="2_dovo2"]
 [ext_resource type="Script" uid="uid://diiwj638m4uix" path="res://scripts/maumau-engine/MauMauPlayer.gd" id="3_gmlin"]
+[ext_resource type="Script" uid="uid://c8jti1mqk5v88" path="res://scenes/player/drunk_vision.gd" id="3_yj68g"]
 [ext_resource type="PackedScene" uid="uid://bcl3c83cwygbu" path="res://scenes/ui/current_player_label.tscn" id="4_0owmy"]
 [ext_resource type="PackedScene" uid="uid://bitftgnosio2x" path="res://scenes/player/juice.tscn" id="4_lvxji"]
 [ext_resource type="PackedScene" uid="uid://cs7gmt5qdkqld" path="res://scenes/playing-card/hand.tscn" id="5_hand0"]
+[ext_resource type="Shader" uid="uid://c8thlt6rdk0ou" path="res://scenes/player/blur.gdshader" id="6_3j4b4"]
 [ext_resource type="PackedScene" uid="uid://b1ygc6dacv7n6" path="res://scenes/ui/crosshair.tscn" id="6_cr0ss"]
 [ext_resource type="AudioStream" uid="uid://bnscx14oaui1x" path="res://audio/sfx/card/card-select.wav" id="6_qek5x"]
 [ext_resource type="PackedScene" uid="uid://cq7v3xj8n2wbo" path="res://scenes/ui/accusation_banner.tscn" id="7_accbn"]
@@ -21,6 +23,20 @@
 [ext_resource type="PackedScene" uid="uid://kmnjc3rv1x7k" path="res://scenes/suit-choice/suit_choice.tscn" id="16_kvlxm"]
 [ext_resource type="AudioStream" uid="uid://brms3w1q1jxgl" path="res://audio/sfx/npc/upset-meow-3.wav" id="17_3j4b4"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ioxgp"]
+shader = ExtResource("6_3j4b4")
+shader_parameter/blur_amount = 0.0
+shader_parameter/wobble_strength = 0.0
+shader_parameter/wobble_speed = 0.0
+shader_parameter/chromatic_aberration = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ydkj"]
+shader = ExtResource("6_3j4b4")
+shader_parameter/blur_amount = 1.5
+shader_parameter/wobble_strength = 0.015
+shader_parameter/wobble_speed = 1.5
+shader_parameter/chromatic_aberration = 0.006
+
 [node name="Player" type="Node3D" unique_id=1662220489 node_paths=PackedStringArray("player_camera", "player_head", "maumau_player", "crosshair")]
 script = ExtResource("1_4flbx")
 player_camera = NodePath("Head/Camera3D")
@@ -33,6 +49,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7909324, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=1590453642]
 current = true
+
+[node name="ColorRect" type="ColorRect" parent="Head/Camera3D" unique_id=1228869975 node_paths=PackedStringArray("juice")]
+material = SubResource("ShaderMaterial_ioxgp")
+offset_right = 2277.0
+offset_bottom = 1344.0
+mouse_filter = 2
+script = ExtResource("3_yj68g")
+juice = NodePath("../../../Juice")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1143690964]
 
@@ -54,6 +78,7 @@ crosshair_size = 14.0
 layout_mode = 3
 
 [node name="KeyHints" parent="UI" unique_id=1745120060 node_paths=PackedStringArray("maumau_player", "accuser") instance=ExtResource("9_khint")]
+material = SubResource("ShaderMaterial_8ydkj")
 layout_mode = 3
 maumau_player = NodePath("../../MauMauPlayer")
 accuser = NodePath("../../Accuser")
