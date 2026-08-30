@@ -1,14 +1,10 @@
 extends Node3D
 
-@export var settings_menu: Control
+@export var settings_menu: SettingsMenu
 @export var click_sfx: AudioStream
-@export var start_game_button: Button
 @export var status_label: Label
 @export var roster_label: Label
-@export var address_row: Control
-@export var server_address: LineEdit
 @export var idle_buttons: Control
-@export var host_button: Button
 @export var connected_buttons: Control
 @export var start_round_button: Button
 @export var room_row: Control
@@ -23,14 +19,15 @@ const MAIN_SCENE = preload("uid://be4pqwq2ycfn3")
 enum State { IDLE, CONNECTING, CONNECTED, IN_ROOM }
 
 var state: State = State.IDLE
+## The address last dialled, never shown; the settings menu owns the stored one.
+var server_url := ""
 
 func _ready() -> void:
 	# Making sure to hide the settings menu
 	settings_menu.hide()
 	AudioManager.stop_music()
 
-	server_address.text = Net.DEFAULT_URL
-	server_address.placeholder_text = Net.LOCAL_URL
+	settings_menu.server_url_changed.connect(_on_server_url_changed)
 	Net.peer_joined.connect(_on_peer_changed)
 	Net.peer_left.connect(_on_peer_changed)
 	Net.connected_to_server.connect(_on_connected_to_server)
@@ -40,15 +37,23 @@ func _ready() -> void:
 	Net.room_left.connect(_on_room_left)
 	Net.room_error.connect(_on_room_error)
 	if Net.is_online():
+		server_url = SettingsMenu.load_server_url()
 		code_label.text = Net.room_code
-		_set_online_state(_connected_status())
+		_set_online_state()
 	else:
-		_set_state(State.IDLE, "Not connected")
+		_connect_to_server()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		AudioManager.play_ui(click_sfx)
 		settings_menu.hide()
+
+func _connect_to_server() -> void:
+	server_url = SettingsMenu.load_server_url()
+	if Net.join(server_url) != OK:
+		_set_state(State.IDLE, "Could not reach the server")
+		return
+	_set_state(State.CONNECTING, "Connecting ...")
 
 func _set_state(new_state: State, status: String) -> void:
 	state = new_state
@@ -56,11 +61,7 @@ func _set_state(new_state: State, status: String) -> void:
 	var idle := new_state == State.IDLE
 	var lobby := new_state == State.CONNECTED
 	var in_room := new_state == State.IN_ROOM
-	start_game_button.visible = idle
-	address_row.visible = idle
 	idle_buttons.visible = idle
-	# A browser cannot listen on a socket.
-	host_button.visible = not OS.has_feature("web")
 	room_row.visible = lobby
 	room_buttons.visible = lobby
 	code_label.visible = in_room
@@ -73,14 +74,10 @@ func _set_state(new_state: State, status: String) -> void:
 		code_label.text = ""
 	_refresh_roster()
 
+# Being connected is not news, so these states carry no status of their own.
 # Hosting lands in a room before host() returns; a fresh connection does not.
-func _set_online_state(status: String) -> void:
-	_set_state(State.IN_ROOM if not Net.room_code.is_empty() else State.CONNECTED, status)
-
-func _connected_status() -> String:
-	if Net.is_server():
-		return "Hosting on port %d" % Net.SERVER_PORT
-	return "Connected to %s" % server_address.text
+func _set_online_state() -> void:
+	_set_state(State.IN_ROOM if not Net.room_code.is_empty() else State.CONNECTED, "")
 
 func _refresh_roster() -> void:
 	if state != State.IN_ROOM:
@@ -97,10 +94,10 @@ func _on_peer_changed(_id: int) -> void:
 	_refresh_roster()
 
 func _on_connected_to_server() -> void:
-	_set_online_state(_connected_status())
+	_set_online_state()
 
 func _on_connection_failed() -> void:
-	_set_state(State.IDLE, "Connection failed")
+	_set_state(State.IDLE, "Could not reach the server")
 
 func _on_server_disconnected() -> void:
 	_set_state(State.IDLE, "Server disconnected")
@@ -108,13 +105,19 @@ func _on_server_disconnected() -> void:
 func _on_room_joined(code: String) -> void:
 	code_label.text = code
 	room_code.text = code
-	_set_state(State.IN_ROOM, _connected_status())
+	_set_state(State.IN_ROOM, "")
 
 func _on_room_left() -> void:
-	_set_state(State.CONNECTED, _connected_status())
+	_set_state(State.CONNECTED, "")
 
 func _on_room_error(message: String) -> void:
 	_set_state(state, message)
+
+# Saving the settings while the lobby is up moves it to the new server.
+func _on_server_url_changed(url: String) -> void:
+	if url == server_url and Net.is_online():
+		return
+	_connect_to_server()
 
 func _on_start_game_button_pressed() -> void:
 	AudioManager.play_ui(click_sfx)
@@ -137,24 +140,9 @@ func _on_quit_button_pressed() -> void:
 	get_tree().quit()
 
 
-func _on_host_button_pressed() -> void:
+func _on_reconnect_button_pressed() -> void:
 	AudioManager.play_ui(click_sfx)
-	if Net.host() != OK:
-		_set_state(State.IDLE, "Could not host on port %d" % Net.SERVER_PORT)
-		return
-	_set_online_state(_connected_status())
-
-
-func _on_join_button_pressed() -> void:
-	AudioManager.play_ui(click_sfx)
-	var url := server_address.text.strip_edges()
-	if url.is_empty():
-		url = Net.LOCAL_URL
-		server_address.text = url
-	if Net.join(url) != OK:
-		_set_state(State.IDLE, "Could not reach %s" % url)
-		return
-	_set_state(State.CONNECTING, "Connecting to %s ..." % url)
+	_connect_to_server()
 
 
 func _on_room_code_text_changed(new_text: String) -> void:
@@ -192,7 +180,7 @@ func _on_start_round_button_pressed() -> void:
 func _on_leave_room_button_pressed() -> void:
 	AudioManager.play_ui(click_sfx)
 	Net.leave_room()
-	_set_online_state(_connected_status())
+	_set_online_state()
 
 
 func _on_leave_button_pressed() -> void:
