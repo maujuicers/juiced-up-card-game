@@ -16,7 +16,7 @@ const TRAVEL_TIMEOUT := 30.0
 
 @export var nav_agent: NavigationAgent3D
 @export var nav_mesh: NavigationRegion3D
-@export var move_speed: float = 1.0
+@export var move_speed: float = 1.5
 @export var model_rotation_offset_deg: float = -90.0
 @export var wait_time_at_target: float = 2.0
 ## Where the bottles are picked up.

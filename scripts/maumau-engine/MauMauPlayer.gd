@@ -169,8 +169,8 @@ func select_suit(suit: Card.Suit) -> bool:
 
 
 ## Accuse another seat of a cheat; the manager's gate decides and penalises.
-func try_accuse(target: MauMauPlayer, method: Cheat.Method = Cheat.Method.ONE) -> bool:
-	return manager != null and manager.submit_accuse(self, target, method)
+func try_accuse(target: MauMauPlayer) -> bool:
+	return manager != null and manager.submit_accuse(self, target)
 
 
 ## Press one of this hand's cards into another seat's; the gate decides and charges it.
@@ -357,22 +357,9 @@ func _play_meow(sounds: Array[AudioStream]) -> void:
 		AudioManager.play_sfx(sounds.pick_random())
 
 
-## Removes this seat's pending cheat of that method and returns it, null for none.
-func take_cheat(method: Cheat.Method) -> Cheat:
-	var index := cheat_index(method)
-	if index == -1:
-		return null
-	var caught: Cheat = cheats[index]
-	cheats.remove_at(index)
-	cheated = not cheats.is_empty()
+## Everything this seat can still be caught for, oldest first; the seat is clean afterwards.
+func take_cheats() -> Array[Cheat]:
+	var caught := cheats.duplicate()
+	cheats.clear()
+	cheated = false
 	return caught
-
-
-func remove_cheat(method: Cheat.Method) -> bool:
-	return take_cheat(method) != null
-
-func cheat_index(method: Cheat.Method) -> int:
-	for i in cheats.size():
-		if cheats[i].method == method:
-			return i
-	return -1

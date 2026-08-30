@@ -17,8 +17,7 @@ signal seat_placed(seat: int, placement: int)
 signal round_over(final: MauMauTable)
 signal base_card_played(card: Card)
 ## An accusation was judged: `accused` (guilty) or `accuser` (false alarm) drew its penalty.
-## `method` is a Cheat.Method.
-signal accusation_resolved(accuser: int, accused: int, method: int, guilty: bool)
+signal accusation_resolved(accuser: int, accused: int, guilty: bool)
 ## A card changed hands behind the table. Which card it was stays between the two
 ## seats: only its private hand message says that.
 signal card_slipped(giver: int, receiver: int)
@@ -221,40 +220,42 @@ func submit_draw(seat: MauMauPlayer) -> bool:
 
 
 ## Accusing is the one intent a seat may raise off turn.
-func submit_accuse(accuser: MauMauPlayer, accused: MauMauPlayer, method: Cheat.Method) -> bool:
-	if not _may_accuse(accuser, accused, method):
+## An accusation names no method: whatever the accused still has pending is
+## caught at once, each cheat undone its own way, for one penalty.
+func submit_accuse(accuser: MauMauPlayer, accused: MauMauPlayer) -> bool:
+	if not _may_accuse(accuser, accused):
 		return false
 	if Net.is_client():
 		if not _is_local_seat(accuser):
 			return false
-		Net.to_server("submit_accuse", [accused.turn_position, method])
+		Net.to_server("submit_accuse", [accused.turn_position])
 		return true
 
 	accuser.on_accusation_made()
-	var caught := accused.take_cheat(method)
-	var guilty := caught != null
+	var caught := accused.take_cheats()
+	var guilty := not caught.is_empty()
 	if guilty:
-		if method == Cheat.Method.ONE:
-			_take_back_card(accused, caught.card)
-		elif method == Cheat.Method.FIVE:
-			_return_slipped_card(accused, caught.card)
+		for cheat in caught:
+			match cheat.method:
+				Cheat.Method.ONE:
+					_take_back_card(accused, cheat.card)
+				Cheat.Method.FIVE:
+					_return_slipped_card(accused, cheat.card)
 		accused.on_caught_cheating()
 		_deal_penalty(accused, cards_drawn_on_cheat)
 	else:
 		_deal_penalty(accuser, cards_drawn_on_cheat)
 	print("Seat %d accused seat %d: %s" % [
 		accuser.turn_position, accused.turn_position, "guilty" if guilty else "false alarm"])
-	accusation_resolved.emit(accuser.turn_position, accused.turn_position, method, guilty)
+	accusation_resolved.emit(accuser.turn_position, accused.turn_position, guilty)
 	_publish()
 	return true
 
 
-func _may_accuse(accuser: MauMauPlayer, accused: MauMauPlayer, method: Cheat.Method) -> bool:
+func _may_accuse(accuser: MauMauPlayer, accused: MauMauPlayer) -> bool:
 	if is_game_over or accuser == null or accused == null or accuser == accused:
 		return false
-	if not turn_order.has(accuser) or not turn_order.has(accused):
-		return false
-	return Cheat.Method.find_key(method) != null
+	return turn_order.has(accuser) and turn_order.has(accused)
 
 
 ## Slipping runs off turn too: a card pressed into another hand is a cheat, not a move.
@@ -399,7 +400,7 @@ func submit_from_peer(peer: int, method: String, args: Array) -> void:
 		"submit_accuse":
 			var accused := _accused_seat_arg(peer, args)
 			if accused >= 0:
-				submit_accuse(seat, turn_order[accused], args[1] as Cheat.Method)
+				submit_accuse(seat, turn_order[accused])
 		"submit_slip":
 			var receiver := _slipped_seat_arg(peer, args)
 			if receiver >= 0:
@@ -416,13 +417,12 @@ func submit_from_peer(peer: int, method: String, args: Array) -> void:
 			push_warning("Ignoring unknown intent '%s' from peer %d" % [method, peer])
 
 
-## The seat an accusation names, -1 when the payload is not a seat and a method.
+## The seat an accusation names, -1 when the payload is not one seat index.
 func _accused_seat_arg(peer: int, args: Array) -> int:
-	if args.size() != 2 or typeof(args[0]) != TYPE_INT or typeof(args[1]) != TYPE_INT:
-		push_warning("Ignoring submit_accuse from peer %d: bad arguments %s" % [peer, args])
+	if not _has_int_arg("submit_accuse", peer, args):
 		return -1
-	if args[0] < 0 or args[0] >= turn_order.size() or Cheat.Method.find_key(args[1]) == null:
-		push_warning("Ignoring submit_accuse from peer %d: no such seat or method %s" % [peer, args])
+	if args[0] < 0 or args[0] >= turn_order.size():
+		push_warning("Ignoring submit_accuse from peer %d: no such seat %s" % [peer, args[0]])
 		return -1
 	return args[0]
 
@@ -912,7 +912,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_4, KEY_KP_4: key_index = 3
 
 	if key_index != -1 and key_index < turn_order.size():
-		seat.try_accuse(turn_order[key_index], Cheat.Method.ONE)
+		seat.try_accuse(turn_order[key_index])
 
 func log_gamestate() -> void:
 	print("\n--- PLAYER HANDS INITIALIZED ---")

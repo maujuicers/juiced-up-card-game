@@ -24,7 +24,7 @@ func bind(manager: MauMauGameManager, seat: MauMauPlayer) -> void:
 	_manager.accusation_resolved.connect(_on_accusation_resolved)
 
 
-func _on_accusation_resolved(accuser: int, accused: int, _method: int, guilty: bool) -> void:
+func _on_accusation_resolved(accuser: int, accused: int, guilty: bool) -> void:
 	var penalty: int = _manager.cards_drawn_on_cheat
 	var mine := _seat.turn_position if _seat != null else -1
 	var text := ""

@@ -22,7 +22,7 @@ const EVENT_ARITY := {
 	"seat_placed": 2,
 	"base_card_played": 1,
 	"round_over": 1,
-	"accusation_resolved": 4,
+	"accusation_resolved": 3,
 	"card_slipped": 2,
 	"waiter_dispatched": 1,
 	"waiter_delivered": 1,
@@ -158,8 +158,8 @@ func _forward_manager_signals() -> void:
 		_send_event("base_card_played", [card.id]))
 	manager.round_over.connect(func(final: MauMauTable) -> void:
 		_send_event("round_over", [final.to_dict()]))
-	manager.accusation_resolved.connect(func(accuser: int, accused: int, method: int, guilty: bool) -> void:
-		_send_event("accusation_resolved", [accuser, accused, method, guilty]))
+	manager.accusation_resolved.connect(func(accuser: int, accused: int, guilty: bool) -> void:
+		_send_event("accusation_resolved", [accuser, accused, guilty]))
 	manager.card_slipped.connect(func(giver: int, receiver: int) -> void:
 		_send_event("card_slipped", [giver, receiver]))
 	manager.waiter_dispatched.connect(func(seat: int) -> void:
@@ -331,7 +331,7 @@ func _apply_event(event: String, args: Array) -> void:
 			_end_acting_turn()
 			manager.round_over.emit(MauMauTable.from_dict(args[0]))
 		"accusation_resolved":
-			_apply_accusation(args[0], args[1], args[2], args[3])
+			_apply_accusation(args[0], args[1], args[2])
 		"card_slipped":
 			manager.card_slipped.emit(args[0], args[1])
 		"waiter_dispatched":
@@ -368,16 +368,16 @@ func _send_waiter(seat_index: int) -> void:
 		waiter.order(seat_index, marker)
 
 
-func _apply_accusation(accuser: int, accused: int, method: int, guilty: bool) -> void:
+func _apply_accusation(accuser: int, accused: int, guilty: bool) -> void:
 	var pointing := _seat(accuser)
 	if pointing != null:
 		pointing.on_accusation_made()
 	if guilty:
 		var caught := _seat(accused)
 		if caught != null:
-			caught.take_cheat(method as Cheat.Method)
+			caught.take_cheats()
 			caught.on_caught_cheating()
-	manager.accusation_resolved.emit(accuser, accused, method, guilty)
+	manager.accusation_resolved.emit(accuser, accused, guilty)
 
 
 # Mirrors MauMauGameManager.start_turn: the seat on turn is set before the
