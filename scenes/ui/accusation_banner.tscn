@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://cq7v3xj8n2wbo"]
+[gd_scene format=3 uid="uid://cq7v3xj8n2wbo"]
 
 [ext_resource type="Script" uid="uid://cwg4h2qu2dy0k" path="res://scripts/ui/accusation_banner.gd" id="1_accbn"]
 [ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="2_8g0jb"]
