@@ -229,6 +229,10 @@ func _on_bottle_sip_taken(amount: int) -> void:
 	if self.juice != null:
 		self.juice.set_juice(self.juice.current_juice + amount)
 		print("Player drank juice! Juice level is now: ", self.juice.current_juice)
+		
+		if self.juice.current_juice >= self.juice.mac_juice:
+			print("Juice meter is full! Automatically stopping.")
+			stop_drinking()
 	
 ############ Cheat Functions ###########
 func peek(player: MauMauPlayer) -> void:

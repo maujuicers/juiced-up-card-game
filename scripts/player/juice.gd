@@ -3,7 +3,7 @@ extends Node
 class_name Juice
 
 @export var max_juice: int = 100
-@export var current_juice: int = 100
+@export var current_juice: int = 50
 var drain_enabled: bool = true
 
 @onready var timer: Timer = $Timer

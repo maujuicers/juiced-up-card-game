@@ -24,6 +24,7 @@ func drink() -> void:
 		sip_taken.emit(10)
 		
 		if is_empty():
+			print("drink is empty")
 			current_juice_content = 0 # Clamp to 0 to prevent negative values
 			drink_enabled = false
 			juice_empty.emit()

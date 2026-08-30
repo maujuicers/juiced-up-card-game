@@ -32,6 +32,17 @@ func set_look_enabled(enabled: bool) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _look_enabled and event is InputEventMouseMotion:
 		_rotate_view(event.relative)
+		
+	# Handle Drinking (Right Click Hold)
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+		# Make sure we actually have a reference to the maumau_player
+		if maumau_player != null:
+			if event.pressed:
+				# Right click was just pressed down
+				maumau_player.drink()
+			else:
+				# Right click was just released
+				maumau_player.stop_drinking()
 
 func _rotate_view(relative: Vector2) -> void:
 	player_head.rotate_y(-relative.x * look_sensitivity)
