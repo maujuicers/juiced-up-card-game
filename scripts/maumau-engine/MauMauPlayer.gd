@@ -163,7 +163,20 @@ func _to_string() -> String:
 	var owner_name := get_parent().name if get_parent() != null else name
 	return "%s (seat %d)" % [owner_name, turn_position]
 	
+func get_opponent_nodes() -> Array[MauMauPlayer]:
+	var opponents: Array[MauMauPlayer] = []
 	
+	for player in manager.npcs:
+		opponents.append(player.maumau_player)
+		
+	return opponents
+	
+func show_opponent_arrows() -> void:
+	for opponent in get_opponent_nodes():
+		if opponent.current_player_arrow != null:
+			opponent.current_player_arrow.visible = true	
+			
+
 ############ Cheat Functions ###########
 func peek(player: MauMauPlayer) -> void:
 	trigger_cheat(Cheat.Method.TWO)

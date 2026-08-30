@@ -4,6 +4,7 @@ class_name  CurrentPlayerArrow
 
 var mau_mau_player: MauMauPlayer
 var manager: MauMauGameManager
+@export var arrow_mesh: MeshInstance3D
 
 func init_player_arrow(calling_player: MauMauPlayer, calling_player_manager: MauMauGameManager) -> void:
 	self.mau_mau_player = calling_player

@@ -32,6 +32,11 @@ func set_look_enabled(enabled: bool) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _look_enabled and event is InputEventMouseMotion:
 		_rotate_view(event.relative)
+		
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_Q:
+			maumau_player.show_opponent_arrows()
+			
 
 func _rotate_view(relative: Vector2) -> void:
 	player_head.rotate_y(-relative.x * look_sensitivity)

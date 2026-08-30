@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dugrco4ylfn5t"]
 
-[ext_resource type="Script" uid="uid://dxwbl0u1jrf06" path="res://scripts/npc/npc.gd" id="1_sspvn"]
+[ext_resource type="Script" uid="uid://2gr8j3w38x3f" path="res://scripts/player/player_select_visual.gd" id="1_wcgwu"]
 [ext_resource type="Script" uid="uid://diiwj638m4uix" path="res://scripts/maumau-engine/MauMauPlayer.gd" id="2_pcwmf"]
 [ext_resource type="PackedScene" uid="uid://cs7gmt5qdkqld" path="res://scenes/playing-card/hand.tscn" id="3_hand0"]
 [ext_resource type="AudioStream" uid="uid://d3fkntk5dey6b" path="res://audio/sfx/npc/losing-meow-1.wav" id="8_cbmue"]
@@ -13,10 +13,13 @@
 [ext_resource type="AudioStream" uid="uid://b3084un18hscv" path="res://audio/sfx/npc/upset-meow-2.wav" id="12_sjvbi"]
 [ext_resource type="PackedScene" uid="uid://bitftgnosio2x" path="res://scenes/player/juice.tscn" id="13_1owdj"]
 [ext_resource type="AudioStream" uid="uid://brms3w1q1jxgl" path="res://audio/sfx/npc/upset-meow-3.wav" id="13_fv38m"]
+[ext_resource type="Script" uid="uid://2g41wxk2gvn7" path="res://scripts/suit-choice/suit_choice_visual.gd" id="14_wcgwu"]
 
-[node name="Npc" type="Node3D" unique_id=1173207771 node_paths=PackedStringArray("maumau_player")]
-script = ExtResource("1_sspvn")
-maumau_player = NodePath("MauMauPlayer")
+[sub_resource type="BoxShape3D" id="BoxShape3D_atglx"]
+size = Vector3(13.919678, 31.814514, 12.355352)
+
+[node name="Npc" type="Node3D" unique_id=1173207771]
+script = ExtResource("1_wcgwu")
 
 [node name="MauMauPlayer" type="Node" parent="." unique_id=987309261 node_paths=PackedStringArray("npc_audio", "current_player_arrow", "juice")]
 script = ExtResource("2_pcwmf")
@@ -37,7 +40,19 @@ maumau_player = NodePath("../MauMauPlayer")
 script = ExtResource("10_hlwrr")
 
 [node name="CurrentPlayerArrow" parent="." unique_id=1373336316 instance=ExtResource("12_1duk3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 1.5, 0)
 
 [node name="Juice" parent="." unique_id=1555947057 instance=ExtResource("13_1owdj")]
+
+[node name="Club" type="Node3D" parent="." unique_id=1941641757 node_paths=PackedStringArray("pick_area")]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.0028052926, 0.8156595, 0)
+script = ExtResource("14_wcgwu")
+pick_area = NodePath("PlayerPickArea")
+suit = 2
+
+[node name="PlayerPickArea" type="Area3D" parent="Club" unique_id=163327490]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 3.2692177)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Club/PlayerPickArea" unique_id=46418393]
+transform = Transform3D(1, 0, 0, 0, 0.9999992, 0, 0, 0, 0.9999992, -0.07873532, 2.6797981, -3.1476297)
+shape = SubResource("BoxShape3D_atglx")
