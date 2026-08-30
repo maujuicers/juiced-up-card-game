@@ -222,7 +222,7 @@ func drink() -> void:
 
 func stop_drinking()-> void:
 	if self.is_drinking:
-		juice_bottle.juice_empty.disconnect(stop_drinking)
+		juice_bottle.juice_empty.disconnect(_on_bottle_empty)
 		juice_bottle.sip_taken.disconnect(_on_bottle_sip_taken)
 		is_drinking = false
 		juice_bottle.stop_drinking()
@@ -238,6 +238,11 @@ func _on_bottle_sip_taken(amount: int) -> void:
 		if self.juice.current_juice >= self.juice.max_juice:
 			print("Juice meter is full! Automatically stopping.")
 			stop_drinking()
+			
+func _on_bottle_empty() -> void:
+	stop_drinking()
+	self.juice_bottle = null
+	
 	
 ############ Cheat Functions ###########
 func peek(player: MauMauPlayer) -> void:
