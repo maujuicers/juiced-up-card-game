@@ -308,6 +308,8 @@ func exchange_card(player: MauMauPlayer, given_card: Card, stolen_card: Card) ->
 	
 func slip_card(player: MauMauPlayer, given_card: Card) -> void:
 	trigger_cheat(Cheat.Method.FIVE, given_card)
+	player.hand.append(given_card)
+	self.hand.erase(given_card)
 	
 func spike_drink(player: MauMauPlayer) -> void:
 	trigger_cheat(Cheat.Method.SIX)
