@@ -1,6 +1,7 @@
 extends Node3D
 
 @export var settings_menu: SettingsMenu
+@export var tutorial: Tutorial
 @export var click_sfx: AudioStream
 @export var status_label: Label
 @export var roster_label: Label
@@ -25,6 +26,7 @@ var server_url := ""
 func _ready() -> void:
 	# Making sure to hide the settings menu
 	settings_menu.hide()
+	tutorial.hide()
 	AudioManager.stop_music()
 
 	settings_menu.server_url_changed.connect(_on_server_url_changed)
@@ -128,9 +130,8 @@ func _on_single_player_button_pressed() -> void:
 
 
 func _on_tutorial_button_pressed() -> void:
-	#TODO: Open tutorial popup
 	AudioManager.play_ui(click_sfx)
-	pass
+	tutorial.show()
 
 
 func _on_settings_button_pressed() -> void:

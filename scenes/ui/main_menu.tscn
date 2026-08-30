@@ -9,7 +9,13 @@
 [ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="5_x2yvf"]
 [ext_resource type="ArrayMesh" uid="uid://bs1lr42xusocu" path="res://assets/3D assets/playing cards/Sketchfab_Scene_clubs01_playingCards_Mat_0.res" id="6_uhagc"]
 [ext_resource type="PackedScene" uid="uid://c5ek0fsypmit6" path="res://scenes/ui/settings_menu.tscn" id="7_btxxm"]
+[ext_resource type="ArrayMesh" uid="uid://crbs7x68uaayd" path="res://assets/3D assets/playing cards/Sketchfab_Scene_diamonds07_playingCards_Mat_0.res" id="9_8ekit"]
 [ext_resource type="Texture2D" uid="uid://s3eynqhckv3i" path="res://assets/2D assets/MeowMauLogo.png" id="9_q85j6"]
+[ext_resource type="ArrayMesh" uid="uid://brl2qycfvc8me" path="res://assets/3D assets/playing cards/Sketchfab_Scene_hearts11_playingCards_Mat_0.res" id="10_n4uci"]
+[ext_resource type="PackedScene" uid="uid://e5o1q8jlsrok" path="res://scenes/ui/tutorial.tscn" id="11_7suek"]
+[ext_resource type="PackedScene" uid="uid://cifks0lhw6nvr" path="res://assets/3D assets/Bar/Lamp.glb" id="12_y2j7i"]
+[ext_resource type="PackedScene" uid="uid://b40os8m4vwi5y" path="res://assets/3D assets/Bar/JuiceBottle.glb" id="14_n4uci"]
+[ext_resource type="PackedScene" uid="uid://curp8336pddcc" path="res://assets/3D assets/Cats/BackgroundCat.glb" id="17_pw24t"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1g8jr"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -34,9 +40,15 @@ bg_color = Color(0, 0, 0, 0.49803922)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8g5eo"]
 bg_color = Color(0, 0, 0, 0.49803922)
 
-[node name="MainMenu" type="Node3D" unique_id=1303346349 node_paths=PackedStringArray("settings_menu", "status_label", "roster_label", "idle_buttons", "connected_buttons", "start_round_button", "room_row", "room_code", "room_buttons", "code_label", "code_hint", "leave_room_button")]
+[sub_resource type="NavigationMesh" id="NavigationMesh_kewkp"]
+vertices = PackedVector3Array(-2.9938612, 0.019703478, -5.6902237, -2.7438612, 0.019703478, -4.9402237, -1.7438612, 0.019703478, -4.6902237, 1.2561388, 0.019703478, -4.4402237, 2.7561388, 0.019703478, -4.9402237, 3.0061388, 0.019703478, -5.6902237, -5.493861, 0.019703478, 3.0597763, -4.993861, 0.019703478, 2.8097763, -4.743861, 0.019703478, 1.5597763, -4.493861, 0.019703478, -1.4402237, -5.493861, 0.019703478, -2.9402237, 3.5061388, 0.019703478, -1.6902237, 2.7561388, 0.019703478, -2.9402237, 2.0061388, 0.019703478, -2.9402237, 0.5061388, 0.019703478, -2.6902237, 1.0061388, 0.019703478, -1.1902237, 2.7561388, 0.019703478, -0.1902237, 1.2561388, 0.019703478, -3.6902237, -3.7438612, 0.019703478, 1.3097763, -2.7438612, 0.019703478, 0.3097763, -2.4938612, 0.019703478, -0.6902237, -3.4938612, 0.019703478, -1.4402237, -1.7438612, 0.019703478, -3.1902237, -2.9938612, 0.019703478, -2.6902237, -0.9938612, 0.019703478, -1.1902237, -0.4938612, 0.019703478, -2.6902237, -5.493861, 0.019703478, -5.6902237, -5.493861, 0.019703478, -4.9402237, -4.993861, 0.019703478, -5.1902237, -4.993861, 0.019703478, -5.6902237, 5.256139, 0.019703478, -4.9402237, 6.006139, 0.019703478, -4.9402237, 6.006139, 0.019703478, -5.6902237, 5.006139, 0.019703478, -5.6902237, -1.9938612, 0.019703478, 5.0597763, -2.7438612, 0.019703478, 5.0597763, -2.9938612, 0.019703478, 5.8097763, 3.0061388, 0.019703478, 5.8097763, 2.7561388, 0.019703478, 5.0597763, 1.7561388, 0.019703478, 4.8097763, -1.9938612, 0.019703478, 1.0597763, 4.756139, 0.019703478, 1.8097763, 5.006139, 0.019703478, 2.8097763, 6.006139, 0.019703478, 3.0597763, 6.256139, 0.019703478, 0.3097763, 6.006139, 0.019703478, -2.9402237, 5.006139, 0.019703478, -2.6902237, 4.756139, 0.019703478, -1.6902237, 3.2561388, 0.019703478, 1.8097763, 2.0061388, 0.019703478, 1.0597763, 1.0061388, 0.019703478, 1.3097763, 0.5061388, 0.019703478, 2.5597763, 1.7561388, 0.019703478, 3.3097763, 2.7561388, 0.019703478, 3.0597763, -0.4938612, 0.019703478, 2.5597763, -1.2438612, 0.019703478, 1.0597763, -2.7438612, 0.019703478, 3.0597763, -1.2438612, 0.019703478, 3.5597763, -1.2438612, 0.019703478, 4.3097763, 3.5061388, 0.9897034, 3.5597763, 3.5061388, 0.9897034, 4.5597763, 4.006139, 0.9897034, 4.5597763, 4.256139, 0.9897034, 3.5597763, -5.493861, 0.019703478, 5.0597763, -5.493861, 0.019703478, 5.8097763, -4.993861, 0.019703478, 5.8097763, 5.006139, 0.019703478, 5.3097763, 5.006139, 0.019703478, 5.8097763, 6.006139, 0.019703478, 5.8097763, 6.006139, 0.019703478, 5.0597763)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(4, 0, 5), PackedInt32Array(7, 6, 8), PackedInt32Array(8, 6, 9), PackedInt32Array(9, 6, 10), PackedInt32Array(12, 11, 13), PackedInt32Array(13, 11, 16), PackedInt32Array(13, 16, 15), PackedInt32Array(13, 15, 14), PackedInt32Array(17, 13, 14), PackedInt32Array(20, 19, 21), PackedInt32Array(21, 19, 9), PackedInt32Array(9, 19, 18), PackedInt32Array(9, 18, 8), PackedInt32Array(21, 23, 20), PackedInt32Array(20, 23, 22), PackedInt32Array(20, 22, 24), PackedInt32Array(24, 22, 25), PackedInt32Array(17, 14, 3), PackedInt32Array(3, 14, 25), PackedInt32Array(3, 25, 22), PackedInt32Array(3, 22, 2), PackedInt32Array(29, 28, 26), PackedInt32Array(26, 28, 27), PackedInt32Array(31, 30, 32), PackedInt32Array(32, 30, 33), PackedInt32Array(36, 35, 34), PackedInt32Array(38, 37, 39), PackedInt32Array(39, 37, 34), PackedInt32Array(34, 37, 36), PackedInt32Array(18, 19, 40), PackedInt32Array(42, 41, 43), PackedInt32Array(43, 41, 44), PackedInt32Array(46, 45, 47), PackedInt32Array(47, 45, 44), PackedInt32Array(53, 52, 48), PackedInt32Array(48, 52, 49), PackedInt32Array(49, 52, 50), PackedInt32Array(50, 52, 51), PackedInt32Array(55, 54, 40), PackedInt32Array(40, 54, 57), PackedInt32Array(40, 57, 56), PackedInt32Array(40, 56, 18), PackedInt32Array(49, 16, 48), PackedInt32Array(57, 54, 58), PackedInt32Array(58, 54, 51), PackedInt32Array(58, 51, 52), PackedInt32Array(58, 52, 39), PackedInt32Array(11, 47, 16), PackedInt32Array(16, 47, 48), PackedInt32Array(48, 47, 41), PackedInt32Array(41, 47, 44), PackedInt32Array(34, 58, 39), PackedInt32Array(60, 59, 61), PackedInt32Array(61, 59, 62), PackedInt32Array(65, 64, 63), PackedInt32Array(67, 66, 68), PackedInt32Array(68, 66, 69)]
+cell_height = 0.01
+
+[node name="MainMenu" type="Node3D" unique_id=1303346349 node_paths=PackedStringArray("settings_menu", "tutorial", "status_label", "roster_label", "idle_buttons", "connected_buttons", "start_round_button", "room_row", "room_code", "room_buttons", "code_label", "code_hint", "leave_room_button")]
 script = ExtResource("1_m1kxf")
 settings_menu = NodePath("SettingsMenu")
+tutorial = NodePath("Tutorial")
 click_sfx = ExtResource("2_8g5eo")
 status_label = NodePath("Lobby/StatusLabel")
 roster_label = NodePath("Lobby/RosterLabel")
@@ -53,109 +65,8 @@ leave_room_button = NodePath("Lobby/ConnectedButtons/LeaveRoomButton")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146967929]
 environment = SubResource("Environment_x2yvf")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1599945363]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.8206816, 0)
-light_energy = 4.0
-light_specular = 0.0
-
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1197251836]
 transform = Transform3D(0.7071068, -0.46390378, 0.5336603, 0, 0.7547096, 0.656059, -0.7071068, -0.46390378, 0.5336603, 0.449, 2.251, 1.483)
-
-[node name="Ceiling" parent="." unique_id=1758231274 instance=ExtResource("1_bqqt6")]
-transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 4.164683, 0)
-
-[node name="Wall" parent="." unique_id=634059618 instance=ExtResource("3_wb0q5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20847344, 0, 0.01211071)
-
-[node name="Wall2" parent="." unique_id=1479797534 instance=ExtResource("3_wb0q5")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.20847344, 0, 0.01211071)
-
-[node name="Wall3" parent="." unique_id=1608476784 instance=ExtResource("3_wb0q5")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.20847344, 0, 0.01211071)
-
-[node name="Wall4" parent="." unique_id=41616101 instance=ExtResource("3_wb0q5")]
-transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0.20847344, 0, 0.01211071)
-
-[node name="Floor" parent="." unique_id=2074607792 instance=ExtResource("1_bqqt6")]
-
-[node name="Gathering" type="Node3D" parent="." unique_id=1472809557]
-
-[node name="Table" parent="Gathering" unique_id=1662445682 instance=ExtResource("2_wu84c")]
-
-[node name="Chair1" parent="Gathering" unique_id=2047824859 instance=ExtResource("3_8ln24")]
-
-[node name="Chair2" parent="Gathering" unique_id=1765154555 instance=ExtResource("3_8ln24")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Chair3" parent="Gathering" unique_id=207146100 instance=ExtResource("3_8ln24")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Chair4" parent="Gathering" unique_id=437812636 instance=ExtResource("3_8ln24")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="Gathering2" type="Node3D" parent="." unique_id=1405353681]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
-
-[node name="Table" parent="Gathering2" unique_id=1546821829 instance=ExtResource("2_wu84c")]
-
-[node name="Chair1" parent="Gathering2" unique_id=439709067 instance=ExtResource("3_8ln24")]
-
-[node name="Chair2" parent="Gathering2" unique_id=1101639931 instance=ExtResource("3_8ln24")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Chair3" parent="Gathering2" unique_id=1232190085 instance=ExtResource("3_8ln24")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Chair4" parent="Gathering2" unique_id=1001281363 instance=ExtResource("3_8ln24")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="Gathering3" type="Node3D" parent="." unique_id=455027951]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
-
-[node name="Table" parent="Gathering3" unique_id=1297237537 instance=ExtResource("2_wu84c")]
-
-[node name="Chair1" parent="Gathering3" unique_id=1342134946 instance=ExtResource("3_8ln24")]
-
-[node name="Chair2" parent="Gathering3" unique_id=843730394 instance=ExtResource("3_8ln24")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Chair3" parent="Gathering3" unique_id=445448263 instance=ExtResource("3_8ln24")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Chair4" parent="Gathering3" unique_id=691951852 instance=ExtResource("3_8ln24")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="Gathering4" type="Node3D" parent="." unique_id=1594497949]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
-
-[node name="Table" parent="Gathering4" unique_id=1724026802 instance=ExtResource("2_wu84c")]
-
-[node name="Chair1" parent="Gathering4" unique_id=1689494544 instance=ExtResource("3_8ln24")]
-
-[node name="Chair2" parent="Gathering4" unique_id=1503306585 instance=ExtResource("3_8ln24")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Chair3" parent="Gathering4" unique_id=523614381 instance=ExtResource("3_8ln24")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Chair4" parent="Gathering4" unique_id=1208602604 instance=ExtResource("3_8ln24")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
-
-[node name="Gathering5" type="Node3D" parent="." unique_id=118417921]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
-
-[node name="Table" parent="Gathering5" unique_id=1569388066 instance=ExtResource("2_wu84c")]
-
-[node name="Chair1" parent="Gathering5" unique_id=1180452257 instance=ExtResource("3_8ln24")]
-
-[node name="Chair2" parent="Gathering5" unique_id=642177301 instance=ExtResource("3_8ln24")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
-
-[node name="Chair3" parent="Gathering5" unique_id=1258782993 instance=ExtResource("3_8ln24")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
-
-[node name="Chair4" parent="Gathering5" unique_id=1596887115 instance=ExtResource("3_8ln24")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
 
 [node name="Buttons" type="VBoxContainer" parent="." unique_id=1977321848]
 anchors_preset = 2
@@ -235,8 +146,16 @@ text = "Quit
 "
 
 [node name="ClubsAce" type="MeshInstance3D" parent="." unique_id=1944724972]
-transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0.975, 0.75)
+transform = Transform3D(0.01789075, 0, 0.008939861, 0, 0.02, 0, -0.008939861, 0, 0.01789075, -0.16659005, 0.975, 0.59587806)
 mesh = ExtResource("6_uhagc")
+
+[node name="DiamondsSeven" type="MeshInstance3D" parent="." unique_id=795296499]
+transform = Transform3D(0.019970892, 0, -0.0010786676, 0, 0.02, 0, 0.0010786676, 0, 0.019970892, -0.02140671, 0.97764254, 0.59587806)
+mesh = ExtResource("9_8ekit")
+
+[node name="HeartsJack" type="MeshInstance3D" parent="." unique_id=344258977]
+transform = Transform3D(0.018413618, 0, -0.0078063253, 0, 0.02, 0, 0.0078063253, 0, 0.018413618, 0.12113473, 0.9803214, 0.6354321)
+mesh = ExtResource("10_n4uci")
 
 [node name="LogoImage" type="TextureRect" parent="." unique_id=220861890]
 anchors_preset = -1
@@ -416,6 +335,220 @@ text = "Leave"
 
 [node name="SettingsMenu" parent="." unique_id=1175825677 instance=ExtResource("7_btxxm")]
 visible = false
+
+[node name="Tutorial" parent="." unique_id=381800594 instance=ExtResource("11_7suek")]
+visible = false
+
+[node name="JuiceBottle" parent="." unique_id=961778576 instance=ExtResource("14_n4uci")]
+transform = Transform3D(-0.19317846, 0, 0.9811636, 0, 1, 0, -0.9811636, 0, -0.19317846, 0.38080138, 1.1053567, 0.52176905)
+
+[node name="JuiceBottle3" parent="." unique_id=1401396523 instance=ExtResource("14_n4uci")]
+transform = Transform3D(-0.19317846, 0, 0.9811636, 0, 1, 0, -0.9811636, 0, -0.19317846, 0.55578214, 1.1053567, -0.56458855)
+
+[node name="JuiceBottle4" parent="." unique_id=1646720865 instance=ExtResource("14_n4uci")]
+transform = Transform3D(-0.7231336, 0, 0.69070816, 0, 1, 0, -0.69070816, 0, -0.7231336, -0.75697994, 1.1053567, 0.09203627)
+
+[node name="JuiceBottle5" parent="." unique_id=1916579670 instance=ExtResource("14_n4uci")]
+transform = Transform3D(-0.9863157, 0, 0.16486605, 0, 1, 0, -0.16486605, 0, -0.9863157, -0.6414695, 1.1053567, -0.115584515)
+
+[node name="JuiceBottle2" parent="." unique_id=1252852572 instance=ExtResource("14_n4uci")]
+transform = Transform3D(0.00879638, 0.99896276, -0.044677284, -0.82146484, -0.018257592, -0.56996685, -0.5701914, 0.041714463, 0.82045215, 0.5385637, 1.036486, 0.34482574)
+
+[node name="Ceiling" parent="." unique_id=1895051548 instance=ExtResource("1_bqqt6")]
+transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 3.3498797, 0)
+
+[node name="Lamp1" parent="." unique_id=599642822 instance=ExtResource("12_y2j7i")]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lamp1" unique_id=1638677935]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lamp1" unique_id=1172978821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="Lamp1" unique_id=892165079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="Lamp2" parent="." unique_id=1591998209 instance=ExtResource("12_y2j7i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0106945, 0, -4.0195374)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lamp2" unique_id=1323599662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lamp2" unique_id=2030023461]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="Lamp3" parent="." unique_id=888806598 instance=ExtResource("12_y2j7i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0299015, 0, -4.0195374)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lamp3" unique_id=541707494]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lamp3" unique_id=328230221]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="Lamp4" parent="." unique_id=1481945024 instance=ExtResource("12_y2j7i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.002283, 0, 3.9620028)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lamp4" unique_id=405221065]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lamp4" unique_id=966373740]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="Lamp5" parent="." unique_id=1029359910 instance=ExtResource("12_y2j7i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.006877, 0, 4.017238)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lamp5" unique_id=1956724188]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="Lamp5" unique_id=429676999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
+light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
+shadow_enabled = true
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=2005155858]
+navigation_mesh = SubResource("NavigationMesh_kewkp")
+
+[node name="Floor" parent="NavigationRegion3D" unique_id=302917097 instance=ExtResource("1_bqqt6")]
+transform = Transform3D(1.1275754, 0, 0, 0, 1, 0, 0, 0, 1.1275754, 0, 0, 0)
+
+[node name="Wall" parent="NavigationRegion3D" unique_id=771774433 instance=ExtResource("3_wb0q5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20847344, 0, 0.01211071)
+
+[node name="Wall2" parent="NavigationRegion3D" unique_id=41418068 instance=ExtResource("3_wb0q5")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.20847344, 0, 0.01211071)
+
+[node name="Wall3" parent="NavigationRegion3D" unique_id=89898183 instance=ExtResource("3_wb0q5")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.20847344, 0, 0.01211071)
+
+[node name="Wall4" parent="NavigationRegion3D" unique_id=1046922710 instance=ExtResource("3_wb0q5")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0.20847344, 0, 0.01211071)
+
+[node name="Gathering" type="Node3D" parent="NavigationRegion3D" unique_id=136550126]
+
+[node name="Table" parent="NavigationRegion3D/Gathering" unique_id=1119253900 instance=ExtResource("2_wu84c")]
+
+[node name="Chair1" parent="NavigationRegion3D/Gathering" unique_id=7411198 instance=ExtResource("3_8ln24")]
+
+[node name="Chair2" parent="NavigationRegion3D/Gathering" unique_id=68596514 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="NavigationRegion3D/Gathering" unique_id=1876547779 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="NavigationRegion3D/Gathering" unique_id=1572747745 instance=ExtResource("3_8ln24")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="Gathering2" type="Node3D" parent="NavigationRegion3D" unique_id=42994148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
+
+[node name="Table" parent="NavigationRegion3D/Gathering2" unique_id=414847378 instance=ExtResource("2_wu84c")]
+
+[node name="Chair1" parent="NavigationRegion3D/Gathering2" unique_id=1655399048 instance=ExtResource("3_8ln24")]
+
+[node name="Chair2" parent="NavigationRegion3D/Gathering2" unique_id=877041820 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="NavigationRegion3D/Gathering2" unique_id=1963134782 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="NavigationRegion3D/Gathering2" unique_id=682629876 instance=ExtResource("3_8ln24")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="NavigationRegion3D/Gathering2" unique_id=448221364 instance=ExtResource("17_pw24t")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat2" parent="NavigationRegion3D/Gathering2" unique_id=123840204 instance=ExtResource("17_pw24t")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
+
+[node name="Gathering3" type="Node3D" parent="NavigationRegion3D" unique_id=1982565970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -4)
+
+[node name="Table" parent="NavigationRegion3D/Gathering3" unique_id=407397161 instance=ExtResource("2_wu84c")]
+
+[node name="Chair1" parent="NavigationRegion3D/Gathering3" unique_id=1136547947 instance=ExtResource("3_8ln24")]
+
+[node name="Chair2" parent="NavigationRegion3D/Gathering3" unique_id=1096886343 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="NavigationRegion3D/Gathering3" unique_id=397468034 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="NavigationRegion3D/Gathering3" unique_id=1327184730 instance=ExtResource("3_8ln24")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="NavigationRegion3D/Gathering3" unique_id=2126267793 instance=ExtResource("17_pw24t")]
+
+[node name="BackgroundCat2" parent="NavigationRegion3D/Gathering3" unique_id=707140425 instance=ExtResource("17_pw24t")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat3" parent="NavigationRegion3D/Gathering3" unique_id=980690923 instance=ExtResource("17_pw24t")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Gathering4" type="Node3D" parent="NavigationRegion3D" unique_id=742705544]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="Table" parent="NavigationRegion3D/Gathering4" unique_id=729139609 instance=ExtResource("2_wu84c")]
+
+[node name="Chair1" parent="NavigationRegion3D/Gathering4" unique_id=182916427 instance=ExtResource("3_8ln24")]
+
+[node name="Chair2" parent="NavigationRegion3D/Gathering4" unique_id=891744717 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="NavigationRegion3D/Gathering4" unique_id=1545633796 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="NavigationRegion3D/Gathering4" unique_id=865783962 instance=ExtResource("3_8ln24")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="NavigationRegion3D/Gathering4" unique_id=1448179408 instance=ExtResource("17_pw24t")]
+
+[node name="Gathering5" type="Node3D" parent="NavigationRegion3D" unique_id=1084777763]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 4)
+
+[node name="Table" parent="NavigationRegion3D/Gathering5" unique_id=2091841667 instance=ExtResource("2_wu84c")]
+
+[node name="Chair1" parent="NavigationRegion3D/Gathering5" unique_id=517297218 instance=ExtResource("3_8ln24")]
+
+[node name="Chair2" parent="NavigationRegion3D/Gathering5" unique_id=902445973 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Chair3" parent="NavigationRegion3D/Gathering5" unique_id=138079839 instance=ExtResource("3_8ln24")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="Chair4" parent="NavigationRegion3D/Gathering5" unique_id=1458700172 instance=ExtResource("3_8ln24")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 0, 0, 0)
+
+[node name="BackgroundCat" parent="NavigationRegion3D/Gathering5" unique_id=235337062 instance=ExtResource("17_pw24t")]
+
+[node name="BackgroundCat2" parent="NavigationRegion3D/Gathering5" unique_id=1944558722 instance=ExtResource("17_pw24t")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="BackgroundCat3" parent="NavigationRegion3D/Gathering5" unique_id=1256380543 instance=ExtResource("17_pw24t")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="BackgroundCat4" parent="NavigationRegion3D/Gathering5" unique_id=1631410415 instance=ExtResource("17_pw24t")]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0, 0)
 
 [connection signal="pressed" from="Buttons/SinglePlayerButton" to="." method="_on_single_player_button_pressed"]
 [connection signal="pressed" from="Buttons/TutorialButton" to="." method="_on_tutorial_button_pressed"]

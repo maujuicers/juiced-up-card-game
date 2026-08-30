@@ -89,10 +89,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2429342, -0.014923692)
 light_color = Color(0.31991223, 0.2745612, 0.13275805, 1)
 shadow_enabled = true
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1214693491]
-transform = Transform3D(0.99988055, -4.656613e-10, -0.015457209, 0.0057619708, 0.9279241, 0.37272462, 0.014343117, -0.3727691, 0.92781323, -0.011304498, 1.519163, 0.8353487)
-visible = false
-
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1457972702]
 navigation_mesh = SubResource("NavigationMesh_kewkp")
 
@@ -226,3 +222,7 @@ transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, 0
 [node name="WaiterWithBottles" parent="." unique_id=1119092057 node_paths=PackedStringArray("nav_mesh") instance=ExtResource("17_b7mdb")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, -4.757837)
 nav_mesh = NodePath("../NavigationRegion3D")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1214693491]
+transform = Transform3D(0.99988055, -9.31267e-10, -0.015457209, 0.0057619708, 0.92792416, 0.3727246, 0.014343117, -0.37276912, 0.9278133, -0.011304498, 1.519163, 0.8353487)
+visible = false

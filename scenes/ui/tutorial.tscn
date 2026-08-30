@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://e5o1q8jlsrok"]
+
+[ext_resource type="Texture2D" uid="uid://wmcaqmxeqj4j" path="res://assets/2D assets/MeowMauTutorial_P1.png" id="1_k8r76"]
+[ext_resource type="Script" uid="uid://dtqarbaarojog" path="res://scripts/ui/tutorial.gd" id="1_xlqdv"]
+[ext_resource type="Texture2D" uid="uid://d2patieoji7e" path="res://assets/2D assets/MeowMauTutorial_P2.png" id="3_4de72"]
+[ext_resource type="Texture2D" uid="uid://do78ngw3mx0tr" path="res://assets/2D assets/MeowMauTutorial_P3.png" id="4_gcvyo"]
+[ext_resource type="FontFile" uid="uid://cxcbr7xn4iwba" path="res://assets/fonts/BebasNeue-Regular.ttf" id="5_gcvyo"]
+
+[node name="Tutorial" type="Control" unique_id=381800594 node_paths=PackedStringArray("page_node")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xlqdv")
+pages = Array[Texture]([ExtResource("1_k8r76"), ExtResource("3_4de72"), ExtResource("4_gcvyo")])
+page_node = NodePath("Page")
+
+[node name="Page" type="TextureRect" parent="." unique_id=582786490]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_k8r76")
+expand_mode = 2
+
+[node name="NextButton" type="Button" parent="." unique_id=1467197797]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -45.0
+offset_top = -31.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_gcvyo")
+theme_override_font_sizes/font_size = 60
+text = "Next"
+
+[node name="BackButton" type="Button" parent="." unique_id=1198470167]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -80.0
+offset_right = 102.0
+offset_bottom = -20.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_gcvyo")
+theme_override_font_sizes/font_size = 60
+text = "Back
+"
+
+[node name="CloseButton" type="Button" parent="." unique_id=200868309]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -119.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 80.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_gcvyo")
+theme_override_font_sizes/font_size = 60
+text = "X"
+
+[connection signal="pressed" from="NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]
