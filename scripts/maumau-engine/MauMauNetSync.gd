@@ -4,11 +4,13 @@ class_name MauMauNetSync
 
 ## Puts the manager's two payload surfaces on the wire. On the server it
 ## listens to the manager's public signals and [signal MauMauGameManager.private_hand_changed]
-## and forwards them; on a client it receives them, mirrors the table onto
-## the manager and re-emits the same signals so every view stays unchanged.
-## The RPC node path is the same on every peer (MainScene/MaumauEngine/NetSync).
+## and sends them through the [code]Net[/code] relay; on a client it receives them,
+## mirrors the table onto the manager and re-emits the same signals so every view
+## stays unchanged. Nothing here is an [code]@rpc[/code]: two rooms on one server
+## would share a node path, so [method Net.to_room] / [method Net.to_peer] /
+## [method Net.to_server] address messages by room and peer instead.
 
-## Every event [method _rpc_event] carries, with the number of arguments it needs.
+## Every event the "event" message carries, with the number of arguments it needs.
 const EVENT_ARITY := {
 	"card_played": 2,
 	"cards_drawn": 2,
@@ -23,15 +25,10 @@ const EVENT_ARITY := {
 
 @export var manager: MauMauGameManager
 
-## Server side: the room this table serves; null on a client.
-var room: NetRoom
-
-
-## Every table message arrives here from the Net relay (phase 4b). On the server
-## `peer` is the sender; on a client it is Net.SERVER_PEER. Intents go on to
-## [method MauMauGameManager.submit_from_peer]; the rest to the _apply_* helpers.
-func receive(peer: int, method: String, args: Array) -> void:
-	pass
+## Server side: the room this table serves; null on a client. Read through the
+## manager because a host fills it in its own _ready, after this child's.
+var room: NetRoom:
+	get: return manager.room if manager != null else null
 
 ## Client side: the seat whose turn_started was mirrored and whose turn_ended is still owed.
 var _acting_seat: MauMauPlayer
@@ -44,8 +41,71 @@ func _ready() -> void:
 	if Net.is_server():
 		_forward_manager_signals()
 	elif Net.is_client():
+		Net.attach_sync(self)
 		manager.ready.connect(func() -> void:
-			_rpc_client_ready.rpc_id(Net.SERVER_PEER))
+			Net.to_server("client_ready", []))
+
+
+#################WIRE########################
+# Every table message arrives here from the relay. A peer may send anything, so
+# each message is checked against this peer's role and its payload before use.
+
+
+## On the server `peer` is the sender; on a client it is Net.SERVER_PEER.
+func receive(peer: int, method: String, args: Array) -> void:
+	if Net.is_server():
+		_receive_as_server(peer, method, args)
+	elif Net.is_client():
+		_receive_as_client(method, args)
+
+
+func _receive_as_server(peer: int, method: String, args: Array) -> void:
+	match method:
+		"client_ready":
+			send_full_state(peer)
+			manager.peer_ready(peer)
+		"submit_move", "submit_draw", "submit_wish":
+			manager.submit_from_peer(peer, method, args)
+		_:
+			push_warning("NetSync (server) ignoring '%s' from peer %d" % [method, peer])
+
+
+func _receive_as_client(method: String, args: Array) -> void:
+	match method:
+		"table":
+			if args.size() < 1 or not (args[0] is Dictionary):
+				_drop_malformed(method, args)
+				return
+			_apply_table(MauMauTable.from_dict(args[0]))
+		"hand":
+			var ids: Variant = _as_ids(args[0]) if args.size() >= 1 else null
+			if ids == null:
+				_drop_malformed(method, args)
+				return
+			_apply_hand(ids)
+		"event":
+			if args.size() < 2 or not (args[0] is String) or not (args[1] is Array):
+				_drop_malformed(method, args)
+				return
+			_apply_event(args[0], args[1])
+		_:
+			push_warning("NetSync (client) ignoring '%s'" % method)
+
+
+## The card ids of a "hand" message, null when the payload is not a list of ints.
+func _as_ids(value: Variant) -> Variant:
+	if value is PackedInt32Array:
+		return value
+	if not (value is Array):
+		return null
+	for item in value:
+		if typeof(item) != TYPE_INT:
+			return null
+	return PackedInt32Array(value)
+
+
+func _drop_malformed(method: String, args: Array) -> void:
+	push_warning("NetSync received a malformed '%s': %s" % [method, args])
 
 
 #################SERVER########################
@@ -53,7 +113,7 @@ func _ready() -> void:
 
 func _forward_manager_signals() -> void:
 	manager.table_changed.connect(func(table: MauMauTable) -> void:
-		_rpc_table.rpc(table.to_dict()))
+		_broadcast("table", [table.to_dict()]))
 	manager.private_hand_changed.connect(_send_hand)
 	manager.card_played.connect(func(seat: int, card: Card) -> void:
 		_send_event("card_played", [seat, card.id]))
@@ -76,62 +136,43 @@ func _forward_manager_signals() -> void:
 
 
 func _send_event(event: String, args: Array) -> void:
-	_rpc_event.rpc(event, args)
+	_broadcast("event", [event, args])
+
+
+func _broadcast(method: String, args: Array) -> void:
+	var target := room
+	if target == null:
+		# A headless server must not die over a table nobody is in.
+		push_warning("NetSync cannot send '%s': this table has no room" % method)
+		return
+	Net.to_room(target, method, args)
 
 
 func _send_hand(seat: int, card_ids: PackedInt32Array) -> void:
-	var peer := Net.peer_for_seat(seat)
+	var target := room
+	if target == null:
+		push_warning("NetSync cannot send a hand: this table has no room")
+		return
+	var peer := target.peer_for_seat(seat)
 	# 0 is an NPC seat; the server already holds its own seat's cards.
 	if peer == 0 or peer == Net.SERVER_PEER:
 		return
-	_rpc_hand.rpc_id(peer, card_ids)
+	Net.to_peer(peer, "hand", [card_ids])
 
 
 ## Server: the full public table plus the private hand of the seat this peer plays.
 func send_full_state(peer: int) -> void:
 	if manager.turn_order.is_empty() or manager.discard_pile.is_empty():
 		return
-	_rpc_event.rpc_id(peer, "base_card_played", [manager.discard_pile.back().id])
-	_rpc_table.rpc_id(peer, manager.snapshot().to_dict())
-	var seat := Net.seat_for_peer(peer)
+	Net.to_peer(peer, "event", ["base_card_played", [manager.discard_pile.back().id]])
+	Net.to_peer(peer, "table", [manager.snapshot().to_dict()])
+	var target := room
+	if target == null:
+		push_warning("NetSync cannot send a hand: this table has no room")
+		return
+	var seat := target.seat_for_peer(peer)
 	if seat >= 0 and seat < manager.turn_order.size():
-		_rpc_hand.rpc_id(peer, manager.turn_order[seat].hand_ids())
-
-
-#################WIRE########################
-# Any peer may call an @rpc method, so every receiver checks its own role first.
-
-
-@rpc("any_peer", "call_remote", "reliable")
-func _rpc_client_ready() -> void:
-	if not Net.is_server():
-		return
-	var peer := multiplayer.get_remote_sender_id()
-	send_full_state(peer)
-	manager.peer_ready(peer)
-
-
-@rpc("authority", "call_remote", "reliable")
-func _rpc_table(data: Dictionary) -> void:
-	if not Net.is_client():
-		return
-	_apply_table(MauMauTable.from_dict(data))
-
-
-@rpc("authority", "call_remote", "reliable")
-func _rpc_hand(card_ids: PackedInt32Array) -> void:
-	if not Net.is_client():
-		return
-	_apply_hand(card_ids)
-
-
-## Reliable RPCs keep their order, and the manager emits an event before its
-## snapshot, so a client sees event-then-table exactly like a local view does.
-@rpc("authority", "call_remote", "reliable")
-func _rpc_event(event: String, args: Array) -> void:
-	if not Net.is_client():
-		return
-	_apply_event(event, args)
+		Net.to_peer(peer, "hand", [manager.turn_order[seat].hand_ids()])
 
 
 #################CLIENT########################

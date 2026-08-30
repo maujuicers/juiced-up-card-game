@@ -1,3 +1,4 @@
+class_name NetTable
 extends Node
 
 ## The server-side table of one room: a MaumauEngine and four npc.tscn seats,

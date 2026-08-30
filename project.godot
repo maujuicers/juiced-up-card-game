@@ -12,6 +12,8 @@ config_version=5
 
 config/name="JuicedUpCardGame"
 run/main_scene="uid://balrrf21sxhil"
+# Release builds buffer stdout on a pipe; container logs need it line by line.
+run/flush_stdout_on_print=true
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

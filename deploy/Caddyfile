@@ -1,0 +1,32 @@
+# Load balancer in front of the three game containers. Compose publishes this
+# container's :80 as 127.0.0.1:9080 on the host, where the host Caddy (TLS)
+# already sends everything.
+{
+	auto_https off
+	admin off
+}
+
+:80 {
+	# 200 while at least one instance answers, 503 when none does.
+	handle /healthz {
+		reverse_proxy game1:9081 game2:9081 game3:9081 {
+			lb_policy first
+			lb_try_duration 2s
+			fail_duration 10s
+		}
+	}
+
+	# A room lives on exactly one instance, so the same /ws/<ROOMCODE> must
+	# always hash to the same upstream; an instance that stops answering its
+	# health check leaves the hash ring until it is back.
+	reverse_proxy game1:9080 game2:9080 game3:9080 {
+		lb_policy uri_hash
+		lb_retries 2
+		lb_try_duration 3s
+		health_uri /healthz
+		health_port 9081
+		health_interval 5s
+		health_timeout 3s
+		fail_duration 15s
+	}
+}

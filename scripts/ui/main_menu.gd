@@ -11,10 +11,16 @@ extends Node3D
 @export var host_button: Button
 @export var connected_buttons: Control
 @export var start_round_button: Button
+@export var room_row: Control
+@export var room_code: LineEdit
+@export var room_buttons: Control
+@export var code_label: Label
+@export var code_hint: Label
+@export var leave_room_button: Button
 
 const MAIN_SCENE = preload("uid://be4pqwq2ycfn3")
 
-enum State { IDLE, CONNECTING, CONNECTED }
+enum State { IDLE, CONNECTING, CONNECTED, IN_ROOM }
 
 var state: State = State.IDLE
 
@@ -30,8 +36,12 @@ func _ready() -> void:
 	Net.connected_to_server.connect(_on_connected_to_server)
 	Net.connection_failed.connect(_on_connection_failed)
 	Net.server_disconnected.connect(_on_server_disconnected)
+	Net.room_joined.connect(_on_room_joined)
+	Net.room_left.connect(_on_room_left)
+	Net.room_error.connect(_on_room_error)
 	if Net.is_online():
-		_set_state(State.CONNECTED, _connected_status())
+		code_label.text = Net.room_code
+		_set_online_state(_connected_status())
 	else:
 		_set_state(State.IDLE, "Not connected")
 
@@ -44,15 +54,28 @@ func _set_state(new_state: State, status: String) -> void:
 	state = new_state
 	status_label.text = status
 	var idle := new_state == State.IDLE
+	var lobby := new_state == State.CONNECTED
+	var in_room := new_state == State.IN_ROOM
 	start_game_button.visible = idle
 	address_row.visible = idle
 	idle_buttons.visible = idle
 	# A browser cannot listen on a socket.
 	host_button.visible = not OS.has_feature("web")
+	room_row.visible = lobby
+	room_buttons.visible = lobby
+	code_label.visible = in_room
+	code_hint.visible = in_room
+	roster_label.visible = in_room
 	connected_buttons.visible = not idle
-	start_round_button.visible = new_state == State.CONNECTED
-	roster_label.visible = new_state == State.CONNECTED
+	start_round_button.visible = in_room
+	leave_room_button.visible = in_room
+	if not in_room:
+		code_label.text = ""
 	_refresh_roster()
+
+# Hosting lands in a room before host() returns; a fresh connection does not.
+func _set_online_state(status: String) -> void:
+	_set_state(State.IN_ROOM if not Net.room_code.is_empty() else State.CONNECTED, status)
 
 func _connected_status() -> String:
 	if Net.is_server():
@@ -60,7 +83,7 @@ func _connected_status() -> String:
 	return "Connected to %s" % server_address.text
 
 func _refresh_roster() -> void:
-	if state != State.CONNECTED:
+	if state != State.IN_ROOM:
 		roster_label.text = ""
 		return
 	var me := multiplayer.get_unique_id()
@@ -74,13 +97,24 @@ func _on_peer_changed(_id: int) -> void:
 	_refresh_roster()
 
 func _on_connected_to_server() -> void:
-	_set_state(State.CONNECTED, _connected_status())
+	_set_online_state(_connected_status())
 
 func _on_connection_failed() -> void:
 	_set_state(State.IDLE, "Connection failed")
 
 func _on_server_disconnected() -> void:
 	_set_state(State.IDLE, "Server disconnected")
+
+func _on_room_joined(code: String) -> void:
+	code_label.text = code
+	room_code.text = code
+	_set_state(State.IN_ROOM, _connected_status())
+
+func _on_room_left() -> void:
+	_set_state(State.CONNECTED, _connected_status())
+
+func _on_room_error(message: String) -> void:
+	_set_state(state, message)
 
 func _on_start_game_button_pressed() -> void:
 	AudioManager.play_ui(click_sfx)
@@ -108,7 +142,7 @@ func _on_host_button_pressed() -> void:
 	if Net.host() != OK:
 		_set_state(State.IDLE, "Could not host on port %d" % Net.SERVER_PORT)
 		return
-	_set_state(State.CONNECTED, _connected_status())
+	_set_online_state(_connected_status())
 
 
 func _on_join_button_pressed() -> void:
@@ -123,12 +157,42 @@ func _on_join_button_pressed() -> void:
 	_set_state(State.CONNECTING, "Connecting to %s ..." % url)
 
 
+func _on_room_code_text_changed(new_text: String) -> void:
+	var upper := new_text.to_upper()
+	# Rewriting an unchanged text would still throw the caret to the end.
+	if upper == new_text:
+		return
+	room_code.text = upper
+	room_code.caret_column = upper.length()
+
+
+func _on_join_room_button_pressed() -> void:
+	AudioManager.play_ui(click_sfx)
+	var code := room_code.text.strip_edges().to_upper()
+	if code.is_empty():
+		_set_state(state, "Enter a room code")
+		return
+	room_code.text = code
+	# Net may answer straight away, and its answer must survive this status.
+	_set_state(state, "Joining room %s ..." % code)
+	Net.join_room(code)
+
+
+func _on_new_room_button_pressed() -> void:
+	AudioManager.play_ui(click_sfx)
+	_set_state(state, "Opening a room ...")
+	Net.create_room()
+
+
 func _on_start_round_button_pressed() -> void:
 	AudioManager.play_ui(click_sfx)
-	if Net.is_server():
-		Net.start_round()
-	else:
-		Net.request_start()
+	Net.start_round()
+
+
+func _on_leave_room_button_pressed() -> void:
+	AudioManager.play_ui(click_sfx)
+	Net.leave_room()
+	_set_online_state(_connected_status())
 
 
 func _on_leave_button_pressed() -> void:
