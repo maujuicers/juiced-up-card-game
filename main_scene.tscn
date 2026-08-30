@@ -22,6 +22,7 @@
 [ext_resource type="AudioStream" uid="uid://cwx8qydxi6mnw" path="res://audio/sfx/npc/meow-neutral-2.wav" id="7_671wp"]
 [ext_resource type="PackedScene" uid="uid://c5ek0fsypmit6" path="res://scenes/ui/settings_menu.tscn" id="7_nfk4m"]
 [ext_resource type="PackedScene" uid="uid://pjtartsbd0xr" path="res://scenes/playing-card/last_played_card.tscn" id="8_7ycvg"]
+[ext_resource type="PackedScene" uid="uid://cdgrvsecxh78o" path="res://scenes/playing-card/card_slip.tscn" id="8_cslip"]
 [ext_resource type="AudioStream" uid="uid://bndbxqqwj0buo" path="res://audio/sfx/npc/meow-neutral-3.wav" id="8_671wp"]
 [ext_resource type="AudioStream" uid="uid://b2e67cwkg3lwc" path="res://audio/sfx/npc/meow-neutral-4.wav" id="9_42l1d"]
 [ext_resource type="PackedScene" uid="uid://bbu748peiij0q" path="res://scenes/playing-card/playing_card.tscn" id="9_wr18j"]
@@ -97,10 +98,11 @@ visible = false
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=294795548]
 environment = SubResource("Environment_04g65")
 
-[node name="MaumauEngine" parent="." unique_id=1722475892 node_paths=PackedStringArray("npcs", "player", "seat_markers") instance=ExtResource("2_gyfs4")]
+[node name="MaumauEngine" parent="." unique_id=1722475892 node_paths=PackedStringArray("npcs", "player", "seat_markers", "waiter") instance=ExtResource("2_gyfs4")]
 npcs = [NodePath("../Npc3"), NodePath("../Npc2"), NodePath("../Npc")]
 player = NodePath("../Player")
 seat_markers = [NodePath("../Seats/Seat0"), NodePath("../Seats/Seat1"), NodePath("../Seats/Seat2"), NodePath("../Seats/Seat3")]
+waiter = NodePath("../Bar/Waiter")
 move_card_sfx_list = Array[AudioStream]([ExtResource("5_u0ygc"), ExtResource("6_7th4q"), ExtResource("7_6jybn")])
 
 [node name="Npc" parent="." unique_id=676701979 instance=ExtResource("3_d5x1h")]
@@ -118,6 +120,11 @@ manager = NodePath("../MaumauEngine")
 card_scene = ExtResource("9_wr18j")
 player = NodePath("../Player")
 
+[node name="CardSlip" parent="." unique_id=1222789231 node_paths=PackedStringArray("manager", "player") instance=ExtResource("8_cslip")]
+manager = NodePath("../MaumauEngine")
+card_scene = ExtResource("9_wr18j")
+player = NodePath("../Player")
+
 [node name="PauseMenu" parent="." unique_id=2080118311 node_paths=PackedStringArray("settings_menu") instance=ExtResource("6_hq1ik")]
 visible = false
 settings_menu = NodePath("../SettingsMenu")
@@ -126,8 +133,6 @@ settings_menu = NodePath("../SettingsMenu")
 visible = false
 
 [editable path="Bar"]
-[editable path="Bar/WaiterWithBottles"]
-[editable path="Bar/WaiterWithoutBottles"]
 [editable path="Seats/Seat0/YellowCatHead"]
 [editable path="Seats/Seat0/YellowCatBody"]
 [editable path="Seats/Seat1/OrangeCatHead"]

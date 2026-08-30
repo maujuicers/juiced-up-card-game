@@ -19,8 +19,16 @@ class_name Hand
 @export var interactive: bool = false
 
 const PICK_RAY_LENGTH := 2.0
+## The picked card's own colour, so it is never mistaken for the aim highlight.
+const PICKED_COLOR := Color(1.0, 0.72, 0.2)
+## How far the picked card leaves the fan, towards the eyes that look at it.
+const PICKED_LIFT := 0.03
+
+## Lifted out of the fan and waiting to be slipped to another seat, null for none.
+signal picked_card_changed(card: Card)
 
 var cards: Array[Card] = []
+var picked_card: Card = null
 
 var _aimed: PlayingCardVisual = null
 
@@ -46,7 +54,8 @@ func _set_aimed(card: PlayingCardVisual) -> void:
 	if card == _aimed and is_instance_valid(_aimed):
 		return
 	if is_instance_valid(_aimed):
-		_aimed.set_highlighted(false)
+		# The pick owns its outline; only the aim highlight is taken back.
+		_aimed.set_highlighted(_is_picked(_aimed.card_data))
 	_aimed = card
 	if _aimed != null:
 		_aimed.set_highlighted(true)
@@ -61,6 +70,17 @@ func _screen_centre() -> Vector2:
 func _unhandled_input(event: InputEvent) -> void:
 	if not interactive or maumau_player == null:
 		return
+
+	if event.is_action_pressed("pick_card"):
+		var aimed := _card_at(_screen_centre())
+		if aimed == null or aimed.card_data == null:
+			return
+		# Eaten here so the Accuser behind the hand does not read the same key
+		# as "accuse the cat past this card".
+		get_viewport().set_input_as_handled()
+		set_picked_card(null if _is_picked(aimed.card_data) else aimed.card_data)
+		return
+
 	var button := event as InputEventMouseButton
 	if button == null or button.button_index != MOUSE_BUTTON_LEFT or not button.pressed:
 		return
@@ -71,6 +91,24 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	get_viewport().set_input_as_handled()
 	maumau_player.try_play_card_by_id(card.card_data.id)
+
+
+## The card the crosshair is on, null for none. A click on one belongs to it.
+func aimed_card() -> Card:
+	return _aimed.card_data if is_instance_valid(_aimed) else null
+
+
+## Lifts a card out of the fan; null puts down whatever was picked.
+func set_picked_card(card: Card) -> void:
+	if _is_picked(card) or (card == null and picked_card == null):
+		return
+	picked_card = card
+	_rebuild_hand()
+	picked_card_changed.emit(picked_card)
+
+
+func _is_picked(card: Card) -> bool:
+	return card != null and picked_card != null and card.id == picked_card.id
 
 
 # Areas only, any layer: independent of the card scene's layer choice.
@@ -101,7 +139,13 @@ func _card_at(screen_pos: Vector2) -> PlayingCardVisual:
 
 func update_hand(new_cards: Array[Card]) -> void:
 	cards = new_cards.duplicate()
+	# A card this hand no longer holds cannot stay lifted out of it.
+	var lost := picked_card != null and not cards.has(picked_card)
+	if lost:
+		picked_card = null
 	_rebuild_hand()
+	if lost:
+		picked_card_changed.emit(null)
 
 
 func update_hidden(count: int) -> void:
@@ -155,6 +199,10 @@ func _rebuild_hand() -> void:
 		var offset := head_to_centre.rotated(up_local, (middle - i) * step_angle)
 		# A hair nearer the eyes per card so overlaps draw in order.
 		offset -= offset.normalized() * (i * 0.001)
+		if _is_picked(cards[i]):
+			offset -= offset.normalized() * PICKED_LIFT
+			card_instance.outline_color = PICKED_COLOR
+			card_instance.set_highlighted(true)
 		card_instance.position = head_local + offset
 		card_instance.look_at(head_global, up_global, true)
 

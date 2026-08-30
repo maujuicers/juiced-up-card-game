@@ -83,11 +83,12 @@ crosshair_size = 14.0
 [node name="AccusationBanner" parent="UI" unique_id=1517311010 instance=ExtResource("7_accbn")]
 layout_mode = 3
 
-[node name="KeyHints" parent="UI" unique_id=1745120060 node_paths=PackedStringArray("maumau_player", "accuser") instance=ExtResource("9_khint")]
+[node name="KeyHints" parent="UI" unique_id=1745120060 node_paths=PackedStringArray("maumau_player", "accuser", "hand") instance=ExtResource("9_khint")]
 material = SubResource("ShaderMaterial_8ydkj")
 layout_mode = 3
 maumau_player = NodePath("../../MauMauPlayer")
 accuser = NodePath("../../Accuser")
+hand = NodePath("../../Hand")
 
 [node name="CurrentPlayerLabel" parent="UI" unique_id=1427191879 instance=ExtResource("4_0owmy")]
 anchors_preset = 0
@@ -122,8 +123,9 @@ head = NodePath("../Head")
 maumau_player = NodePath("../MauMauPlayer")
 interactive = true
 
-[node name="Accuser" type="Node" parent="." unique_id=1517311011 node_paths=PackedStringArray("maumau_player", "player_camera", "banner")]
+[node name="Accuser" type="Node" parent="." unique_id=1517311011 node_paths=PackedStringArray("maumau_player", "player_camera", "banner", "hand")]
 script = ExtResource("8_accus")
 maumau_player = NodePath("../MauMauPlayer")
 player_camera = NodePath("../Head/Camera3D")
 banner = NodePath("../UI/AccusationBanner")
+hand = NodePath("../Hand")

@@ -30,7 +30,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="KeyHints" type="Control" unique_id=1745120001 node_paths=PackedStringArray("play_row", "draw_row", "accuse_row")]
+[node name="KeyHints" type="Control" unique_id=1745120001 node_paths=PackedStringArray("play_row", "draw_row", "accuse_row", "pick_row", "slip_row")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -41,6 +41,8 @@ script = ExtResource("1_khnts")
 play_row = NodePath("Panel/Rows/PlayRow")
 draw_row = NodePath("Panel/Rows/DrawRow")
 accuse_row = NodePath("Panel/Rows/AccuseRow")
+pick_row = NodePath("Panel/Rows/PickRow")
+slip_row = NodePath("Panel/Rows/SlipRow")
 
 [node name="Panel" type="PanelContainer" parent="." unique_id=1745120002]
 layout_mode = 1
@@ -232,5 +234,75 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_khfnt")
 theme_override_font_sizes/font_size = 24
 text = "Accuse the cat you look at"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PickRow" type="HBoxContainer" parent="Panel/Rows" unique_id=1745120060]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Key" type="PanelContainer" parent="Panel/Rows/PickRow" unique_id=1745120061]
+custom_minimum_size = Vector2(174, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_khchp")
+
+[node name="Label" type="Label" parent="Panel/Rows/PickRow/Key" unique_id=1745120062]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.97, 0.92, 1)
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "E"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc" type="Label" parent="Panel/Rows/PickRow" unique_id=1745120063]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Pick up / put down the card you look at"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SlipRow" type="HBoxContainer" parent="Panel/Rows" unique_id=1745120070]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Key" type="PanelContainer" parent="Panel/Rows/SlipRow" unique_id=1745120071]
+custom_minimum_size = Vector2(174, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_khchp")
+
+[node name="Label" type="Label" parent="Panel/Rows/SlipRow/Key" unique_id=1745120072]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.97, 0.92, 1)
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Left click a cat"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc" type="Label" parent="Panel/Rows/SlipRow" unique_id=1745120073]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.9, 0.87, 0.82, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_khfnt")
+theme_override_font_sizes/font_size = 24
+text = "Slip the picked-up card to it"
 horizontal_alignment = 2
 vertical_alignment = 1

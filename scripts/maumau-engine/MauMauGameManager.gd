@@ -19,6 +19,13 @@ signal base_card_played(card: Card)
 ## An accusation was judged: `accused` (guilty) or `accuser` (false alarm) drew its penalty.
 ## `method` is a Cheat.Method.
 signal accusation_resolved(accuser: int, accused: int, method: int, guilty: bool)
+## A card changed hands behind the table. Which card it was stays between the two
+## seats: only its private hand message says that.
+signal card_slipped(giver: int, receiver: int)
+## The waiter took this seat's order and set off; no bottle yet.
+signal waiter_dispatched(seat: int)
+## The waiter reached this seat and its bottle is on the table.
+signal waiter_delivered(seat: int)
 
 # Private surface: one seat's cards, for that seat only; send it with rpc_id.
 signal private_hand_changed(seat: int, card_ids: PackedInt32Array)
@@ -40,6 +47,9 @@ signal private_cheat_refused(seat: int, method: int, cost: int)
 @export var deck: CardDeck
 ## Carries both payload surfaces over the wire; inert offline.
 @export var net_sync: MauMauNetSync
+## Walks the ordered bottles over. Null in a scene without the bar, where an
+## order is granted the moment it is made.
+@export var waiter: Waiter
 @export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 1.0
 @export_range(1, 5, 1, "suffix:c") var cards_drawn_on_cheat: int = 2
 
@@ -71,6 +81,9 @@ var _published_juice: Dictionary = {}
 func _ready() -> void:
 	if deck == null:
 		deck = CardDeck.load_default()
+	# A client's own waiter walks for show only; the bottle is the authority's to grant.
+	if waiter != null and not Net.is_client():
+		waiter.delivered.connect(_on_waiter_delivered)
 	if Net.is_client():
 		_client_ready()
 		return
@@ -217,6 +230,8 @@ func submit_accuse(accuser: MauMauPlayer, accused: MauMauPlayer, method: Cheat.M
 	if guilty:
 		if method == Cheat.Method.ONE:
 			_take_back_card(accused, caught.card)
+		elif method == Cheat.Method.FIVE:
+			_return_slipped_card(accused, caught.card)
 		accused.on_caught_cheating()
 		_deal_penalty(accused, cards_drawn_on_cheat)
 	else:
@@ -234,6 +249,42 @@ func _may_accuse(accuser: MauMauPlayer, accused: MauMauPlayer, method: Cheat.Met
 	if not turn_order.has(accuser) or not turn_order.has(accused):
 		return false
 	return Cheat.Method.find_key(method) != null
+
+
+## Slipping runs off turn too: a card pressed into another hand is a cheat, not a move.
+func submit_slip(giver: MauMauPlayer, receiver: MauMauPlayer, card_id: int) -> bool:
+	if not _may_slip(giver, receiver, card_id):
+		return false
+	if Net.is_client():
+		if not _is_local_seat(giver):
+			return false
+		Net.to_server("submit_slip", [receiver.turn_position, card_id])
+		return true
+
+	var card := deck.card(card_id)
+	var cost: int = Cheat.JUICE_COSTS.get(Cheat.Method.FIVE, 0)
+	if not giver.trigger_cheat(Cheat.Method.FIVE, card):
+		private_cheat_refused.emit(giver.turn_position, Cheat.Method.FIVE, cost)
+		return false
+	private_cheat_charged.emit(giver.turn_position, Cheat.Method.FIVE, cost)
+
+	giver.remove_card(card_id)
+	receiver.add_card(card)
+	print("Seat %d slipped a card to seat %d" % [giver.turn_position, receiver.turn_position])
+	card_slipped.emit(giver.turn_position, receiver.turn_position)
+	_publish()
+	return true
+
+
+func _may_slip(giver: MauMauPlayer, receiver: MauMauPlayer, card_id: int) -> bool:
+	if is_game_over or giver == null or receiver == null or giver == receiver:
+		return false
+	if not turn_order.has(giver) or not turn_order.has(receiver):
+		return false
+	# Handing over the last card would go out through the back door.
+	if not giver.has_card(card_id) or giver.hand.size() <= 1:
+		return false
+	return receiver.placement == -1
 
 
 ## Drinking runs off turn: what a seat does with its bottle is nobody's turn.
@@ -254,12 +305,33 @@ func submit_waiter(seat: MauMauPlayer) -> bool:
 	# Refused rather than queued: the seat asks again once the bottle is done.
 	if seat.juice_bottle != null and not seat.juice_bottle.is_empty():
 		return false
+	if waiter != null and waiter.has_order(seat.turn_position):
+		return false
 	if Net.is_client():
 		if not _is_local_seat(seat):
 			return false
 		Net.to_server("submit_waiter", [])
 		return true
-	return seat.order_bottle()
+	if waiter == null:
+		return seat.order_bottle()
+	waiter.order(seat.turn_position, marker_for_seat(seat.turn_position))
+	waiter_dispatched.emit(seat.turn_position)
+	return true
+
+
+## Authority only: the walk is over, so the bottle is on the table.
+func _on_waiter_delivered(seat_index: int) -> void:
+	if seat_index < 0 or seat_index >= turn_order.size():
+		return
+	turn_order[seat_index].order_bottle()
+	waiter_delivered.emit(seat_index)
+
+
+## The chair a seat sits at, null when the scene has no markers.
+func marker_for_seat(index: int) -> SeatMarker:
+	if index < 0 or index >= seat_markers.size():
+		return null
+	return seat_markers[index]
 
 
 func _may_refresh(seat: MauMauPlayer) -> bool:
@@ -322,6 +394,10 @@ func submit_from_peer(peer: int, method: String, args: Array) -> void:
 			var accused := _accused_seat_arg(peer, args)
 			if accused >= 0:
 				submit_accuse(seat, turn_order[accused], args[1] as Cheat.Method)
+		"submit_slip":
+			var receiver := _slipped_seat_arg(peer, args)
+			if receiver >= 0:
+				submit_slip(seat, turn_order[receiver], args[1])
 		"submit_wish":
 			if not _has_int_arg(method, peer, args):
 				return
@@ -341,6 +417,17 @@ func _accused_seat_arg(peer: int, args: Array) -> int:
 		return -1
 	if args[0] < 0 or args[0] >= turn_order.size() or Cheat.Method.find_key(args[1]) == null:
 		push_warning("Ignoring submit_accuse from peer %d: no such seat or method %s" % [peer, args])
+		return -1
+	return args[0]
+
+
+## The seat a slip names, -1 when the payload is not a seat and a card id.
+func _slipped_seat_arg(peer: int, args: Array) -> int:
+	if args.size() != 2 or typeof(args[0]) != TYPE_INT or typeof(args[1]) != TYPE_INT:
+		push_warning("Ignoring submit_slip from peer %d: bad arguments %s" % [peer, args])
+		return -1
+	if args[0] < 0 or args[0] >= turn_order.size():
+		push_warning("Ignoring submit_slip from peer %d: no such seat %s" % [peer, args[0]])
 		return -1
 	return args[0]
 
@@ -583,6 +670,18 @@ func _take_back_card(cheater: MauMauPlayer, card: Card) -> void:
 		wished_suit = Card.Suit.NONE
 
 
+## An upheld Method.FIVE: the slipped card goes back to the seat that pressed it
+## on. Whoever holds it now gives it up; once it has been played, nobody does.
+func _return_slipped_card(cheater: MauMauPlayer, card: Card) -> void:
+	if card == null:
+		return
+	for seat in turn_order:
+		if seat != cheater and seat.has_card(card.id):
+			seat.remove_card(card.id)
+			cheater.add_card(card)
+			return
+
+
 ## The seat did not go out after all; the seats behind it move up.
 func _unplace(seat: MauMauPlayer) -> void:
 	var index := winners.find(seat)
@@ -681,6 +780,9 @@ func reset_game() -> void:
 	discard_pile.clear()
 	turn_order.clear()
 	current_player_index = 0
+	# The deal hands out fresh bottles, so an order from the last round is void.
+	if waiter != null:
+		waiter.clear_orders()
 
 func build_draw_pile() -> void:
 	draw_pile = deck.all()

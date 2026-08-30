@@ -171,6 +171,11 @@ func try_accuse(target: MauMauPlayer, method: Cheat.Method = Cheat.Method.ONE) -
 	return manager != null and manager.submit_accuse(self, target, method)
 
 
+## Press one of this hand's cards into another seat's; the gate decides and charges it.
+func try_slip_card(target: MauMauPlayer, card_id: int) -> bool:
+	return manager != null and manager.submit_slip(self, target, card_id)
+
+
 func add_card(card: Card) -> void:
 	hand.append(card)
 	hand_changed.emit(hand)
@@ -306,8 +311,8 @@ func play_fixed_card(card: Card) -> void:
 func exchange_card(player: MauMauPlayer, given_card: Card, stolen_card: Card) -> void:
 	trigger_cheat(Cheat.Method.FOUR, given_card, stolen_card)
 	
-func slip_card(player: MauMauPlayer, given_card: Card) -> void:
-	trigger_cheat(Cheat.Method.FIVE, given_card)
+func slip_card(player: MauMauPlayer, given_card: Card) -> bool:
+	return given_card != null and try_slip_card(player, given_card.id)
 	
 func spike_drink(player: MauMauPlayer) -> void:
 	trigger_cheat(Cheat.Method.SIX)

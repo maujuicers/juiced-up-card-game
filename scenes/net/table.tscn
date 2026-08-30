@@ -3,13 +3,18 @@
 [ext_resource type="Script" uid="uid://bxerg1i4hs5c0" path="res://scripts/net/table.gd" id="1_table"]
 [ext_resource type="PackedScene" uid="uid://biqyni0po3e7b" path="res://scenes/maumau-engine/MaumauEngine.tscn" id="2_engine"]
 [ext_resource type="PackedScene" uid="uid://dugrco4ylfn5t" path="res://scenes/npc/npc.tscn" id="3_npc"]
+[ext_resource type="NavigationMesh" uid="uid://dic20nbn23qun" path="res://scenes/bar_navmesh.tres" id="4_navms"]
+[ext_resource type="PackedScene" uid="uid://drcrkb08ushxd" path="res://scenes/npc/waiter.tscn" id="5_waitr"]
+[ext_resource type="PackedScene" uid="uid://b5s7oteydehn3" path="res://scenes/seat/seat_marker.tscn" id="6_marker"]
 
 [node name="Table" type="Node" unique_id=1288344217 node_paths=PackedStringArray("manager")]
 script = ExtResource("1_table")
 manager = NodePath("MaumauEngine")
 
-[node name="MaumauEngine" parent="." unique_id=1722475892 node_paths=PackedStringArray("npcs") instance=ExtResource("2_engine")]
+[node name="MaumauEngine" parent="." unique_id=1722475892 node_paths=PackedStringArray("npcs", "seat_markers", "waiter") instance=ExtResource("2_engine")]
 npcs = [NodePath("../Seat0"), NodePath("../Seat1"), NodePath("../Seat2"), NodePath("../Seat3")]
+seat_markers = [NodePath("../World/Seats/Seat0"), NodePath("../World/Seats/Seat1"), NodePath("../World/Seats/Seat2"), NodePath("../World/Seats/Seat3")]
+waiter = NodePath("../World/Waiter")
 
 [node name="Seat0" parent="." unique_id=1093358421 instance=ExtResource("3_npc")]
 
@@ -18,3 +23,30 @@ npcs = [NodePath("../Seat0"), NodePath("../Seat1"), NodePath("../Seat2"), NodePa
 [node name="Seat2" parent="." unique_id=1911003172 instance=ExtResource("3_npc")]
 
 [node name="Seat3" parent="." unique_id=1407759813 instance=ExtResource("3_npc")]
+
+[node name="World" type="Node3D" parent="." unique_id=1502837744]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="World" unique_id=1204775913]
+navigation_mesh = ExtResource("4_navms")
+
+[node name="BarCounter" type="Marker3D" parent="World" unique_id=1039442876]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0, -5)
+
+[node name="Waiter" parent="World" unique_id=1119092057 node_paths=PackedStringArray("nav_mesh", "bar_point") instance=ExtResource("5_waitr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, -4.757837)
+nav_mesh = NodePath("../NavigationRegion3D")
+bar_point = NodePath("../BarCounter")
+
+[node name="Seats" type="Node3D" parent="World" unique_id=1720433955]
+
+[node name="Seat0" parent="World/Seats" unique_id=1053628102 instance=ExtResource("6_marker")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.14, 0.63, 0)
+
+[node name="Seat1" parent="World/Seats" unique_id=1298720564 instance=ExtResource("6_marker")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.63, 1.14)
+
+[node name="Seat2" parent="World/Seats" unique_id=1836945217 instance=ExtResource("6_marker")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -1.14, 0.63, 0)
+
+[node name="Seat3" parent="World/Seats" unique_id=1462130790 instance=ExtResource("6_marker")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.63, -1.14)

@@ -23,6 +23,9 @@ const EVENT_ARITY := {
 	"base_card_played": 1,
 	"round_over": 1,
 	"accusation_resolved": 4,
+	"card_slipped": 2,
+	"waiter_dispatched": 1,
+	"waiter_delivered": 1,
 	"cheat_charged": 3,
 	"cheat_refused": 3,
 }
@@ -79,7 +82,7 @@ func _receive_as_server(peer: int, method: String, args: Array) -> void:
 			send_full_state(peer)
 			manager.peer_ready(peer)
 		"submit_move", "submit_draw", "submit_wish", "submit_accuse", \
-		"submit_drink", "submit_waiter":
+		"submit_slip", "submit_drink", "submit_waiter":
 			manager.submit_from_peer(peer, method, args)
 		_:
 			push_warning("NetSync (server) ignoring '%s' from peer %d" % [method, peer])
@@ -155,6 +158,12 @@ func _forward_manager_signals() -> void:
 		_send_event("round_over", [final.to_dict()]))
 	manager.accusation_resolved.connect(func(accuser: int, accused: int, method: int, guilty: bool) -> void:
 		_send_event("accusation_resolved", [accuser, accused, method, guilty]))
+	manager.card_slipped.connect(func(giver: int, receiver: int) -> void:
+		_send_event("card_slipped", [giver, receiver]))
+	manager.waiter_dispatched.connect(func(seat: int) -> void:
+		_send_event("waiter_dispatched", [seat]))
+	manager.waiter_delivered.connect(func(seat: int) -> void:
+		_send_event("waiter_delivered", [seat]))
 	manager.private_juice_changed.connect(func(seat: int, current: int, bottle: int) -> void:
 		_send_private(seat, "juice", [current, bottle]))
 	manager.private_cheat_charged.connect(func(seat: int, method: int, cost: int) -> void:
@@ -311,6 +320,13 @@ func _apply_event(event: String, args: Array) -> void:
 			manager.round_over.emit(MauMauTable.from_dict(args[0]))
 		"accusation_resolved":
 			_apply_accusation(args[0], args[1], args[2], args[3])
+		"card_slipped":
+			manager.card_slipped.emit(args[0], args[1])
+		"waiter_dispatched":
+			_send_waiter(args[0])
+			manager.waiter_dispatched.emit(args[0])
+		"waiter_delivered":
+			manager.waiter_delivered.emit(args[0])
 		"cheat_charged":
 			# Only the cheating seat's own peer is told, so it can show what it
 			# can still be caught at; the juice itself arrives as "juice".
@@ -323,6 +339,17 @@ func _apply_event(event: String, args: Array) -> void:
 			if juice != null:
 				juice.juice_insufficient.emit(args[2])
 			manager.private_cheat_refused.emit(args[0], args[1], args[2])
+
+
+## The client's own waiter walks the same trip; its arrival is scenery, because
+## the manager only listens to [signal Waiter.delivered] on the authority.
+func _send_waiter(seat_index: int) -> void:
+	var waiter: Waiter = manager.waiter
+	if waiter == null:
+		return
+	var marker := manager.marker_for_seat(seat_index)
+	if marker != null:
+		waiter.order(seat_index, marker)
 
 
 func _apply_accusation(accuser: int, accused: int, method: int, guilty: bool) -> void:

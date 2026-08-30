@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cdgrvsecxh78o"]
+
+[ext_resource type="Script" uid="uid://cmp8jk4m524di" path="res://scripts/playing-card/card_slip.gd" id="1_cslip"]
+
+[node name="CardSlip" type="Node3D" unique_id=1222789230]
+script = ExtResource("1_cslip")
