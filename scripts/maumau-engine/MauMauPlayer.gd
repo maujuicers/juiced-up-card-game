@@ -41,7 +41,8 @@ var manager: Node
 var _filler: Card
 
 # Cheat Variables
-var cheated: bool = false
+## Everything this seat was charged for; expired records stay until an
+## accusation sweeps them, so only take_cheats() decides what still counts.
 var cheats: Array[Cheat]
 var cheat_counter: int = 0
 var cheat_penalties: int = 0
@@ -74,21 +75,6 @@ func seat_at(game_manager: Node, index: int) -> void:
 		current_player_arrow.init_player_arrow(self, manager)
 	if suit_choice_node != null:
 		suit_choice_node.init_suit_choice()
-	init_card_played_listener()
-
-func init_card_played_listener() -> void:
-	if manager != null:
-		manager.connect("card_played", _on_card_played)
-
-func _on_card_played(player_index: int, card: Card) -> void:
-	if player_index == turn_position:
-		return
-
-	for i in range(cheats.size() - 1, -1, -1):
-		cheats[i].tick_turn()
-		if cheats[i].is_expired():
-			cheats.remove_at(i)
-	cheated = not cheats.is_empty()
 
 
 ## The private payload: this hand as card ids.
@@ -329,7 +315,6 @@ func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card
 
 	_play_meow(cheat_meow_sfx_list)
 	cheat_counter += 1
-	cheated = true
 	cheats.append(attempted_cheat)
 	print("Player %s just cheated" %[self.turn_position])
 
@@ -359,7 +344,9 @@ func _play_meow(sounds: Array[AudioStream]) -> void:
 
 ## Everything this seat can still be caught for, oldest first; the seat is clean afterwards.
 func take_cheats() -> Array[Cheat]:
-	var caught := cheats.duplicate()
+	var caught: Array[Cheat] = []
+	for cheat in cheats:
+		if not cheat.is_expired():
+			caught.append(cheat)
 	cheats.clear()
-	cheated = false
 	return caught

@@ -18,35 +18,23 @@ const JUICE_COSTS := {
 	Method.SIX:   30,
 }
 
-const CALL_TIMER :={
-	Method.ONE:   1,
-	Method.TWO:   2,
-	Method.THREE: 1,
-	Method.FOUR:  2,
-	Method.FIVE:  2,
-	Method.SIX:   4,
-}
+## How long after being charged a cheat can still be called out. Wall clock,
+## not turns: an NPC's next play used to close the window within a second.
+const CALL_WINDOW_MSEC := 10_000
 
 @export var method: Method
 @export var card: Card #only used on cheats, using playing cars (Methods: 1,3,4,5)
 @export var stolen_card: Card #only used on exchange (Method 4)
-var call_timer: int:
-	get: 
-		return CALL_TIMER.get(method, 0)
-		
-var remaining_turns: int = 0
+## Time.get_ticks_msec() when the juice was paid.
+var charged_at_msec: int = 0
 
 var juice_cost: int:
 	get:
 		return JUICE_COSTS.get(method, 0)
 		
 		
-func tick_turn() -> void:
-	if remaining_turns > 0:
-		remaining_turns -= 1
-
 func is_expired() -> bool:
-	return remaining_turns <= 0
+	return Time.get_ticks_msec() - charged_at_msec >= CALL_WINDOW_MSEC
 
 ##Initialization methods##
 static func init_cheat(m: Method, c: Card = null, s: Card = null) -> Cheat:
@@ -59,7 +47,7 @@ static func init_cheat(m: Method, c: Card = null, s: Card = null) -> Cheat:
 		_:
 			ch = with_card(m, c)
 	
-	ch.remaining_turns = ch.call_timer
+	ch.charged_at_msec = Time.get_ticks_msec()
 	return ch
 		
 static func without_cards(m: Method) -> Cheat:
