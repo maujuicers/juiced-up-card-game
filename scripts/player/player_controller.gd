@@ -2,6 +2,12 @@ extends Node3D
 
 class_name PlayerController
 
+## The look limits, in radians. Shared with the head-look sync, which clamps what
+## arrives from the wire to the same range a local mouse could have produced.
+const MIN_PITCH := -PI / 6.0
+const MAX_PITCH := PI / 3.0
+const YAW_LIMIT := PI / 2.0
+
 ## Radians per pixel. Fallback only: _ready loads the saved setting.
 @export var look_sensitivity := 0.01
 
@@ -28,6 +34,10 @@ func set_look_enabled(enabled: bool) -> void:
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
+## Head yaw and camera pitch, in radians — the whole of what HeadSync ships.
+func look_angles() -> Vector2:
+	return Vector2(player_head.rotation.y, player_camera.rotation.x)
+
 # Clicks are left for Hand.
 func _unhandled_input(event: InputEvent) -> void:
 	if _look_enabled and event is InputEventMouseMotion:
@@ -36,5 +46,5 @@ func _unhandled_input(event: InputEvent) -> void:
 func _rotate_view(relative: Vector2) -> void:
 	player_head.rotate_y(-relative.x * look_sensitivity)
 	player_camera.rotate_x(-relative.y * look_sensitivity)
-	player_camera.rotation.x = clamp(player_camera.rotation.x, deg_to_rad(-30), deg_to_rad(60))
-	player_head.rotation.y = clamp(player_head.rotation.y, deg_to_rad(-90), deg_to_rad(90))
+	player_camera.rotation.x = clampf(player_camera.rotation.x, MIN_PITCH, MAX_PITCH)
+	player_head.rotation.y = clampf(player_head.rotation.y, -YAW_LIMIT, YAW_LIMIT)

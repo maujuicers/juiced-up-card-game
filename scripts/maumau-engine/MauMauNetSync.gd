@@ -8,7 +8,8 @@ class_name MauMauNetSync
 ## mirrors the table onto the manager and re-emits the same signals so every view
 ## stays unchanged. Nothing here is an [code]@rpc[/code]: two rooms on one server
 ## would share a node path, so [method Net.to_room] / [method Net.to_peer] /
-## [method Net.to_server] address messages by room and peer instead.
+## [method Net.to_server] address messages by room and peer instead. The one
+## message that is not the manager's, "look", is passed to [HeadSync].
 
 ## Every event the "event" message carries, with the number of arguments it needs.
 const EVENT_ARITY := {
@@ -24,6 +25,11 @@ const EVENT_ARITY := {
 }
 
 @export var manager: MauMauGameManager
+## The other half of this table's wire ([HeadSync]). "look" is not table state,
+## so it is handed straight over rather than mirrored onto the manager. Typed
+## [Node] because HeadSync reaches the manager, which reaches this: naming the
+## class here would close a parse cycle.
+@export var head_sync: Node
 
 ## Server side: the room this table serves; null on a client. Read through the
 ## manager because a host fills it in its own _ready, after this child's.
@@ -53,6 +59,11 @@ func _ready() -> void:
 
 ## On the server `peer` is the sender; on a client it is Net.SERVER_PEER.
 func receive(peer: int, method: String, args: Array) -> void:
+	if method == "look":
+		# HeadSync checks this peer's role itself, so both directions land there.
+		if head_sync != null:
+			head_sync.receive(peer, args)
+		return
 	if Net.is_server():
 		_receive_as_server(peer, method, args)
 	elif Net.is_client():
