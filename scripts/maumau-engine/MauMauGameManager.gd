@@ -28,6 +28,8 @@ signal private_hand_changed(seat: int, card_ids: PackedInt32Array)
 @export var move_card_sfx_list: Array[AudioStream]
 ## Falls back to [method CardDeck.load_default] when the scene leaves it unset.
 @export var deck: CardDeck
+## Carries both payload surfaces over the wire; inert offline.
+@export var net_sync: MauMauNetSync
 @export_range(0.0, 5.0, 0.05, "suffix:s") var npc_think_time: float = 5.0
 @export_range(1, 5, 1, "suffix:c") var cards_drawn_on_cheat: int = 2
 
@@ -58,10 +60,37 @@ var winners: Array[MauMauPlayer]
 func _ready() -> void:
 	if deck == null:
 		deck = CardDeck.load_default()
+	if Net.is_client():
+		_client_ready()
+		return
+	if Net.is_server():
+		# A dedicated server injects both before the table enters the tree; a host has neither.
+		if room == null:
+			room = Net.room_for_table(self)
+		if seating.is_empty() and room != null:
+			seating = room.seat_peers
+		_start_when_peers_ready()
+		return
+	_start_round()
+
+
+## Authority only (offline or server): deal, seat and open the first turn.
+func _start_round() -> void:
+	if _round_started:
+		return
+	_round_started = true
 	start_game()
 	log_gamestate()
 	current_player_index = 0
 	start_turn()
+	# Nobody listens on a dedicated server, and it runs one table per room.
+	if not Net.is_dedicated():
+		AudioManager.play_music(music)
+
+
+## A client seats the participants and then only mirrors what NetSync receives.
+func _client_ready() -> void:
+	init_player_positions()
 	AudioManager.play_music(music)
 
 func start_game() -> void:
@@ -129,6 +158,11 @@ func advance_turn() -> void:
 # WARN The only ways a seat may act.
 
 func submit_move(seat: MauMauPlayer, card_id: int) -> bool:
+	if Net.is_client():
+		if not _is_local_seat(seat) or not _is_on_turn(seat) or awaiting_wish:
+			return false
+		Net.to_server("submit_move", [card_id])
+		return true
 	if not _is_on_turn(seat) or awaiting_wish:
 		return false
 	var accepted := _play_card(card_id)
@@ -139,7 +173,13 @@ func submit_move(seat: MauMauPlayer, card_id: int) -> bool:
 
 func submit_draw(seat: MauMauPlayer) -> bool:
 	# An accused (or falsely accusing) seat takes its cheat penalty off turn.
-	if not ((_is_on_turn(seat) and not awaiting_wish) or _is_in_cheat_accusation(seat)):
+	var allowed := (_is_on_turn(seat) and not awaiting_wish) or _is_in_cheat_accusation(seat)
+	if Net.is_client():
+		if not _is_local_seat(seat) or not allowed:
+			return false
+		Net.to_server("submit_draw", [])
+		return true
+	if not allowed:
 		return false
 	var accepted := _draw_card(seat)
 	if accepted:
@@ -148,11 +188,144 @@ func submit_draw(seat: MauMauPlayer) -> bool:
 
 
 func submit_wish(seat: MauMauPlayer, suit: Card.Suit) -> bool:
+	if Net.is_client():
+		if not _is_local_seat(seat) or not _is_on_turn(seat) or not awaiting_wish or suit == Card.Suit.NONE:
+			return false
+		Net.to_server("submit_wish", [suit])
+		return true
 	if not _is_on_turn(seat) or not awaiting_wish or suit == Card.Suit.NONE:
 		return false
 	_set_wished_suit(suit)
 	_publish()
 	return true
+
+
+#################NETWORK GATE (server)########################
+# The client half of submit_* forwards the bare intent here; the peer id the
+# relay hands over is the whole identity check, so a peer can never act for a
+# seat but its own.
+
+const PEER_READY_TIMEOUT := 15.0
+
+## Server side: the room this table serves (phase 4b). Null offline and on a client.
+var room: NetRoom
+## Server side: index = seat, value = peer id, 0 = NPC; the room's seating, injected
+## before the deal. Replaces reading Net.seat_peers here.
+var seating: PackedInt32Array = []
+
+
+## Server: an intent relayed by Net for `peer` ("submit_move" [card_id],
+## "submit_draw" [], "submit_wish" [suit]). Replaces the @rpc _rpc_submit_* trio.
+func submit_from_peer(peer: int, method: String, args: Array) -> void:
+	if not Net.is_server():
+		return
+	var index := _seat_for_peer(peer)
+	if index < 0 or index >= turn_order.size():
+		push_warning("Ignoring %s from peer %d: it holds no seat at this table" % [method, peer])
+		return
+	var seat := turn_order[index]
+	match method:
+		"submit_move":
+			if not _has_int_arg(method, peer, args):
+				return
+			submit_move(seat, args[0])
+		"submit_draw":
+			submit_draw(seat)
+		"submit_wish":
+			if not _has_int_arg(method, peer, args):
+				return
+			# A suit outside the enum would wish something no card can ever match.
+			if Card.Suit.find_key(args[0]) == null:
+				push_warning("Ignoring wish %s from peer %d: no such suit" % [args[0], peer])
+				return
+			submit_wish(seat, args[0] as Card.Suit)
+		_:
+			push_warning("Ignoring unknown intent '%s' from peer %d" % [method, peer])
+
+
+## The arguments come off the wire, so nothing about them is given.
+func _has_int_arg(method: String, peer: int, args: Array) -> bool:
+	if args.size() == 1 and typeof(args[0]) == TYPE_INT:
+		return true
+	push_warning("Ignoring %s from peer %d: bad arguments %s" % [method, peer, args])
+	return false
+
+
+## The seat a peer plays at this table, -1 for none. The room owns the seating;
+## `seating` stands in while a table has been handed one without a room.
+func _seat_for_peer(peer: int) -> int:
+	if peer == 0:
+		return -1
+	if room != null:
+		return room.seat_for_peer(peer)
+	return seating.find(peer)
+
+
+## Server side the room decides who sits where, client side its own Net does.
+func _peer_for_seat(index: int) -> int:
+	if Net.is_server():
+		return seating[index] if index >= 0 and index < seating.size() else 0
+	return Net.peer_for_seat(index)
+
+
+## Peers whose NetSync handshake is still owed before the first deal.
+var _pending_peers: PackedInt32Array = []
+## Handshakes that arrived before this manager knew whom to wait for.
+var _ready_peers: PackedInt32Array = []
+var _round_started: bool = false
+
+
+## Waits for every human peer's NetSync handshake, then deals.
+func _start_when_peers_ready() -> void:
+	# On a dedicated server Net.peer_left also fires for the peers of other rooms.
+	if room != null:
+		room.peer_left.connect(_on_peer_left)
+	else:
+		Net.peer_left.connect(_on_peer_left)
+	for peer in seating:
+		if peer != 0 and peer != Net.SERVER_PEER and not _ready_peers.has(peer):
+			_pending_peers.append(peer)
+	if _pending_peers.is_empty():
+		_start_round()
+		return
+	# One stuck client must not hold the table for good.
+	get_tree().create_timer(PEER_READY_TIMEOUT).timeout.connect(func() -> void:
+		if not _round_started:
+			push_warning("Dealing without peers %s: handshake timed out" % [_pending_peers])
+			_start_round())
+
+
+## Called by NetSync once a peer has main_scene loaded and is listening.
+func peer_ready(peer: int) -> void:
+	if not _ready_peers.has(peer):
+		_ready_peers.append(peer)
+	_stop_waiting_for(peer)
+
+
+func _stop_waiting_for(peer: int) -> void:
+	var index := _pending_peers.find(peer)
+	if index == -1:
+		return
+	_pending_peers.remove_at(index)
+	if _pending_peers.is_empty():
+		_start_round()
+
+
+## A dropped peer keeps neither the deal nor its seat waiting: the seat plays itself on.
+func _on_peer_left(peer: int) -> void:
+	_stop_waiting_for(peer)
+	var index := seating.find(peer)
+	if index < 0 or index >= turn_order.size():
+		return
+	var seat := turn_order[index]
+	seat.autoplay = true
+	if _is_on_turn(seat):
+		_schedule_autoplay()
+
+
+## A client may only ever submit for the seat it sits at.
+func _is_local_seat(seat: MauMauPlayer) -> bool:
+	return seat != null and player != null and seat == player.maumau_player
 
 
 func _is_on_turn(seat: MauMauPlayer) -> bool:
@@ -162,10 +335,16 @@ func _is_in_cheat_accusation(seat: MauMauPlayer) -> bool:
 	return seat != null and seat.cheat_accusation
 
 func _play_card(card_id: int) -> bool:
-	AudioManager.play_sfx(move_card_sfx_list[randi_range(0, 2)])
+	# A server-side table has no sound at all; indexing the empty list aborts the move.
+	if not move_card_sfx_list.is_empty():
+		AudioManager.play_sfx(move_card_sfx_list.pick_random())
 	var card := deck.card(card_id)
 	if card == null:
-		push_error("Player %d tried to play unknown card id %d" % [current_player_index, card_id])
+		push_warning("Player %d tried to play unknown card id %d" % [current_player_index, card_id])
+		return false
+	# Checked before the cheat offer: a card the seat does not hold must not cost juice.
+	if not current_player_node.has_card(card_id):
+		push_warning("Player %d does not hold %s" % [current_player_index, card])
 		return false
 
 	var legal := MauMauRules.is_valid_move(card, discard_pile.back(), wished_suit, current_draw_penalty)
@@ -173,10 +352,7 @@ func _play_card(card_id: int) -> bool:
 	if not legal and not current_player_node.trigger_cheat(Cheat.Method.ONE, card):
 		return false
 
-	if current_player_node.remove_card(card_id) == null:
-		push_warning("Player %d does not hold %s" % [current_player_index, card])
-		return false
-
+	current_player_node.remove_card(card_id)
 	discard_pile.append(card)
 	card_played.emit(current_player_index, card)
 
@@ -365,13 +541,12 @@ func init_player_hands() -> void:
 			player_hand.append(card)
 		seat.init_hand(player_hand)
 
-## Seats participants in order: marker i, turn position i. Phase 4 decides which
-## peer is participant i (the seating shuffle) before this runs.
+## Seats participants in order: marker i, turn position i. Online, the seating
+## (decided by the server before the scene loaded) says which seat is a human;
+## the local human's Player node takes Net.my_seat() and the Npc nodes fill the rest.
 func init_player_positions() -> void:
 	turn_order.clear()
-	var participants: Array = [player]
-	participants.append_array(npcs)
-	for participant in participants:
+	for participant in _participants():
 		if participant == null or participant.maumau_player == null:
 			push_error("Participant %s has no MauMauPlayer" % participant)
 			continue
@@ -382,10 +557,21 @@ func init_player_positions() -> void:
 			push_warning("No seat marker for %s; it stays where the scene put it" % participant)
 		var seat: MauMauPlayer = participant.maumau_player
 		seat.move_card_sfx_list = move_card_sfx_list
+		if Net.is_online():
+			# Only the authority lets NPC seats play themselves; a client never acts for anyone.
+			seat.autoplay = Net.is_server() and _peer_for_seat(index) == 0
 		turn_order.append(seat)
 		seat.seat_at(self, index)
 		seat.hand_changed.connect(func(_hand: Array[Card]) -> void:
 			private_hand_changed.emit(index, seat.hand_ids()))
+
+
+func _participants() -> Array:
+	var participants: Array = []
+	participants.append_array(npcs)
+	if player != null:
+		participants.insert(clampi(Net.my_seat(), 0, participants.size()), player)
+	return participants
 
 #################FUNCTIONS FOR DEBUGGING########################
 

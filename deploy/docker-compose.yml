@@ -1,0 +1,41 @@
+name: meowmau
+
+x-game: &game
+  image: meowmau-server:latest
+  restart: always
+  # Godot ignores SIGTERM; a restart would otherwise wait 10 s for SIGKILL.
+  stop_signal: SIGKILL
+  read_only: true
+  tmpfs:
+    - /tmp
+  healthcheck:
+    # Served from Godot's _process, so a hung game loop stops answering.
+    test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:9081/healthz"]
+    interval: 10s
+    timeout: 3s
+    retries: 3
+    start_period: 30s
+
+services:
+  game1:
+    <<: *game
+    container_name: meowmau-game1
+  game2:
+    <<: *game
+    container_name: meowmau-game2
+  game3:
+    <<: *game
+    container_name: meowmau-game3
+
+  caddy:
+    image: docker.io/library/caddy:2
+    container_name: meowmau-caddy
+    restart: always
+    ports:
+      - "127.0.0.1:${MEOWMAU_LB_PORT:-9080}:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on:
+      - game1
+      - game2
+      - game3

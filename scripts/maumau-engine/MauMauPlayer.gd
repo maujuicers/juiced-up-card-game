@@ -39,6 +39,7 @@ var cheat_penalties: int = 0
 ## The MauMauGameManager that placed this seat; whether the seat may act is its call.
 ## Typed as Node: the manager names this class, and the cycle breaks the parser.
 var manager: Node
+var _filler: Card
 
 
 func init_hand(first_hand: Array[Card]) -> void:
@@ -92,6 +93,36 @@ func set_hand_ids(ids: PackedInt32Array) -> void:
 	hand = cards
 	hand_changed.emit(hand)
 
+
+## Mirrors another seat's hand on a client, where only its size is public:
+## the cards are one shared placeholder and are never shown face up.
+func set_hand_count(count: int) -> void:
+	count = maxi(count, 0)
+	if count == hand.size():
+		return
+	if count < hand.size():
+		hand.resize(count)
+	else:
+		var filler := _face_down_filler()
+		if filler == null:
+			push_error("%s cannot pad a hidden hand without a deck" % self)
+			return
+		while hand.size() < count:
+			hand.append(filler)
+	hand_changed.emit(hand)
+
+
+func _face_down_filler() -> Card:
+	if _filler != null:
+		return _filler
+	if manager == null or manager.deck == null:
+		return null
+	var cards: Array[Card] = manager.deck.all()
+	if not cards.is_empty():
+		_filler = cards[0]
+	return _filler
+
+
 ## The three intents. Each returns whether the manager accepted the action.
 func try_play_card(selected_card_pos: int) -> bool:
 	if selected_card_pos < 0 or selected_card_pos >= hand.size():
@@ -101,7 +132,8 @@ func try_play_card(selected_card_pos: int) -> bool:
 
 func try_play_card_by_id(card_id: int) -> bool:
 	if autoplay:
-		npc_audio.play_random(neutral_meow_sfx_list)
+		if npc_audio != null:
+			npc_audio.play_random(neutral_meow_sfx_list)
 	else:
 		AudioManager.play_ui(click_sfx, -5.0)
 	return manager != null and manager.submit_move(self, card_id)
@@ -111,8 +143,9 @@ func try_choosing_suit(suit: Card.Suit) -> bool:
 
 func draw_card() -> bool:
 	if autoplay:
-		npc_audio.play_random(sad_meow_sfx_list)
-		npc_audio.play_random(move_card_sfx_list)
+		if npc_audio != null:
+			npc_audio.play_random(sad_meow_sfx_list)
+			npc_audio.play_random(move_card_sfx_list)
 	else:
 		AudioManager.play_sfx(sad_meow_sfx_list[randi_range(0, 1)])
 		AudioManager.play_sfx(move_card_sfx_list[randi_range(0, 2)])
@@ -188,7 +221,8 @@ func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card
 		
 	
 	if autoplay:
-		npc_audio.play_random(cheat_meow_sfx_list)
+		if npc_audio != null:
+			npc_audio.play_random(cheat_meow_sfx_list)
 	else:
 		AudioManager.play_sfx(cheat_meow_sfx_list[randi_range(0, 1)])
 		
@@ -204,7 +238,8 @@ func trigger_cheat(method: Cheat.Method, card: Card = null, exchanged_card: Card
 		
 func call_cheater(cheater: MauMauPlayer, method : Cheat.Method)-> void:
 	if autoplay:
-		npc_audio.play_random(angry_meow_sfx_list)
+		if npc_audio != null:
+			npc_audio.play_random(angry_meow_sfx_list)
 	else:
 		AudioManager.play_sfx(angry_meow_sfx_list[randi_range(0, 2)])
 	print(cheater.cheated)

@@ -34,10 +34,21 @@ bg_color = Color(0, 0, 0, 0.49803922)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8g5eo"]
 bg_color = Color(0, 0, 0, 0.49803922)
 
-[node name="MainMenu" type="Node3D" unique_id=1303346349 node_paths=PackedStringArray("settings_menu")]
+[node name="MainMenu" type="Node3D" unique_id=1303346349 node_paths=PackedStringArray("settings_menu", "status_label", "roster_label", "idle_buttons", "connected_buttons", "start_round_button", "room_row", "room_code", "room_buttons", "code_label", "code_hint", "leave_room_button")]
 script = ExtResource("1_m1kxf")
 settings_menu = NodePath("SettingsMenu")
 click_sfx = ExtResource("2_8g5eo")
+status_label = NodePath("Lobby/StatusLabel")
+roster_label = NodePath("Lobby/RosterLabel")
+idle_buttons = NodePath("Lobby/IdleButtons")
+connected_buttons = NodePath("Lobby/ConnectedButtons")
+start_round_button = NodePath("Lobby/ConnectedButtons/StartRoundButton")
+room_row = NodePath("Lobby/RoomRow")
+room_code = NodePath("Lobby/RoomRow/RoomCode")
+room_buttons = NodePath("Lobby/RoomButtons")
+code_label = NodePath("Lobby/CodeLabel")
+code_hint = NodePath("Lobby/CodeHint")
+leave_room_button = NodePath("Lobby/ConnectedButtons/LeaveRoomButton")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1146967929]
 environment = SubResource("Environment_x2yvf")
@@ -236,6 +247,173 @@ texture = ExtResource("9_q85j6")
 expand_mode = 1
 stretch_mode = 4
 
+[node name="Lobby" type="VBoxContainer" parent="." unique_id=1043928517]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -800.0
+offset_top = 180.0
+offset_right = -60.0
+offset_bottom = 800.0
+grow_horizontal = 0
+theme_override_constants/separation = 20
+
+[node name="StatusLabel" type="Label" parent="Lobby" unique_id=1877402693]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 40
+text = "Not connected"
+
+[node name="IdleButtons" type="HBoxContainer" parent="Lobby" unique_id=1160451382]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="ReconnectButton" type="Button" parent="Lobby/IdleButtons" unique_id=778291045]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Reconnect"
+
+[node name="RoomRow" type="HBoxContainer" parent="Lobby" unique_id=1284473091]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="RoomLabel" type="Label" parent="Lobby/RoomRow" unique_id=903217644]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+text = "Room code"
+
+[node name="RoomCode" type="LineEdit" parent="Lobby/RoomRow" unique_id=1721308455]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 40
+placeholder_text = "AB12"
+caret_blink = true
+
+[node name="RoomButtons" type="HBoxContainer" parent="Lobby" unique_id=612940817]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="JoinRoomButton" type="Button" parent="Lobby/RoomButtons" unique_id=1998447230]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Join room"
+
+[node name="NewRoomButton" type="Button" parent="Lobby/RoomButtons" unique_id=744019362]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "New room"
+
+[node name="CodeLabel" type="Label" parent="Lobby" unique_id=1357028461]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 90
+
+[node name="CodeHint" type="Label" parent="Lobby" unique_id=486293175]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 34
+text = "Tell your friends this code"
+
+[node name="RosterLabel" type="Label" parent="Lobby" unique_id=1963041292]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 38
+
+[node name="ConnectedButtons" type="HBoxContainer" parent="Lobby" unique_id=1274475408]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="StartRoundButton" type="Button" parent="Lobby/ConnectedButtons" unique_id=346021784]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Start Round"
+
+[node name="LeaveRoomButton" type="Button" parent="Lobby/ConnectedButtons" unique_id=1930554708]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Leave room"
+
+[node name="LeaveButton" type="Button" parent="Lobby/ConnectedButtons" unique_id=1806714935]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_x2yvf")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_uhagc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btxxm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wb0q5")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8g5eo")
+text = "Leave"
+
 [node name="SettingsMenu" parent="." unique_id=1175825677 instance=ExtResource("7_btxxm")]
 visible = false
 
@@ -243,3 +421,10 @@ visible = false
 [connection signal="pressed" from="Buttons/TutorialButton" to="." method="_on_tutorial_button_pressed"]
 [connection signal="pressed" from="Buttons/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Buttons/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Lobby/IdleButtons/ReconnectButton" to="." method="_on_reconnect_button_pressed"]
+[connection signal="text_changed" from="Lobby/RoomRow/RoomCode" to="." method="_on_room_code_text_changed"]
+[connection signal="pressed" from="Lobby/RoomButtons/JoinRoomButton" to="." method="_on_join_room_button_pressed"]
+[connection signal="pressed" from="Lobby/RoomButtons/NewRoomButton" to="." method="_on_new_room_button_pressed"]
+[connection signal="pressed" from="Lobby/ConnectedButtons/StartRoundButton" to="." method="_on_start_round_button_pressed"]
+[connection signal="pressed" from="Lobby/ConnectedButtons/LeaveRoomButton" to="." method="_on_leave_room_button_pressed"]
+[connection signal="pressed" from="Lobby/ConnectedButtons/LeaveButton" to="." method="_on_leave_button_pressed"]

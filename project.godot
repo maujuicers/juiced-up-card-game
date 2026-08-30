@@ -14,6 +14,7 @@ config/name="JuicedUpCardGame"
 run/main_scene="uid://balrrf21sxhil"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
+#Releasebuildsbufferstdoutonapiperun/flush_stdout_on_print=true
 
 [audio]
 
@@ -22,6 +23,7 @@ buses/default_bus_layout="uid://dadbj7d00bvij"
 [autoload]
 
 AudioManager="*uid://bfgxrjkic216p"
+Net="*uid://kjq5bqr622tv"
 
 [display]
 

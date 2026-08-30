@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://di8ur8ivhm7ii"]
+
+[ext_resource type="Script" uid="uid://bxerg1i4hs5c0" path="res://scripts/net/table.gd" id="1_table"]
+[ext_resource type="PackedScene" uid="uid://biqyni0po3e7b" path="res://scenes/maumau-engine/MaumauEngine.tscn" id="2_engine"]
+[ext_resource type="PackedScene" uid="uid://dugrco4ylfn5t" path="res://scenes/npc/npc.tscn" id="3_npc"]
+
+[node name="Table" type="Node" unique_id=1288344217 node_paths=PackedStringArray("manager")]
+script = ExtResource("1_table")
+manager = NodePath("MaumauEngine")
+
+[node name="MaumauEngine" parent="." unique_id=1722475892 node_paths=PackedStringArray("npcs") instance=ExtResource("2_engine")]
+npcs = [NodePath("../Seat0"), NodePath("../Seat1"), NodePath("../Seat2"), NodePath("../Seat3")]
+
+[node name="Seat0" parent="." unique_id=1093358421 instance=ExtResource("3_npc")]
+
+[node name="Seat1" parent="." unique_id=1642187745 instance=ExtResource("3_npc")]
+
+[node name="Seat2" parent="." unique_id=1911003172 instance=ExtResource("3_npc")]
+
+[node name="Seat3" parent="." unique_id=1407759813 instance=ExtResource("3_npc")]
