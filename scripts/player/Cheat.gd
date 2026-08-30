@@ -14,7 +14,7 @@ const JUICE_COSTS := {
 	Method.TWO:   10,
 	Method.THREE: 15,
 	Method.FOUR:  20,
-	Method.FIVE:  25,
+	Method.FIVE:  45,
 	Method.SIX:   30,
 }
 

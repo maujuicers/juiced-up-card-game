@@ -16,6 +16,9 @@ const AIM_LAYER := 1 << 20
 @export var maumau_player: MauMauPlayer
 @export var player_camera: Camera3D
 @export var banner: AccusationBanner
+## This seat's own cards: what it has picked up is what a click on a cat slips,
+## and a card under the crosshair means the click was meant for the hand.
+@export var hand: Hand
 
 var _manager: MauMauGameManager
 var _aimed_seat := -1
@@ -35,9 +38,28 @@ func _physics_process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _aimed_seat < 0 or maumau_player == null or _manager == null:
 		return
-	if not event.is_action_pressed("accuse"):
-		return
 	if _aimed_seat >= _manager.turn_order.size():
+		return
+	# A card under the crosshair is nearer than any cat behind it, and both keys
+	# are the hand's there. Unhandled input reaches this node first, so the hand
+	# would never see them otherwise.
+	if hand != null and hand.aimed_card() != null:
+		return
+
+	var button := event as InputEventMouseButton
+	if button != null:
+		if button.button_index != MOUSE_BUTTON_LEFT or not button.pressed:
+			return
+		var picked: Card = hand.picked_card if hand != null else null
+		if picked == null:
+			return
+		get_viewport().set_input_as_handled()
+		maumau_player.try_slip_card(_manager.turn_order[_aimed_seat], picked.id)
+		# Put down either way: a refusal is the juice meter's to report.
+		hand.set_picked_card(null)
+		return
+
+	if not event.is_action_pressed("accuse"):
 		return
 	get_viewport().set_input_as_handled()
 	maumau_player.try_accuse(_manager.turn_order[_aimed_seat])

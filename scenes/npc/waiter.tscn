@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://drcrkb08ushxd"]
+
+[ext_resource type="Script" uid="uid://0jhk2yiyt1mb" path="res://scripts/npc/waiter.gd" id="1_waiter"]
+[ext_resource type="PackedScene" uid="uid://b3rmgdphskyr3" path="res://assets/3D assets/Cats/WaiterWithoutBottles.glb" id="2_nobtl"]
+[ext_resource type="PackedScene" uid="uid://bc463pdunsays" path="res://assets/3D assets/Cats/WaiterWithBottles.glb" id="3_btl"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_segmm"]
+
+[node name="Waiter" type="CharacterBody3D" unique_id=1119092057 node_paths=PackedStringArray("nav_agent", "without_bottles", "without_bottles_animation", "with_bottles", "with_bottles_animation")]
+script = ExtResource("1_waiter")
+nav_agent = NodePath("NavigationAgent3D")
+without_bottles = NodePath("WithoutBottles")
+without_bottles_animation = NodePath("WithoutBottles/AnimationPlayer")
+with_bottles = NodePath("WithBottles")
+with_bottles_animation = NodePath("WithBottles/AnimationPlayer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1813386340]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.43616116, 1.0606562, 0)
+shape = SubResource("CapsuleShape3D_segmm")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=623320547]
+path_desired_distance = 0.4
+target_desired_distance = 0.4
+
+[node name="WithoutBottles" parent="." unique_id=1660845513 instance=ExtResource("2_nobtl")]
+
+[node name="WithBottles" parent="." unique_id=204751882 instance=ExtResource("3_btl")]
+visible = false

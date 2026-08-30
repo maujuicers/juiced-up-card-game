@@ -10,6 +10,8 @@ signal turn_ended
 signal wish_requested
 ## This seat's bottle: how much is left, -1 for no bottle at all.
 signal bottle_changed(content: int)
+## This seat started or stopped its sip loop.
+signal drinking_changed(drinking: bool)
 
 ## Only set true for AI players
 @export var autoplay: bool = false
@@ -171,6 +173,11 @@ func try_accuse(target: MauMauPlayer, method: Cheat.Method = Cheat.Method.ONE) -
 	return manager != null and manager.submit_accuse(self, target, method)
 
 
+## Press one of this hand's cards into another seat's; the gate decides and charges it.
+func try_slip_card(target: MauMauPlayer, card_id: int) -> bool:
+	return manager != null and manager.submit_slip(self, target, card_id)
+
+
 func add_card(card: Card) -> void:
 	hand.append(card)
 	hand_changed.emit(hand)
@@ -240,6 +247,7 @@ func begin_drinking() -> bool:
 		return false
 	is_drinking = true
 	_sips().start(SIP_INTERVAL)
+	drinking_changed.emit(true)
 	return true
 
 
@@ -250,6 +258,7 @@ func end_drinking() -> bool:
 	is_drinking = false
 	if _sip_timer != null:
 		_sip_timer.stop()
+	drinking_changed.emit(false)
 	return true
 
 
@@ -306,8 +315,8 @@ func play_fixed_card(card: Card) -> void:
 func exchange_card(player: MauMauPlayer, given_card: Card, stolen_card: Card) -> void:
 	trigger_cheat(Cheat.Method.FOUR, given_card, stolen_card)
 	
-func slip_card(player: MauMauPlayer, given_card: Card) -> void:
-	trigger_cheat(Cheat.Method.FIVE, given_card)
+func slip_card(player: MauMauPlayer, given_card: Card) -> bool:
+	return given_card != null and try_slip_card(player, given_card.id)
 	
 func spike_drink(player: MauMauPlayer) -> void:
 	trigger_cheat(Cheat.Method.SIX)
