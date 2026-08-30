@@ -40,6 +40,7 @@ var cheat_penalties: int = 0
 ## Typed as Node: the manager names this class, and the cycle breaks the parser.
 var manager: Node
 var _filler: Card
+var juice_bottle: JuiceBottle
 
 
 func init_hand(first_hand: Array[Card]) -> void:
@@ -195,6 +196,10 @@ func get_hand_size() -> int:
 func _to_string() -> String:
 	var owner_name := get_parent().name if get_parent() != null else name
 	return "%s (seat %d)" % [owner_name, turn_position]
+	
+func call_waiter() -> void:
+	var ordered_juice = JuiceBottle.new()
+	juice_bottle = ordered_juice
 	
 	
 ############ Cheat Functions ###########
